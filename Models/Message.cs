@@ -9,7 +9,7 @@ namespace TJ_Games.Models
   {
         public Message()
         {
-            Users = new HashSet<Users>();
+            Users = new Users();
 
         }//构造函数
 
@@ -17,12 +17,11 @@ namespace TJ_Games.Models
         public string MessagTitle { get; set; }
         public string MessageContent { get; set; }
         public DateTime MessageTime { get; set; }
-        public string SenderID { get; set; }
         public string ReceiverID { get; set; }
         public bool IsRead { get; set; }
         //属性列表
 
-        public virtual ICollection<Users> Users { get; set; }
+        public virtual Users Users { get; set; }
         //与本模型类相关的一些模型类
     }
 }

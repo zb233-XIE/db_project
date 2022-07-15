@@ -16,6 +16,7 @@ namespace TJ_Games.Models
             Updatelog = new HashSet<Updatelog>();
             Orders = new HashSet<Orders>();
             Evaluation = new HashSet<Evaluation>();
+            Giftcode = new HashSet<Giftcode>();
         }//构造函数
 
         public string CommoditiyID { get; set; }
@@ -38,6 +39,7 @@ namespace TJ_Games.Models
         public virtual ICollection<Updatelog> Updatelog { get; set; }
         public virtual ICollection<Orders> Orders { get; set; }
         public virtual ICollection<Evaluation> Evaluation { get; set; }
+        public virtual ICollection<Giftcode> Giftcode { get; set; }
         //与本模型类相关的一些模型类
     }
 }
