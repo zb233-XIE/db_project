@@ -10,7 +10,7 @@ namespace TJ_Games.Models
         public Users()
         {
             Buyers = new Buyers();
-            Publishers = new Publishers();
+            // Publishers = new Publishers();
             Administrators = new Administrators();
             Wishlist = new HashSet<Wishlist>();
             ShoppingCart = new HashSet<ShoppingCart>();

@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace TJ_Games.Models
 {
-  public class Orders
-  {
+    public class Orders
+    {
         public Orders()
         {
             Commodities = new Commodities();
@@ -18,10 +18,13 @@ namespace TJ_Games.Models
         public string BuyerID { get; set; }
         public DateTime OrderTime { get; set; }
         public UInt64 OrderCost { get; set; }
-        public bool Type { get; set; }
+        // public bool Type { get; set; }
+        public int Type { get; set; }
         //属性列表
 
         public virtual Commodities Commodities { get; set; }
         public virtual Users Users { get; set; }
+
+        public virtual Buyers Buyers { get; set; }
     }
 }

@@ -13,13 +13,14 @@ namespace TJ_Games.Models
             Users = new Users();
         }//构造函数
 
-        public string BuyerID { get; set;}
+        public string BuyerID { get; set; }
         public string BuyerName { get; set; }
         public DateTime? Birthday { get; set; }
         public string? Mail { get; set; }
 
         public virtual Users Users { get; set; }
 
+        public virtual ICollection<Orders> Orders { get; set; }
         //与本模型类相关的一些模型类
 
     }
