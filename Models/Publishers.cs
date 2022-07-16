@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace TJ_Games.Models
 {
-  public partial class Publishers
-  {
+    public partial class Publishers
+    {
         public Publishers()
         {
             Commodities = new HashSet<Commodities>();

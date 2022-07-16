@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace TJ_Games.Models
 {
-  public class Commodities
-  {
+    public class Commodities
+    {
         public Commodities()
         {
             Publishers = new HashSet<Publishers>();
@@ -19,7 +19,7 @@ namespace TJ_Games.Models
             Giftcode = new HashSet<Giftcode>();
         }//构造函数
 
-        public string CommoditiyID { get; set; }
+        public string CommodityID { get; set; }
         public string CommodityName { get; set; }
         public string Publisher { get; set; }
         public double Price { get; set; }

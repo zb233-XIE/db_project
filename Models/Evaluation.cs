@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace TJ_Games.Models
 {
-  public partial class Evaluation
-  {
+    public partial class Evaluation
+    {
         public Evaluation()
         {
             Commodities = new Commodities();
@@ -22,6 +22,8 @@ namespace TJ_Games.Models
 
         public virtual Commodities Commodities { get; set; }
         public virtual Users Users { get; set; }
+
+        public virtual Administrators Administrators { get; set; }
         //与本模型类相关的一些模型类
     }
 }

@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace TJ_Games.Models
 {
-  public class Updatelog
-  {
+    public class Updatelog
+    {
         public Updatelog()
         {
             Commodities = new Commodities();

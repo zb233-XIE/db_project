@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace TJ_Games.Models
 {
-  public class Friends
-  {
+    public class Friends
+    {
         public Friends()
         {
             Users = new Users();

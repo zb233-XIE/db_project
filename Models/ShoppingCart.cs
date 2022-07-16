@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace TJ_Games.Models
 {
-  public class ShoppingCart
-  {
+    public class ShoppingCart
+    {
         public ShoppingCart()
         {
             Users = new Users();

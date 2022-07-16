@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace TJ_Games.Models
 {
-  public class Wishlist
-  {
+    public class Wishlist
+    {
         public Wishlist()
         {
             Users = new Users();
