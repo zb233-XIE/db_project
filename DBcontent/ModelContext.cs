@@ -37,7 +37,7 @@ namespace TJ_Games.DBContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("orcl");
+            modelBuilder.HasDefaultSchema("C##SZY");
 
             modelBuilder.Entity<Administrators>(entity =>
             {
@@ -478,12 +478,12 @@ namespace TJ_Games.DBContext
                     .IsRequired()
                     .HasColumnType("varchar(20)")
                     .HasMaxLength(20)
-                    .HasColumnName("Commodity_ID");
+                    .HasColumnName("COMMODITY_ID");
 
                 entity.Property(e => e.JoinTime)
                    .IsRequired()
                    .HasColumnType("DATE")
-                   .HasColumnName("Join_Time");
+                   .HasColumnName("JOIN_TIME");
 
                 entity.HasOne(d => d.Users)
                    .WithMany(p => p.ShoppingCart)
@@ -545,7 +545,7 @@ namespace TJ_Games.DBContext
             {
                 entity.ToTable("GIFTCODE");
 
-                entity.HasKey(e => new { e.ActivateCode, e.CommoditiyID })//对应表的主码
+                entity.HasKey(e => new { e.ActivateCode, e.CommodityID })//对应表的主码
                 .HasName("PK_GIFT_CODE");
 
                 entity.Property(e => e.ActivateCode)
@@ -555,7 +555,7 @@ namespace TJ_Games.DBContext
                     .HasColumnType("varchar(20)")
                     .HasColumnName("ACTIVIATE_CODE");
 
-                entity.Property(e => e.CommoditiyID)
+                entity.Property(e => e.CommodityID)
                     .IsRequired()
                     .IsUnicode(true)
                     .HasMaxLength(20)
@@ -575,7 +575,7 @@ namespace TJ_Games.DBContext
 
                 entity.HasOne(d => d.Commodities)
                     .WithMany(p => p.Giftcode)
-                    .HasForeignKey(d => d.CommoditiyID)
+                    .HasForeignKey(d => d.CommodityID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK1_GIFT_CODE_COMMODITIES");
 

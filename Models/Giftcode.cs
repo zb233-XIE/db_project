@@ -13,7 +13,7 @@ namespace TJ_Games.Models
         }//构造函数
 
         public string ActivateCode { get; set; }
-        public string CommoditiyID { get; set; }
+        public string CommodityID { get; set; }
         public DateTime CreateTime { get; set; }
         public bool IsUsed { get; set; }
         //属性列表
