@@ -9,7 +9,7 @@ namespace TJ_Games.Models
     {
         public Commodities()
         {
-            Publishers = new HashSet<Publishers>();
+            Publishers = new Publishers();
             Wishlist = new HashSet<Wishlist>();
             ShoppingCart = new HashSet<ShoppingCart>();
             GameLibrary = new HashSet<GameLibrary>();
@@ -21,7 +21,7 @@ namespace TJ_Games.Models
 
         public string CommodityID { get; set; }
         public string CommodityName { get; set; }
-        public string Publisher { get; set; }
+        public string PublisherID { get; set; }
         public double Price { get; set; }
         public double LowestPrice { get; set; }
         public DateTime PublishTime { get; set; }
@@ -32,7 +32,7 @@ namespace TJ_Games.Models
         public UInt64 SalesVolume { get; set; }
         //属性列表
 
-        public virtual ICollection<Publishers> Publishers { get; set; }
+        public virtual Publishers Publishers { get; set; }
         public virtual ICollection<Wishlist> Wishlist { get; set; }
         public virtual ICollection<ShoppingCart> ShoppingCart { get; set; }
         public virtual ICollection<GameLibrary> GameLibrary { get; set; }

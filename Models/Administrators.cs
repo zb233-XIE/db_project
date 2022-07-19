@@ -9,7 +9,8 @@ namespace TJ_Games.Models
     {
         public Administrators()
         {
-
+            Evaluation = new HashSet<Evaluation>();
+            Users = new Users();
         }//构造函数
 
         public string AdminID { get; set; }
@@ -18,6 +19,7 @@ namespace TJ_Games.Models
         //属性列表
 
         public virtual ICollection<Evaluation> Evaluation { get; set; }
+        public virtual Users Users { get; set; }
         //与本模型类相关的一些模型类
     }
 }

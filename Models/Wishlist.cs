@@ -14,7 +14,7 @@ namespace TJ_Games.Models
         }//构造函数
 
         public string ID { get; set; }
-        public string CommoditityID { get; set; }
+        public string CommodityID { get; set; }
         public string PromoteMessage { get; set; }
         //属性列表
 
