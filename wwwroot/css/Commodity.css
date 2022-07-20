@@ -1,0 +1,22 @@
+﻿#preview {
+    float: left;
+}
+
+
+#detailinfo {
+    width: 10%;
+    font-size: 24px;
+}
+
+#btn {
+    margin-top: 40px;
+}
+
+#addCart {
+    color: #3324b7;
+}
+
+#addCollection {
+    color: #3324b7;
+}
+

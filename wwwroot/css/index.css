@@ -1,0 +1,14 @@
+﻿body {
+    height:3000px;
+    position:relative;
+
+}
+
+.swiper {
+    width: 600px;
+    height: 300px;
+}
+
+.shop{
+    float:left;
+}
