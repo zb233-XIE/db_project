@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <link href="~/css/index.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css">
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <script src="~/js/vue.js"></script>
+    <!--引入axios-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="~/js/jquery.min.js"></script>
+    <title>欢迎</title>
+</head>
+
+<body>
+    <!--搜索框-->
+    <div class="search">
+        <select name="searchtype">
+            <option value="1">按游戏名搜索</option>
+            <option value="2">按分类搜索</option>
+        </select>
+        <input id="Context" type="text" placeholder="关键词搜索" class="f1" />
+        <button class="f1" onclick="submitSearch()">搜索</button>
+    </div>
+    <!--轮播图-->
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img id="slide1" src="" />
+            </div>
+            <div class="swiper-slide">
+                <img id="slide2" src="" />
+            </div>
+            <div class="swiper-slide">
+                <img id="slide3" src="" />
+            </div>
+            <div class="swiper-slide">
+                <img id="slide4" src="" />
+            </div>
+            <div class="swiper-slide">
+                <img id="slide5" src="" />
+            </div>
+            <div class="swiper-slide">
+                <img id="slide6" src="" />
+            </div>
+            <div class="swiper-slide">
+                <img id="slide7" src="" />
+            </div>
+            <div class="swiper-slide">
+                <img id="slide8" src="" />
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+    <div class="shop">
+        <div class="classification">
+            <ul>
+                <li @@click="chooseClass(item,index)" v-for="(item,index) in classes" :key="index">{{item}}</li>
+            </ul>
+        </div>
+        <div class="show">
+            <div class="hd show">
+                <span id="new" @@click="getNew">最新发布</span>
+                <span id="hot" @@click="getHot">热销商品</span>
+            </div>
+            <div class="bd show">
+                <ul>
+                    <li @@click="chooseAddress(item,index)" v-for="(item,index) in games" :key="index">
+                        <div class="gameitem">
+                            <img :src="item.img" />
+                            <span id="gamename">{{item.name}}</span>
+                            <span id="gameclass">{{item.classification}}</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+        @*    <script src="~/js/mock-index.js"></script>*@
+        <script src="~/js/index.js"></script>
+
+</body>
+</html>
