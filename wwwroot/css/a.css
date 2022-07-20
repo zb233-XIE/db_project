@@ -1,0 +1,127 @@
+﻿
+body {
+    height: 100%;
+    width: 100%;
+    font-size: 14px;
+    background-image: linear-gradient(to bottom right, #6190E8, #A7BFE8);
+}
+
+.none {
+    display: none;
+}
+
+.item {
+    width: 100%;
+    height: 60px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #eee;
+    background-color: #fff;
+    display: flex;
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    -webkit-transition: all 200ms ease-in;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    -moz-transition: all 200ms ease-in;
+    -moz-transform: scale(1);
+    transition: all 200ms ease-in;
+    transform: scale(1);
+}
+    .item:hover {
+        box-shadow: 0px 0px 150px #000000;
+        z-index: 2;
+        -webkit-transition: all 200ms ease-in;
+        -webkit-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        -moz-transition: all 200ms ease-in;
+        -moz-transform: scale(1.1);
+        transition: all 200ms ease-in;
+        transform: scale(1.1);
+    }
+.face {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    position: absolute;
+    margin-left: 1%;
+    margin-top: 8px;
+    object-fit: cover;
+}
+
+.des {
+    height: 60px;
+    display: inline-block;
+    margin-left: 65px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    flex: 1;
+}
+
+.nickName {
+    /*height: 30px;*/
+    margin-top: 10px;
+}
+
+    .nickName span {
+        height: 25px;
+        line-height: 25px;
+        font-size: 16px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+.signature {
+    /*height: 30px;*/
+    margin-top: -5px;
+}
+
+    .signature span {
+        height: 20px;
+        line-height: 20px;
+        font-size: 12px;
+        color: gray;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+
+.delete {
+    margin-top: -35px;
+    margin-left: 85%;
+   
+}
+.liao {
+    margin-top: -27px;
+    margin-left: 90%;
+}
+h2{
+    color :yellow  ;
+}
+h3{
+    color: yellow;
+}
+.liao span input {
+    background-color: white;
+    color: black;
+    border: 2px solid #4CAF50;
+}
+
+.liao span input:hover {
+    background-color: #6190E8;
+    color: white;
+}
+.delete span input {
+    background-color: white;
+    color: black;
+    border: 2px solid #4CAF50;
+}
+
+    .delete span input:hover {
+        background-color: #6190E8;
+        color: white;
+    }
+
+
