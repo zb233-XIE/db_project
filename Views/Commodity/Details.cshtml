@@ -1,0 +1,43 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<link rel="stylesheet" href="https://www.jq22.com/jquery/font-awesome.4.7.0.css">
+<link href="~/css/Commodity.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="~/js/Commodity.js"></script>
+<script src="~/js/jquery-3.6.0.min.js"></script>
+<html>
+<head>
+    <title>商品详情页面</title>
+</head>
+<body>
+    <div>
+        <div id="preview">
+            <img src="https://cdn.pixabay.com/photo/2016/01/29/01/04/billiards-1167221_1280.jpg" height="300" width="600" >
+        </div>
+        <div id="detailinfo">
+            <input id="ID" type="text" value="商品ID: @ViewData["id"]" title="@ViewData["name"]">
+            <input id="Price" type="text" value="商品价格：@ViewData["price"]">
+            <input id="Name" type="text" value="商品名：@ViewData["name"]">
+            <input id="Publisher" type="text" value="发行商：@ViewData["publisher"]">
+        </div>
+        <div id=" btn">
+            <button id="addCart"onclick="addToShoppingCart()">加入购物车 </button>
+            <button id="addCollection" onclick="addToWishList()">加入愿望单 </button>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    document.getElementById("ID").setAttribute('readonly', true);
+    document.getElementById("Price").setAttribute('readonly', true);
+    document.getElementById("Name").setAttribute('readonly', true);
+    document.getElementById("Publisher").setAttribute('readonly', true);
+</script>
