@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Welcome";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>maijiahoutai</title>
+    <link rel="stylesheet" href="~/css/index.css">
+    <script src="~/js/sellerbackground.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row cm-fix-height">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form action="" method="post">
+                        <h1>发布游戏补丁</h1>
+                        <table class="table table-bordered" style="margin-top:10px;">
+                            <tr>
+                                <th style="text-aligin:left;">Commodity_ID ：</th>
+                                <td>
+                                    <input type="text" name="Commodity_ID" value="@ViewData["id"]" class="form-control" id="ID" placeholder="请输入Commodity_ID" />
+                                </td>
+                                <th style="text-aligin:left;">Version_number：</th>
+                                <td>
+                                    <input type="text" name="Version_number" value="@ViewData["number"]" class="form-control" placeholder="请输入Version_number" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="text-aligin:left;">Update_Time：</th>
+                                <td>
+                                    <input type="text" name="Update_Time" value="@ViewData["time"]" class="form-control" placeholder="请输入Update_Time" />
+                                </td>
+                                <th style="text-aligin:left;">Update_content：</th>
+                                <td>
+                                    <input type="text" name="Update_content" value="@ViewData["content"]" class="form-control" placeholder="请输入Update_content" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th colspan="4" style="text-align:center;">
+                                    <input type="button" class="btn btn-default" onclick="date()"value="发布更新公告" /><!--发布更新公告-->
+                                    <input type="button" class="btn btn-default" onclick="    javascript: window.history.back();" value="返回" />
+                                </th>
+                            </tr>
+                        </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

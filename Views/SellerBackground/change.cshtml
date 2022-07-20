@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Welcome";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>卖家后台</title>
+    <link rel="stylesheet" href="~/css/index.css">
+    <script src="~/js/sellerbackground.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row cm-fix-height">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h1>卖家信息修改</h1>
+                        <form action="" method="post">
+                            <table class="table table-bordered" style="margin-top:10px;">
+                                <tr>
+                                    <th style="text-aligin:left;">Publisher_ID ：</th>
+                                    <td>
+                                        <input type="text" name="Publisher_ID" value="@ViewData["id"]" class="form-control" id="ID" placeholder="请输入Publisher_ID" />
+                                    </td>
+                                    <th style="text-aligin:left;">Publisher_Name：</th>
+                                    <td>
+                                        <input type="text" name="Publisher_Name" value="@ViewData["name"]" class="form-control" placeholder="请输入Publisher_Name" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-aligin:left;">StartTime：</th>
+                                    <td>
+                                        <input type="text" name="StartTime" value="@ViewData["time"]" class="form-control" placeholder="请输入StartTime" />
+                                    </td>
+                                    <th style="text-aligin:left;">Mail：</th>
+                                    <td>
+                                        <input type="text" name="Mail" value="@ViewData["mail"]" class="form-control" placeholder="请输入Mail" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-aligin:left;">Description：</th>
+                                    <td colspan="2">
+                                        <input type="text" name="Description" value="@ViewData["description"]" class="form-control" placeholder="请输入Description" />
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" style="text-align:center;">
+                                        <input type="button" class="btn btn-default" onclick="change()" value="修改" /><!-- 修改卖家信息并返回-->
+                                        <input type="button" class="btn btn-default" onclick="    javascript: window.history.back();" value="返回" />
+                                    </th>
+                                </tr>
+                            </table>
+                            </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
