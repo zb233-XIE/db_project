@@ -36,7 +36,7 @@ namespace TJ_Games.DBContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("C##xzb");
+            modelBuilder.HasDefaultSchema("C##XZB");
 
             modelBuilder.Entity<Administrators>(entity =>
             {
@@ -93,7 +93,7 @@ namespace TJ_Games.DBContext
 
                 entity.Property(e => e.Birthday)
                     .HasColumnType("DATA")
-                    .HasColumnName("BIRTHDAT");
+                    .HasColumnName("BIRTHDAY");
 
                 entity.Property(e => e.Mail)
                     .HasMaxLength(20)
@@ -154,7 +154,7 @@ namespace TJ_Games.DBContext
                          .IsRequired()
                          .HasColumnType("varchar(20)")
                          .HasMaxLength(20)
-                         .HasColumnName("CLASSFICATION");
+                         .HasColumnName("CLASSIFICATION");
 
                 entity.Property(e => e.Description)
                          .IsRequired()
