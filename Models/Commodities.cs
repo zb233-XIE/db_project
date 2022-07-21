@@ -9,7 +9,6 @@ namespace TJ_Games.Models
     {
         public Commodities()
         {
-            Publishers = new Publishers();
             Wishlist = new HashSet<Wishlist>();
             ShoppingCart = new HashSet<ShoppingCart>();
             GameLibrary = new HashSet<GameLibrary>();

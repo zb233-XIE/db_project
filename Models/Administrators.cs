@@ -10,7 +10,6 @@ namespace TJ_Games.Models
         public Administrators()
         {
             Evaluation = new HashSet<Evaluation>();
-            Users = new Users();
         }//构造函数
 
         public string AdminID { get; set; }

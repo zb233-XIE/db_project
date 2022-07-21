@@ -7,11 +7,6 @@ namespace TJ_Games.Models
 {
   public class Giftcode
   {
-        public Giftcode()
-        {
-            Commodities = new Commodities();
-        }//构造函数
-
         public string ActivateCode { get; set; }
         public string CommoditiyID { get; set; }
         public DateTime CreateTime { get; set; }

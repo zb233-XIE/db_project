@@ -10,7 +10,6 @@ namespace TJ_Games.Models
         public Publishers()
         {
             Commodities = new HashSet<Commodities>();
-            Users = new Users();
 
         }//构造函数
 

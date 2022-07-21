@@ -288,7 +288,7 @@ namespace TJ_Games.DBContext
                       .OnDelete(DeleteBehavior.Cascade)
                       .HasConstraintName("WISHLIST_FK2");
 
-                entity.HasOne(d => d.Users)
+                entity.HasOne(d => d.Buyers)
                       .WithMany(p => p.Wishlist)
                       .HasForeignKey(d => d.ID)
                       .OnDelete(DeleteBehavior.Cascade)
@@ -300,7 +300,7 @@ namespace TJ_Games.DBContext
             {
                 entity.ToTable("EVALUATION");
 
-                entity.HasKey(e => new { e.CommodityID, e.UserID })//对应表的主码
+                entity.HasKey(e => new { e.CommodityID, e.BuyerID })//对应表的主码
                     .HasName("EVALUATION_PK");
 
                 entity.Property(e => e.CommodityID)
@@ -309,7 +309,7 @@ namespace TJ_Games.DBContext
                     .HasColumnType("varchar(20)")
                     .HasColumnName("COMMODITY_ID");
 
-                entity.Property(e => e.UserID)
+                entity.Property(e => e.BuyerID)
                     .IsRequired()
                     .HasMaxLength(20)
                     .HasColumnType("varchar(20)")
@@ -338,9 +338,9 @@ namespace TJ_Games.DBContext
                        .OnDelete(DeleteBehavior.Cascade)
                        .HasConstraintName("EVALUATION_FK1");
 
-                entity.HasOne(d => d.Users)
+                entity.HasOne(d => d.Buyers)
                         .WithMany(p => p.Evaluation)
-                        .HasForeignKey(d => d.UserID)
+                        .HasForeignKey(d => d.BuyerID)
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("EVALUATION_FK2");
 
@@ -493,7 +493,7 @@ namespace TJ_Games.DBContext
                    .HasColumnType("DATE")
                    .HasColumnName("JOIN_TIME");
 
-                entity.HasOne(d => d.Users)
+                entity.HasOne(d => d.Buyers)
                    .WithMany(p => p.ShoppingCart)
                    .HasForeignKey(d => d.ID)
                    .OnDelete(DeleteBehavior.Cascade)
@@ -537,7 +537,7 @@ namespace TJ_Games.DBContext
                     .HasColumnType("varchar(20)")
                     .HasColumnName("GAME_TIME");
 
-                entity.HasOne(d => d.Users)
+                entity.HasOne(d => d.Buyers)
                     .WithMany(p => p.GameLibrary)
                     .HasForeignKey(d => d.ID)
                     .OnDelete(DeleteBehavior.Cascade)
