@@ -36,7 +36,7 @@ namespace TJ_Games.DBContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("C##XZB");
+            modelBuilder.HasDefaultSchema("C##SZY");
 
             modelBuilder.Entity<Administrators>(entity =>
             {
@@ -239,7 +239,7 @@ namespace TJ_Games.DBContext
                     .IsRequired()
                     .HasMaxLength(20)
                     .HasColumnType("varchar(20)")
-                    .HasColumnName("User_ID");
+                    .HasColumnName("USER_ID");
 
                 entity.Property(e => e.Password)
                     .IsRequired()
