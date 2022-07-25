@@ -25,6 +25,7 @@ namespace TJ_Games.Models
         public virtual Administrators Administrators { get; set; }
         public virtual Publishers Publishers { get; set; }
         public virtual ICollection<Message> Message { get; set; }
+        public virtual ICollection<Friends> Friends { get; set; }
         //与本模型类相关的一些模型类
     }
 }
