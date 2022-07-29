@@ -149,6 +149,7 @@ namespace TJ_Games.Services
 
                 //往数据库当中进行添加操作
                 Users users = new Users { UserID = buyer.BuyerID, UserType = buyer.UserType, Password = Password_Hash };
+                _context.Entry(users).State = EntityState.Added;
                 _context.Users.Add(users);
                 if (_context.SaveChanges() < 0)//说明保存成功
                 {
@@ -156,6 +157,7 @@ namespace TJ_Games.Services
                 }
 
                 Buyers new_buyers=new Buyers { BuyerID=buyer.BuyerID,BuyerName=buyer.BuyerName,Birthday=buyer.Birthday,Mail=buyer.Mail };
+                _context.Entry(new_buyers).State = EntityState.Added;
                 _context.Buyers.Add(new_buyers);
                 if (_context.SaveChanges() < 0)//说明保存成功
                 {

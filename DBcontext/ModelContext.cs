@@ -32,7 +32,8 @@ namespace TJ_Games.DBContext
         public virtual DbSet<Updatelog> Updatelog { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<Wishlist> Wishlist { get; set; }
-
+        public virtual DbSet<Genre> Genre { get; set; }
+        public virtual DbSet<Commodity_Genre> Commodity_Genre { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -150,12 +151,6 @@ namespace TJ_Games.DBContext
                          .HasColumnType("DATE")
                          .HasColumnName("PUBLISH_TIME");
 
-                entity.Property(e => e.Classification)
-                         .IsRequired()
-                         .HasColumnType("varchar(20)")
-                         .HasMaxLength(20)
-                         .HasColumnName("CLASSIFICATION");
-
                 entity.Property(e => e.Description)
                          .IsRequired()
                          .HasColumnType("varchar(100)")
@@ -239,19 +234,16 @@ namespace TJ_Games.DBContext
                     .IsRequired()
                     .HasMaxLength(20)
                     .HasColumnType("varchar(20)")
-                    .HasColumnName("User_ID");
+                    .HasColumnName("USER_ID");
 
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasMaxLength(20)
                     .IsUnicode(true)
-                    .HasColumnType("varchar(20)")
+                    .HasColumnType("varchar(300)")
                     .HasColumnName("PASSWORD");
 
                 entity.Property(e => e.UserType)
                     .IsRequired()
-                    .HasMaxLength(20)
-                    .HasColumnType("varchar(20)")
                     .HasColumnName("USERTYPE");
 
             });
@@ -641,6 +633,62 @@ namespace TJ_Games.DBContext
                     .HasForeignKey(d => d.ReceiverID)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("MESSAGE_FK1");
+            });
+
+            modelBuilder.Entity<Genre>(entity =>
+            {
+                entity.ToTable("GENRE");
+
+                entity.HasKey(e => e.ID)
+                        .HasName("GENRE_PK");
+
+                entity.Property(e => e.ID)
+                    .IsRequired()
+                    .IsUnicode(true)
+                    .HasMaxLength(20)
+                    .HasColumnType("varchar(20)")
+                    .HasColumnName("ID");
+
+                entity.Property(e => e.Type)
+                    .IsRequired()
+                    .IsUnicode(true)
+                    .HasMaxLength(20)
+                    .HasColumnType("varchar(20)")
+                    .HasColumnName("TYPE");
+            });
+
+            modelBuilder.Entity<Commodity_Genre>(entity =>
+            {
+                entity.ToTable("COMMODITY_GENRE");
+
+                entity.HasKey(e => new { e.CommodityID,e.GenreID})
+                        .HasName("COMMODITY_GENRE_PK");
+
+                entity.Property(e => e.CommodityID)
+                    .IsRequired()
+                    .IsUnicode(true)
+                    .HasMaxLength(20)
+                    .HasColumnType("varchar(20)")
+                    .HasColumnName("COMMODITY_ID");
+
+                entity.Property(e => e.GenreID)
+                    .IsRequired()
+                    .IsUnicode(true)
+                    .HasMaxLength(20)
+                    .HasColumnType("varchar(20)")
+                    .HasColumnName("GENRE_ID");
+
+                entity.HasOne(d => d.Commodities)
+                    .WithMany(p => p.Commodity_Genre)
+                    .HasForeignKey(d => d.CommodityID)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("COMMODITY_GENRE_FK1");
+
+                entity.HasOne(d => d.Genre)
+                    .WithMany(p => p.Commodity_Genre)
+                    .HasForeignKey(d => d.GenreID)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("COMMODITY_GENRE_FK2");
             });
 
             base.OnModelCreating(modelBuilder);

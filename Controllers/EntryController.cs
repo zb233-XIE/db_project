@@ -98,7 +98,7 @@ namespace TJ_Games.Controllers
             }
         }
 
-        //[HttpPost]
+        [HttpPost]
         public IActionResult BuyerLogInForm([FromBody]  string Login_ID,[FromBody]string Login_Password)
         {
             int is_vaild = service.BuyerLogin(Login_ID, Login_Password);
@@ -133,10 +133,8 @@ namespace TJ_Games.Controllers
             }
         }
 
-        //public IActionResult BuyerSignUpForm([FromBody] BuyerSignUpModel buyer)
-        public IActionResult BuyerSignUpForm()
+        public IActionResult BuyerSignUpForm([FromBody] BuyerSignUpModel buyer)
         {
-            BuyerSignUpModel buyer=new BuyerSignUpModel { BuyerID="2052433",Password="2052433",BuyerName="孙致远",Birthday=DateTime.Now,Mail="1310636528@QQ.COM",UserType="1"};
             int is_success = service.BuyerSignup(buyer);
 
             if( is_success == 1)//说明添加成功

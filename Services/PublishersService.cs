@@ -213,6 +213,7 @@ namespace TJ_Games.Services
 
                 //往数据库当中进行添加操作
                 Users users = new Users { UserID = Publisher.PublisherID, UserType = Publisher.UserType, Password = Password_Hash };
+                _context.Entry(users).State = EntityState.Added;
                 _context.Users.Add(users);
                 if (_context.SaveChanges() < 0)//说明保存成功
                 {
@@ -220,6 +221,7 @@ namespace TJ_Games.Services
                 }
 
                 Publishers new_Publishers = new Publishers { PublisherID = Publisher.PublisherID, PublisherName = Publisher.PublisherName, Description= Publisher.Description,HomepageURL=Publisher.HomepageURL,StartTime= Publisher.StartTime };
+                _context.Entry(new_Publishers).State = EntityState.Added;
                 _context.Publishers.Add(new_Publishers);
                 if (_context.SaveChanges() < 0)//说明保存成功
                 {
