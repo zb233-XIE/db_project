@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using ThirdParty.Json.LitJson;
 using TJ_Games.Services;
 using TJ_Games.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace TJ_Games.Controllers
 {
@@ -99,25 +100,25 @@ namespace TJ_Games.Controllers
         }
 
         [HttpPost]
-        public IActionResult BuyerLogInForm([FromBody]  string Login_ID,[FromBody]string Login_Password)
+        public IActionResult BuyerLogInForm([FromBody] LoginModel loginModel)
         {
-            int is_vaild = service.BuyerLogin(Login_ID, Login_Password);
+            int is_vaild = service.BuyerLogin(loginModel.Login_ID, loginModel.Login_Password);
 
-            if(is_vaild == 1)//说明此时验证通过
+            if (is_vaild == 1)//说明此时验证通过
             {
                 //设置对应的登录Cookie
-                 HttpContext.Response.Cookies.Append("buyerID", Login_ID, new CookieOptions { Expires = DateTime.Now.AddSeconds(3600) });
+                HttpContext.Response.Cookies.Append("buyerID", loginModel.Login_ID, new CookieOptions { Expires = DateTime.Now.AddSeconds(3600) });
                 //跳转到指定位置
                 return Redirect("/Home/Index");
             }
-            else if(is_vaild == -1)//说明此时没有该用户名
+            else if (is_vaild == -1)//说明此时没有该用户名
             {
                 JsonData jsondata = new JsonData();
                 jsondata["STATUS"] = 0;
                 jsondata["REASON"] = "找不到对应的用户名";
                 return Json(jsondata.ToJson());
             }
-            else if(is_vaild==-2)//说明此时密码错误
+            else if (is_vaild == -2)//说明此时密码错误
             {
                 JsonData jsondata = new JsonData();
                 jsondata["STATUS"] = 0;
@@ -132,12 +133,12 @@ namespace TJ_Games.Controllers
                 return Json(jsondata.ToJson());
             }
         }
-
+        [HttpPost]
         public IActionResult BuyerSignUpForm([FromBody] BuyerSignUpModel buyer)
         {
             int is_success = service.BuyerSignup(buyer);
 
-            if( is_success == 1)//说明添加成功
+            if ( is_success == 1)//说明添加成功
             {
                 JsonData jsondata = new JsonData();
                 jsondata["STATUS"] = 1;
@@ -170,14 +171,14 @@ namespace TJ_Games.Controllers
             }
         }
 
-        public IActionResult PublisherLogInForm([FromBody] string Login_ID, [FromBody] string Login_Password)
+        public IActionResult PublisherLogInForm([FromBody] LoginModel loginModel)
         {
-            int is_vaild = PublisherService.PublisherLogin(Login_ID, Login_Password);
+            int is_vaild = PublisherService.PublisherLogin(loginModel.Login_ID, loginModel.Login_Password);
 
             if (is_vaild == 1)//说明此时验证通过
             {
                 //设置对应的登录Cookie
-                HttpContext.Response.Cookies.Append("PublisherID", Login_ID, new CookieOptions { Expires = DateTime.Now.AddSeconds(3600) });
+                HttpContext.Response.Cookies.Append("PublisherID", loginModel.Login_ID, new CookieOptions { Expires = DateTime.Now.AddSeconds(3600) });
                 //跳转到指定位置
                 return Redirect("/Home/Index");
             }
@@ -241,14 +242,14 @@ namespace TJ_Games.Controllers
             }
         }
 
-        public IActionResult AdministratorLogInForm([FromBody] string Login_ID, [FromBody] string Login_Password)
+        public IActionResult AdministratorLogInForm([FromBody] LoginModel loginModel)
         {
-            int is_vaild = AdministratorService.AdministratorLogin(Login_ID, Login_Password);
+            int is_vaild = AdministratorService.AdministratorLogin(loginModel.Login_ID, loginModel.Login_Password);
 
             if (is_vaild == 1)//说明此时验证通过
             {
                 //设置对应的登录Cookie
-                HttpContext.Response.Cookies.Append("AdministratorID", Login_ID, new CookieOptions { Expires = DateTime.Now.AddSeconds(3600) });
+                HttpContext.Response.Cookies.Append("AdministratorID", loginModel.Login_ID, new CookieOptions { Expires = DateTime.Now.AddSeconds(3600) });
                 //跳转到指定位置
                 return Redirect("/Home/Index");
             }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ThirdParty.Json.LitJson;
 using TJ_Games.Services;
+using TJ_Games.Models;
 #nullable disable
 
 namespace TJ_Games.Controllers
@@ -37,7 +38,7 @@ namespace TJ_Games.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddToCart([FromBody] string UserID, [FromBody] string CommodityID)
+        public IActionResult AddToCart([FromQuery]string UserID, [FromQuery]string CommodityID )
         {
             JsonData jsondata = new JsonData();
             if (cartService.addToCart(UserID,CommodityID))
@@ -68,7 +69,7 @@ namespace TJ_Games.Controllers
             }
             return Json(jsondata.ToJson());
         }
-        public IActionResult AddToWishList([FromBody] string UserID, [FromBody] string CommodityID)
+        public IActionResult AddToWishList([FromQuery] string UserID, [FromQuery] string CommodityID)
         {
             JsonData jsondata = new JsonData();
             if (cartService.addToWishList(UserID, CommodityID))
@@ -83,7 +84,7 @@ namespace TJ_Games.Controllers
             return Json(jsondata.ToJson());
         }
 
-        public IActionResult DeleteWishList([FromBody] string UserID, [FromBody] string CommodityID)
+        public IActionResult DeleteWishList([FromQuery] string UserID, [FromQuery] string CommodityID)
         {
             JsonData jsondata = new JsonData();
             if (cartService.deleteWishList(UserID, CommodityID))

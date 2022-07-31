@@ -5,6 +5,9 @@ using TJ_Games.DBContext;
 using TJ_Games.Models;
 using System.Text;
 using System.Security.Cryptography;
+using System.Collections.Generic;
+using System;
+using System.Linq;
 
 namespace TJ_Games.Services
 {
