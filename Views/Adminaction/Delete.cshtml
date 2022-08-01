@@ -1,0 +1,74 @@
+﻿@{
+    ViewData["Title"] = "Welcome";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/index.css">
+    <script src="~/js/adminAction.js"></script>
+</head>
+<body>
+    <form>
+        <h3>请输入你要删除信息的商品id</h3>
+        <input type="text" id="ID" name="ID" required />
+        <input type="button" id="ceshi1" value="搜索" onclick="search(this)" />
+
+        <table class="table table-bordered" style="margin-top:10px;">
+            <tr>
+                <th style="text-aligin:left;">Commodity_ID ：</th>
+                <td>
+                    <input type="text" id="uid" name="uid" class="form-control" placeholder="查找到的Commodity_ID" />
+                </td>
+                <th style="text-aligin:left;">Commodity_Name ：</th>
+                <td>
+                    <input type="text" id="Name" name="Name" class="form-control" placeholder="查找到的Commodity_Name" />
+                </td>
+            </tr>
+            <tr>
+                <th style="text-aligin:left;">Publisher ：</th>
+                <td>
+                    <input type="text" id="Publisher" name="Publisher" class="form-control" placeholder="查找到的Publisher" />
+                </td>
+                <th style="text-aligin:left;">Price ：</th>
+                <td>
+                    <input type="text" id="Price" name="Price" class="form-control" placeholder="查找到的Price" />
+                </td>
+            </tr>
+            <tr>
+                <th style="text-aligin:left;">Publish_Time ：</th>
+                <td>
+                    <input type="text" id="Time" name="Time" class="form-control" placeholder="查找到的Publish_Time" />
+                </td>
+                <th style="text-aligin:left;">Classification ：</th>
+                <td>
+                    <input type="text" id="Classification" name="Classification" class="form-control" placeholder="查找到的Classification" />
+                </td>
+            </tr>
+            <tr>
+                <th style="text-aligin:left;">DownloadURL ：</th>
+                <td>
+                    <input type="text" id="Downloadurl" name="Downloadurl" class="form-control" placeholder="查找到的DownloadURL" />
+                </td>
+                <th style="text-aligin:left;">SalesVolume ：</th>
+                <td>
+                    <input type="text" id="Volume" name="Volume" class="form-control" placeholder="查找到的SalesVolume" />
+                </td>
+            </tr>
+            <tr>
+                <th style="text-aligin:left;">Description ：</th>
+                <td>
+                    <input type="text" id="Description" name="Description" class="form-control" placeholder="查找到的Description" />
+                </td>
+            </tr>
+            <tr>
+                <th colspan="4" style="text-align:center;">
+                    <input type="button" class="btn btn-default" onclick="tempdelete()" value="删除" /><!-- 删除信息并返回-->
+                    <input type="button" class="btn btn-default" onclick="    javascript: window.history.back();" value="返回" />
+                </th>
+            </tr>
+        </table>
+
+    </form>
+
+</body>
+</html>
