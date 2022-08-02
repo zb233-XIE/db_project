@@ -1,0 +1,43 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    @*<link href="~/css/search.css" rel="stylesheet" />*@
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+    <script src="~/js/vue.js"></script>
+    <!--引入axios-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="~/js/jquery.min.js"></script>
+    <title>欢迎</title>
+</head>
+
+<body>
+    <!--搜索框-->
+    <div class="search">
+        <select id="searchtype">
+            <option value="1">按游戏名搜索</option>
+            <option value="2">按发行商搜索</option>
+        </select>
+        <input id="Context" type="text" placeholder="关键词搜索" class="f1" />
+        <button class="f1" onclick="submitSearch()">搜索</button>
+    </div>
+    <!--展示部分-->
+    <div class="searchshow">
+        <p id="result">搜索结果如下：</p>
+        <ul>
+            <li @@click="chooseAddress(item,index)" v-for="(item,index) in results" :key="index">
+                <div class="gameitem">
+                    <img :src="item.img" />
+                    <span id="gamename">{{item.name}}</span>
+                    <span id="gameclass">{{item.classification}}</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <script src="~/js/Search.js"></script>
+</body>
+</html>
