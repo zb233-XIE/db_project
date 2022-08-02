@@ -59,7 +59,6 @@ namespace TJ_Games.Services
                 jsondata["Price"] = commodities.Price;
                 jsondata["LowestPrice"] = commodities.LowestPrice;
                 jsondata["PublishTime"] = commodities.PublishTime.ToString();
-                jsondata["Classification"] = commodities.Classification;
                 jsondata["Description"] = commodities.Description;
                 jsondata["PictureURL"] = commodities.PictureURL;
                 jsondata["DownLoadURL"] = commodities.DownLoadURL;

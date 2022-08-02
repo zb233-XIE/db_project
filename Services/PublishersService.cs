@@ -125,7 +125,6 @@ namespace TJ_Games.Services
                 commodity.Price = price;
                 commodity.LowestPrice = l_price;
                 commodity.PublishTime = p_time;
-                commodity.Classification = classification;
                 commodity.Description = description;
                 commodity.PictureURL = p_URL;
                 commodity.DownLoadURL = D_URL;

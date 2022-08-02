@@ -14,7 +14,7 @@ namespace TJ_Games.Models
         public DateTime Birthday;
         public string Mail;
         public string Password;
-        public string UserType = "1";//代表为用户
+        public int UserType = 1;//代表为用户
     }
 
     public class PublisherSignUpModel
@@ -24,7 +24,13 @@ namespace TJ_Games.Models
         public DateTime StartTime;
         public string Description;
         public string Password;
-        public string UserType = "2";//代表为发行商
+        public int UserType = 2;//代表为发行商
         public string HomepageURL;
+    }
+
+    public class LoginModel
+    {
+        public string Login_ID { get; set; }
+        public string Login_Password { get; set; }
     }
 }
