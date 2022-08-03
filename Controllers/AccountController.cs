@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
+using TJ_Games.Models;
 using Newtonsoft.Json;
 
 namespace TJ_Games.Controllers
@@ -21,6 +20,10 @@ namespace TJ_Games.Controllers
 		{
 			return View();
 		}
+		public IActionResult Modify()
+		{
+			return View();
+		}
 
 		// 前后端交互
 		[HttpPost]
@@ -31,6 +34,12 @@ namespace TJ_Games.Controllers
 
 		[HttpPost]
 		public IActionResult register([FromBody] Object a)   //注册
+		{
+			return Json(a.ToString());
+		}
+
+		[HttpPost]
+		public IActionResult modify([FromBody] Object a)   //修改
 		{
 			return Json(a.ToString());
 		}
