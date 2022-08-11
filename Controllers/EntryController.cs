@@ -100,8 +100,12 @@ namespace TJ_Games.Controllers
         }
 
         [HttpPost]
-        public IActionResult BuyerLogInForm([FromBody] LoginModel loginModel)
+        public IActionResult BuyerLogInForm([FromBody] object LoginModel)
         {
+            //由于未知原因，上面的参数传过来只能用object方式，下面对其进行转换，转换为我们想要的格式
+            string content = LoginModel.ToString();
+            LoginModel loginModel = JsonConvert.DeserializeObject<LoginModel>(content);
+
             int is_vaild = service.BuyerLogin(loginModel.Login_ID, loginModel.Login_Password);
 
             if (is_vaild == 1)//说明此时验证通过
@@ -134,9 +138,13 @@ namespace TJ_Games.Controllers
             }
         }
         [HttpPost]
-        public IActionResult BuyerSignUpForm([FromBody] BuyerSignUpModel buyer)
+        public IActionResult BuyerSignUpForm([FromBody] object buyer)
         {
-            int is_success = service.BuyerSignup(buyer);
+            //由于未知原因，上面的参数传过来只能用object方式，下面对其进行转换，转换为我们想要的格式
+            string content = buyer.ToString();
+            BuyerSignUpModel Buyer = JsonConvert.DeserializeObject<BuyerSignUpModel>(content);
+
+            int is_success = service.BuyerSignup(Buyer);
 
             if ( is_success == 1)//说明添加成功
             {
@@ -171,8 +179,13 @@ namespace TJ_Games.Controllers
             }
         }
 
-        public IActionResult PublisherLogInForm([FromBody] LoginModel loginModel)
+        public IActionResult PublisherLogInForm([FromBody] object LoginModel)
         {
+            //由于未知原因，上面的参数传过来只能用object方式，下面对其进行转换，转换为我们想要的格式
+            string content = LoginModel.ToString();
+            LoginModel loginModel = JsonConvert.DeserializeObject<LoginModel>(content);
+
+
             int is_vaild = PublisherService.PublisherLogin(loginModel.Login_ID, loginModel.Login_Password);
 
             if (is_vaild == 1)//说明此时验证通过
@@ -205,8 +218,13 @@ namespace TJ_Games.Controllers
             }
         }
 
-        public IActionResult PublisherSignUpForm([FromBody] PublisherSignUpModel publisher)
+        public IActionResult PublisherSignUpForm([FromBody] object Publisher)
         {
+            //由于未知原因，上面的参数传过来只能用object方式，下面对其进行转换，转换为我们想要的格式
+            string content = Publisher.ToString();
+            PublisherSignUpModel publisher = JsonConvert.DeserializeObject<PublisherSignUpModel>(content);
+
+
             int is_success = PublisherService.PublisherSignup(publisher);
 
             if (is_success == 1)//说明添加成功
@@ -242,8 +260,13 @@ namespace TJ_Games.Controllers
             }
         }
 
-        public IActionResult AdministratorLogInForm([FromBody] LoginModel loginModel)
+        public IActionResult AdministratorLogInForm([FromBody] object LoginModel)
         {
+            //由于未知原因，上面的参数传过来只能用object方式，下面对其进行转换，转换为我们想要的格式
+            string content = LoginModel.ToString();
+            LoginModel loginModel = JsonConvert.DeserializeObject<LoginModel>(content);
+
+
             int is_vaild = AdministratorService.AdministratorLogin(loginModel.Login_ID, loginModel.Login_Password);
 
             if (is_vaild == 1)//说明此时验证通过

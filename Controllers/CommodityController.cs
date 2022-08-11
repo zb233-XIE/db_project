@@ -53,7 +53,7 @@ namespace TJ_Games.Controllers
             return Json(jsondata.ToJson());
         }
 
-        public IActionResult CommodityDetails([FromBody]string CommodityID)
+        public IActionResult CommodityDetails([FromQuery]string CommodityID)
         {
             JsonData jsondata = new JsonData();
             jsondata = cartService.CommodityDetails(CommodityID);
