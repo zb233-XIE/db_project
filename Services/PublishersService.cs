@@ -1,8 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using TJ_Games.DBContext;
 using TJ_Games.Models;
+using TJ_Games.DBContext;
+using System.Text;
+using System.Security.Cryptography;
+
 namespace TJ_Games.Service
 {
     public class PublishersService
@@ -29,19 +36,7 @@ namespace TJ_Games.Service
                     .Where(c => c.PublisherID == u_id).FirstOrDefault();
             return publisher;
         }
-        /*------------------------------------------------------
-         * 函数名：EditPublisher()
-         * 根据输入的发行商信息，对在Publisher表做修改处理
-         * 并传回Publisher对象
-         * ---------------------------------------------------*/
-        public Publishers EditPublisher(Publishers before, Publishers now)
-        {
-            string ID = before.PublisherID;
 
-            var publisher = Edit(ID, now);
-
-            return publisher;
-        }
         /*------------------------------------------------------
          * 函数名：GetCommodityInfo()
          * 在Commodity表中查到某一位发行商旗下游戏商品的信息
@@ -56,50 +51,8 @@ namespace TJ_Games.Service
 
             return gameList;
         }
-        /*------------------------------------------------------
-         * 函数名：Edit()
-         * 工具函数，此处用两个重载函数实现
-         * 编辑Publish表内容
-         * ---------------------------------------------------*/
-        public Publishers Edit(string p_id)
-        {
-            if (p_id == null)
-            {
-                return null;
-            }
 
-            var publisher = _context.Publishers.Find(p_id);
-            if (publisher == null)
-            {
-                return null;
-            }
-            return publisher;
-        }
-        public Publishers Edit(string p_id, [Bind("PublisherID,PublisherName,StartTime,Description,HomepageURL")] Publishers publisher)
-        {
-            if (p_id != publisher.PublisherID)
-            {
-                return null;
-            }
-            //try_catch过程
-            try
-            {
-                _context.Update(publisher);
-                _context.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.Publishers.Any(e => e.PublisherID == publisher.PublisherID))
-                {
-                    return null;
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return publisher;
-        }
+
 
         /*------------------------------------------------------
          * 函数名：PublishGame()
@@ -152,6 +105,31 @@ namespace TJ_Games.Service
                 return true;
             }
             return false;//本项目中不考虑存在两份一样的游戏更新
+        }
+        /*------------------------------------------------------
+        * 函数名：EditPublisher()
+        * 根据输入的发行商信息，对在Publisher表做修改处理
+        * 并传回Publisher对象
+        * ---------------------------------------------------*/
+        public bool EditPublisher(string p_id, string p_name, DateTime s_time, string dsc, string hmpurl)
+        {
+            Publishers publishers = new Publishers();
+            Publishers result = _context.Publishers.Where(c => c.PublisherID == p_id).FirstOrDefault();
+            if (result != null)
+            {
+                _context.Publishers.Remove(result);//首先删除
+
+                publishers.PublisherID = p_id;//再重新添加
+                publishers.PublisherName = p_name;
+                publishers.StartTime = s_time;
+                publishers.Description = dsc;
+                publishers.HomepageURL = hmpurl;
+                _context.Publishers.Add(publishers);
+                _context.SaveChanges();//保存更新
+                return true;
+            }
+            else
+                return false;//没找到就无法修改
         }
     }
 }

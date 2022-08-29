@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TJ_Games.DBContext;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using TJ_Games.Models;
-using ThirdParty.Json.LitJson;
+using TJ_Games.DBContext;
+using System.Text;
+using System.Security.Cryptography;
+
 namespace TJ_Games.Service
 {
     public class FriendsService
@@ -40,11 +42,21 @@ namespace TJ_Games.Service
          * 在User表中查到指定好友的信息
          * 传回该好友的信息
          * ---------------------------------------------------*/
-        public Users GetUsersInfo(string friend_id)
+        public Buyers GetBuyerInfo(string friend_id)
         {
-            Users friendInfo = _context.Users
-                    .Where(c => c.UserID == friend_id).FirstOrDefault();
+            Buyers friendInfo = _context.Buyers
+                    .Where(c => c.BuyerID == friend_id).FirstOrDefault();
             return friendInfo;
+        }
+        /*------------------------------------------------------
+         * 函数名：GetCount()
+         * 好友数量
+         * ---------------------------------------------------*/
+        public int GetCount(string u_id)
+        {
+            int count = _context.Friends
+                    .Where(c => c.UserID == u_id).Count();
+            return count;
         }
         /*------------------------------------------------------
         * 函数名：AddFriends()
