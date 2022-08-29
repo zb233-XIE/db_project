@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TJ_Games.DBContext;
 using TJ_Games.Models;
+using TJ_Games.Models.ControllerModels;
 namespace TJ_Games.Service
 {
     public class ShopService
@@ -16,160 +17,209 @@ namespace TJ_Games.Service
         {
             _context = context;
         }
-        public  Commodities? GetCommodityDetail(string commodityId)
+        public  Good GetCommodityDetail(string commodityId)
         {
             if (commodityId == "")
                 return null;
             else
             {
-                Commodities newCommodity = _context.Commodities.FirstOrDefault(c => c.CommodityID == commodityId);
-                Commodities newCommodityDetails = new Commodities();
-                newCommodityDetails.CommodityID = commodityId;
-                newCommodityDetails.CommodityName = newCommodity.CommodityName;
-                newCommodityDetails.PublisherID = newCommodity.PublisherID;
-                newCommodityDetails.Price = newCommodity.Price;
-                newCommodityDetails.LowestPrice = newCommodity.LowestPrice;
-                newCommodityDetails.PublishTime = newCommodity.PublishTime;
-                newCommodityDetails.Description = newCommodity.Description;
-                newCommodityDetails.PictureURL = newCommodity.PictureURL;
-                newCommodityDetails.DownLoadURL = newCommodity.DownLoadURL;
-                newCommodityDetails.SalesVolume = newCommodity.SalesVolume;
-                return newCommodityDetails;
+                Commodities commodity = _context.Commodities.FirstOrDefault(c => c.CommodityID == commodityId);
+                Good newgood = new Good();
+                newgood.ID = commodity.CommodityID;
+                newgood.Name = commodity.CommodityName;
+                newgood.PublisherID = commodity.PublisherID;
+                newgood.Price = commodity.Price;
+                newgood.LowestPrice = commodity.LowestPrice;
+                newgood.PublishTime = commodity.PublishTime;
+                newgood.Description = commodity.Description;
+                newgood.PictureURL = commodity.PictureURL;
+                newgood.DownLoadURL = commodity.DownLoadURL;
+                newgood.SalesVolume = commodity.SalesVolume;
+                return newgood;
             }
         }
 
-        public List<Commodities> ShowShopCommodity(bool flag=false, string buyerId = null)
+        public List<Good> ShowShopCommodity()
         {
-            List<Commodities> returnList = new List<Commodities>();
-            DateTime current=DateTime.Now;
-            if (flag == true)
-            {
-                List<Commodities> newList = _context.Commodities.Where(c => (c.PublishTime - current).Days <= 7).ToList();
-                int newlist_count = newList.Count;
-                int max = 0;
-                Commodities tmp = new Commodities();
-                for (int i = 0; i < newlist_count - 1; i++)
-                {
-                    max = i;
-                    for (int j = i + 1; j < newlist_count; j++)
-                    {
-                        if (newList[max].SalesVolume < newList[j].SalesVolume)
-                        {
-                            max = j;
-                        }
-                    }
-                    if (max != i)
-                    {
-                        tmp = newList[max];
-                        newList[max] = newList[i];
-                        newList[i] = tmp;
-                    }
-                }
-                for (int i = 0; i < 3; i++)
-                {
-                    Commodities newCommodityDetails = new Commodities();
-                    newCommodityDetails = newList[i];
-                    returnList.Add(newCommodityDetails);
-                }
-                return returnList;
-            }
-            else
-            {
-                return returnList;
-            }
-        }
-        public List<Commodities> ShowNewCommodity()
-        {
-            List<Commodities> returnList = new List<Commodities>();
+            List<Commodities> tempList = new List<Commodities>();
+            List<Good> returnList = new List<Good>();
             DateTime current = DateTime.Now;
-            List<Commodities> newList = _context.Commodities.Where(c => (c.PublishTime - current).Days <= 7).ToList();
-            int newlist_count = newList.Count;
-            int max = 0;
-            Commodities tmp = new Commodities();
-            for (int i = 0; i < newlist_count - 1; i++)
+            List<Commodities> newList1 = _context.Commodities.ToList();
+            List<Commodities> newList=new List<Commodities>();
+            foreach (Commodities commodity in newList1)
             {
-                max = i;
-                for (int j = i + 1; j < newlist_count; j++)
+                TimeSpan span = current - commodity.PublishTime;
+                string str1=span.TotalDays.ToString();
+                decimal decnumber=Convert.ToDecimal(str1);
+                if (decnumber <= 30)
+                   newList.Add(commodity);
+            }
+            int newlist_count = newList.Count;
+            Commodities tmp = new Commodities();
+            for (int i = 0; i < newlist_count - 1; i++)     //双层循环
+                for (int j = 0; j < newlist_count - 1 - i; j++)
                 {
-                    if (newList[max].PublishTime< newList[j].PublishTime)
+                    if (newList[j].SalesVolume < newList[j + 1].SalesVolume)
                     {
-                        max = j;
+                        tmp = newList[j];
+                        newList[j] = newList[j+1];
+                        newList[j+1]=tmp;
                     }
                 }
-                if (max != i)
-                {
-                    tmp = newList[max];
-                    newList[max] = newList[i];
-                    newList[i] = tmp;
-                }
+            for (int i = 0; i < 5; i++)
+            {
+                Commodities newCommodityDetails = new Commodities();
+                newCommodityDetails = newList[i];
+                tempList.Add(newCommodityDetails);
             }
+            foreach (Commodities commodity in tempList)
+            {
+                Good newgood = new Good();
+                newgood.ID = commodity.CommodityID;
+                newgood.Name = commodity.CommodityName;
+                newgood.PublisherID = commodity.PublisherID;
+                newgood.Price = commodity.Price;
+                newgood.LowestPrice = commodity.LowestPrice;
+                newgood.PublishTime = commodity.PublishTime;
+                newgood.Description = commodity.Description;
+                newgood.PictureURL = commodity.PictureURL;
+                newgood.DownLoadURL = commodity.DownLoadURL;
+                newgood.SalesVolume = commodity.SalesVolume;
+                returnList.Add(newgood);
+            }
+            return returnList;
+        }
+        public List<Good> ShowNewCommodity()
+        {
+            List<Commodities> tempList = new List<Commodities>();
+            List<Good> returnList = new List<Good>();
+            DateTime current = DateTime.Now;
+            List<Commodities> newList1 = _context.Commodities.ToList();
+            List<Commodities> newList = new List<Commodities>();
+            foreach (Commodities commodity in newList1)
+            {
+                TimeSpan span = current - commodity.PublishTime;
+                string str1 = span.TotalDays.ToString();
+                decimal decnumber = Convert.ToDecimal(str1);
+                if (decnumber <= 14)
+                    newList.Add(commodity);
+            }
+            int newlist_count = newList.Count;
+            Commodities tmp = new Commodities();
+            for (int i = 0; i < newlist_count - 1; i++)     //双层循环
+                for (int j = 0; j < newlist_count - 1 - i; j++)
+                {
+                    if (newList[j].SalesVolume < newList[j + 1].SalesVolume)
+                    {
+                        tmp = newList[j];
+                        newList[j] = newList[j + 1];
+                        newList[j + 1] = tmp;
+                    }
+                }
             for (int i = 0; i < 3; i++)
             {
                 Commodities newCommodityDetails = new Commodities();
                 newCommodityDetails = newList[i];
-                returnList.Add(newCommodityDetails);
+                tempList.Add(newCommodityDetails);
+            }
+            foreach (Commodities commodity in tempList)
+            {
+                Good newgood = new Good();
+                newgood.ID = commodity.CommodityID;
+                newgood.Name = commodity.CommodityName;
+                newgood.PublisherID = commodity.PublisherID;
+                newgood.Price = commodity.Price;
+                newgood.LowestPrice = commodity.LowestPrice;
+                newgood.PublishTime = commodity.PublishTime;
+                newgood.Description = commodity.Description;
+                newgood.PictureURL = commodity.PictureURL;
+                newgood.DownLoadURL = commodity.DownLoadURL;
+                newgood.SalesVolume = commodity.SalesVolume;
+                returnList.Add(newgood);
             }
             return returnList;
         }
 
-        public List<Commodities> ShowHotCommodity()
+        public List<Good> ShowHotCommodity()
         {
-            List<Commodities> returnList = new List<Commodities>();
+            List<Commodities> tempList = new List<Commodities>();
+            List<Good> returnList = new List<Good>();
             DateTime current = DateTime.Now;
-            List<Commodities> newList = _context.Commodities.Where(c => (c.PublishTime - current).Days <= 30).ToList();
-            int newlist_count = newList.Count;
-            int max = 0;
-            Commodities tmp = new Commodities();
-            for (int i = 0; i < newlist_count - 1; i++)
+            List<Commodities> newList1 = _context.Commodities.ToList();
+            List<Commodities> newList = new List<Commodities>();
+            foreach (Commodities commodity in newList1)
             {
-                max = i;
-                for (int j = i + 1; j < newlist_count; j++)
+                TimeSpan span = current - commodity.PublishTime;
+                string str1 = span.TotalDays.ToString();
+                decimal decnumber = Convert.ToDecimal(str1);
+                if (decnumber <= 90)
+                    newList.Add(commodity);
+            }
+            int newlist_count = newList.Count;
+            Commodities tmp = new Commodities();
+            for (int i = 0; i < newlist_count - 1; i++)     //双层循环
+                for (int j = 0; j < newlist_count - 1 - i; j++)
                 {
-                    if (newList[max].SalesVolume < newList[j].SalesVolume)
+                    if (newList[j].SalesVolume < newList[j + 1].SalesVolume)
                     {
-                        max = j;
+                        tmp = newList[j];
+                        newList[j] = newList[j + 1];
+                        newList[j + 1] = tmp;
                     }
                 }
-                if (max != i)
-                {
-                    tmp = newList[max];
-                    newList[max] = newList[i];
-                    newList[i] = tmp;
-                }
-            }
             for (int i = 0; i < 3; i++)
             {
                 Commodities newCommodityDetails = new Commodities();
                 newCommodityDetails = newList[i];
-                returnList.Add(newCommodityDetails);
+                tempList.Add(newCommodityDetails);
+            }
+            foreach (Commodities commodity in tempList)
+            {
+                Good newgood = new Good();
+                newgood.ID = commodity.CommodityID;
+                newgood.Name = commodity.CommodityName;
+                newgood.PublisherID = commodity.PublisherID;
+                newgood.Price = commodity.Price;
+                newgood.LowestPrice = commodity.LowestPrice;
+                newgood.PublishTime = commodity.PublishTime;
+                newgood.Description = commodity.Description;
+                newgood.PictureURL = commodity.PictureURL;
+                newgood.DownLoadURL = commodity.DownLoadURL;
+                newgood.SalesVolume = commodity.SalesVolume;
+                returnList.Add(newgood);
             }
             return returnList;
         }
-        public string GetType(string Genre_ID)            //游戏分类
-        {
-            Genre genre = new Genre();
-            if (Genre_ID == null)
-                return null;
-            else
-            {
-                genre = _context.Genre.Where(x => x.ID == Genre_ID).FirstOrDefault();
-                return genre.Type;
-            }
-        }
-        public List<Commodities>? ShowCommodityClassification(string Genre_ID)            //游戏分类
+        public List<Good>? ShowCommodityClassification(string genreid)            //游戏分类
         {
             List<Commodity_Genre> commodities = new List<Commodity_Genre>();
-            List<Commodities> returnList = new List<Commodities>();
-            if (Genre_ID == null)
+            List<Commodities> tempList = new List<Commodities>();
+            List<Good> returnList = new List<Good>();
+            if (genreid == null)
                 return null;
             else
             {
-                commodities= _context.Commodity_Genre.Where(x => x.GenreID == Genre_ID).ToList();
+                commodities = _context.Commodity_Genre.Where(x => x.GenreID == genreid).ToList();
                 foreach(Commodity_Genre element in commodities)
                 {
                     Commodities commodity = new Commodities();
                     commodity = _context.Commodities.Where(x => x.CommodityID == element.CommodityID).FirstOrDefault();
-                    returnList.Add(commodity);
+                    tempList.Add(commodity);
+                }
+                foreach(Commodities commodity in tempList)
+                {
+                    Good newgood=new Good();
+                    newgood.ID = commodity.CommodityID;
+                    newgood.Name = commodity.CommodityName;
+                    newgood.PublisherID=commodity.PublisherID;
+                    newgood.Price=commodity.Price;
+                    newgood.LowestPrice = commodity.LowestPrice;
+                    newgood.PublishTime = commodity.PublishTime;
+                    newgood.Description = commodity.Description;
+                    newgood.PictureURL=commodity.PictureURL;
+                    newgood.DownLoadURL = commodity.DownLoadURL;
+                    newgood.SalesVolume = commodity.SalesVolume;
+                    returnList.Add(newgood);
                 }
                 return returnList;
             }
