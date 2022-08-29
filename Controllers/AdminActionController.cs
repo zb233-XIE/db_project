@@ -21,10 +21,16 @@ namespace TJ_Games.Controllers
             _context = context;
             adminActionService = new AdminActionService(_context);
         }
+        public IActionResult Delete()
+        {
+           return View();
+        }
         /*************** 封禁功能 ********************/
         [HttpPost]
-        public IActionResult DeleteBuyer([FromBody] DeleteBuyer deleteBuyer)  // 删除买家
+        public IActionResult DeleteBuyer([FromBody] object DeleteBuyer)  // 删除买家
         {
+            string content = DeleteBuyer.ToString();
+            DeleteBuyer deleteBuyer = JsonConvert.DeserializeObject<DeleteBuyer>(content);
             if (adminActionService.DeleteBuyer(deleteBuyer.ID))
             {
                 JsonData jsondata = new JsonData();
@@ -38,12 +44,15 @@ namespace TJ_Games.Controllers
                 return Json(jsondata.ToJson());
             }
         }
-        /*************** 封禁功能 ********************/
 
         [HttpPost]
-        public IActionResult DeleteCommodity([FromBody] DeleteCommodity deleteCommodity)  // 下架商品
+        public IActionResult DeleteCommodity([FromQuery] string CommodityID)  // 下架商品
         {
-            if (adminActionService.DeleteCommodity(deleteCommodity.ID))
+            //string content = DeleteCommodity.ToString();
+            //DeleteBuyer deleteCommodity = JsonConvert.DeserializeObject<DeleteBuyer>(content);
+
+
+            if (adminActionService.DeleteCommodity(CommodityID))
             {
                 JsonData jsondata = new JsonData();
                 jsondata["deleteCommodity"] = "SUCESS";
