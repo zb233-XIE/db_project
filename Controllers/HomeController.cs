@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using ThirdParty.Json.LitJson;
 using TJ_Games.Service;
 using TJ_Games.Models;
+using TJ_Games.Models.ControllerModels;
 #nullable disable
 
 namespace TJ_Games.Controllers
@@ -23,7 +24,11 @@ namespace TJ_Games.Controllers
             _context = context;
             shopService = new ShopService(_context);
         }
-        public IActionResult Shop()
+        public IActionResult Index()
+        {
+            return View();
+        }
+        /*public ActionResult Index()
         {
             if (Request.Cookies["buyerNickName"] != null)
             {
@@ -33,61 +38,39 @@ namespace TJ_Games.Controllers
             {
                 return Redirect("/Entry/BuyerLogIn");
             }
+        }*/
+        [HttpPost]
+        public IActionResult GetCommodityDetail([FromQuery]  string CommodityID)   //设置商品ID
+        {
+            JsonData jsondata = new JsonData();
+            Good good=new Good();
+            good = shopService.GetCommodityDetail(CommodityID);
+            good.PictureURL = "../.." + good.PictureURL;
+            string str = JsonConvert.SerializeObject(good);
+            return new ContentResult { Content = str, ContentType = "application/json" };
         }
         [HttpPost]
-        public IActionResult SetCommodityID([FromBody]  Commodities commodity)   //设置商品ID
+        public IActionResult SetClassification([FromQuery] string Type)   //设置分类
         {
-            GCommodityID = commodity.CommodityID;
+            //string Type = JsonConvert.DeserializeObject<string>(content);
             JsonData jsondata = new JsonData();
-            jsondata["commodityID"] = commodity.CommodityID;
-            return Json(jsondata.ToJson());
-        }
-        [HttpPost]
-        public IActionResult SetClassification([FromBody] Commodity_Genre commodities_Genre)   //设置分类
-        {
-            string Genre_ID = commodities_Genre.GenreID;
-            JsonData jsondata = new JsonData();
-            if (Genre_ID != null)
+            List<Good> CommodityClassification = new List<Good>();
+            Genre genre = new Genre();
+            genre = _context.Genre.Where(x => x.Type == Type).FirstOrDefault();
+            string genreid = genre.ID;
+            //jsondata["type"] = Type;
+            CommodityClassification = shopService.ShowCommodityClassification(genreid);
+            foreach (var Good in CommodityClassification)
             {
-                string type = shopService.GetType(Genre_ID);
-                jsondata["Type"] = type;
-                List<Commodities> CommodityClassification = new List<Commodities>();
-                CommodityClassification = shopService.ShowCommodityClassification(Genre_ID);
-                foreach (var commodity in CommodityClassification)
-                {
-                    commodity.PictureURL = "../.." + commodity.PictureURL;
-                }
-                string str = JsonConvert.SerializeObject(CommodityClassification);
-                return new ContentResult { Content = str, ContentType = "application/json" };
+                Good.PictureURL = "../.." + Good.PictureURL;
             }
-            else
-                return Json(jsondata.ToJson());
-        }
-        public IActionResult GetCommodityDetail()   //获得商品详情
-        {
-            Commodities commodity = new Commodities();
-            commodity = shopService.GetCommodityDetail(GCommodityID);
-            if (commodity != null)
-            {
-                commodity.PictureURL = "../.." + commodity.PictureURL;
-                string str = JsonConvert.SerializeObject(commodity);
-                return new ContentResult { Content = str, ContentType = "application/json" };
-            }
-            else
-                return null;
-        }
-        
+            string str = JsonConvert.SerializeObject(CommodityClassification);
+            return new ContentResult { Content = str, ContentType = "application/json" };
+        }       
         public IActionResult ShowShopCommodity()      //展示商店的推荐商品
         {
-            List<Commodities> commodityList = new List<Commodities>();
-            /*if (Request.Cookies["buyerNickName"] != null)   //已经登录
-            {
-                commodityList = shopService.ShowShopCommodity(true, Request.Cookies["buyerID"]); //根据用户过往订单确定推荐的商品
-            }
-            else
-            {*/
-                commodityList = shopService.ShowShopCommodity(false);    //未登录情况下的商品推荐，但因为打开页面需要先验证登录，故也作为登陆情况下的商品推荐
-            /*}*/
+            List<Good> commodityList = new List<Good>();
+            commodityList = shopService.ShowShopCommodity();    //未登录情况下的商品推荐，但因为打开页面需要先验证登录，故也作为登陆情况下的商品推荐
             foreach (var commodity in commodityList)
             {
                 commodity.PictureURL = "../.." + commodity.PictureURL;
@@ -98,7 +81,7 @@ namespace TJ_Games.Controllers
 
         public IActionResult ShowNewCommodity()      //展示商店的最新商品
         {
-            List<Commodities> commodityList = new List<Commodities>();
+            List<Good> commodityList = new List<Good>();
             commodityList = shopService.ShowNewCommodity();
             foreach (var commodity in commodityList)
             {
@@ -110,7 +93,7 @@ namespace TJ_Games.Controllers
 
         public IActionResult ShowHotCommodity()      //展示商店的最热商品
         {
-            List<Commodities> commodityList = new List<Commodities>();
+            List<Good> commodityList = new List<Good>();
             commodityList = shopService.ShowHotCommodity();
             foreach (var commodity in commodityList)
             {
@@ -119,10 +102,5 @@ namespace TJ_Games.Controllers
             string str = JsonConvert.SerializeObject(commodityList);
             return new ContentResult { Content = str, ContentType = "application/json" };
         }
-
-        /*public IActionResult ShowCurrentActivity()
-        {
-
-        }*/
     }
 }
