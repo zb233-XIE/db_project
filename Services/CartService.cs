@@ -117,5 +117,30 @@ namespace TJ_Games.Services
                 return false;
             }
         }
+
+        public bool addevaluations(Evaluation evaluation)
+        {
+            if (evaluation == null)
+                return false;
+            else
+            {
+                Evaluation evaluation1 = _context.Evaluation.Where(x => x.CommodityID == evaluation.CommodityID && x.BuyerID == evaluation.BuyerID).FirstOrDefault();
+
+                if (evaluation1 != null)
+                    return false;
+
+                //添加对应的评论到数据库
+                _context.Evaluation.Add(evaluation);
+
+                if (_context.SaveChanges() > 0)//说明保存成功
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
     }
 }

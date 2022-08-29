@@ -27,70 +27,30 @@ namespace TJ_Games.Controllers
             AdministratorService = new AdministratorService(_context);
         }
 
-        // 传输页面
-        public IActionResult BuyerLogIn()
+
+        public IActionResult Register()
         {
-            if (Request.Cookies["buyerNickName"] != null)
-            {
-                return Redirect("/Home/Index");
-            }
-            else
-            {
-                return View();
-            }
-        }
-        public IActionResult BuyerSignUp()
-        {
-            if (Request.Cookies["buyerNickName"] != null)
-            {
-                return Redirect("/Home/Index");
-            }
-            else
-            {
-                return View();
-            }
-        }
-        public IActionResult SellerSignUp()
-        {
-            if (Request.Cookies["sellerNickName"] != null)
-            {
-                return Redirect("/SellerBackground/Home");
-            }
-            else
-            {
-                return View();
-            }
-        }
-        public IActionResult SellerLogIn()
-        {
-            if (Request.Cookies["sellerNickName"] != null)
-            {
-                return Redirect("/SellerBackground/Home");
-            }
-            else
-            {
-                return View();
-            }
-        }
-        public IActionResult AdministratorLogIn()
-        {
-            if (Request.Cookies["adminNickName"] != null)
-            {
-                return Redirect("/Admin/AdminWork");
-            }
-            else
-            {
-                return View();
-            }
+            return View();
         }
 
-        public IActionResult BuyerLogOut()    //买家退出登录
+        // 传输页面
+        public IActionResult Login()
         {
-            if (Request.Cookies["buyerNickName"] != null)
+            if (Request.Cookies["UID"] != null)//说明此时已经登录成功了，无需再次登录
+            { 
+                 return Redirect("/Home/Index");
+            }
+            else
             {
-                //设置cookie
-                HttpContext.Response.Cookies.Delete("buyerNickName");
-                HttpContext.Response.Cookies.Delete("buyerID");
+                return View();
+            }
+        }
+        public IActionResult Logout()    //退出登录
+        {
+            if (Request.Cookies["UID"] != null)
+            {
+                //删除cookie
+                HttpContext.Response.Cookies.Delete("UID");
                 return Redirect("/Home/Index");
             }
             else
@@ -111,9 +71,12 @@ namespace TJ_Games.Controllers
             if (is_vaild == 1)//说明此时验证通过
             {
                 //设置对应的登录Cookie
-                HttpContext.Response.Cookies.Append("buyerID", loginModel.Login_ID, new CookieOptions { Expires = DateTime.Now.AddSeconds(3600) });
-                //跳转到指定位置
-                return Redirect("/Home/Index");
+                HttpContext.Response.Cookies.Append("UID", loginModel.Login_ID, new CookieOptions { Expires = DateTime.Now.AddSeconds(3600) });
+
+                JsonData jsondata = new JsonData();
+                jsondata["STATUS"] = 1;
+                jsondata["REASON"] = "登录成功";
+                return Json(jsondata.ToJson());
             }
             else if (is_vaild == -1)//说明此时没有该用户名
             {
@@ -191,9 +154,12 @@ namespace TJ_Games.Controllers
             if (is_vaild == 1)//说明此时验证通过
             {
                 //设置对应的登录Cookie
-                HttpContext.Response.Cookies.Append("PublisherID", loginModel.Login_ID, new CookieOptions { Expires = DateTime.Now.AddSeconds(3600) });
-                //跳转到指定位置
-                return Redirect("/Home/Index");
+                HttpContext.Response.Cookies.Append("UID", loginModel.Login_ID, new CookieOptions { Expires = DateTime.Now.AddSeconds(3600) });
+
+                JsonData jsondata = new JsonData();
+                jsondata["STATUS"] = 1;
+                jsondata["REASON"] = "登录成功";
+                return Json(jsondata.ToJson());
             }
             else if (is_vaild == -1)//说明此时没有该用户名
             {
@@ -272,9 +238,12 @@ namespace TJ_Games.Controllers
             if (is_vaild == 1)//说明此时验证通过
             {
                 //设置对应的登录Cookie
-                HttpContext.Response.Cookies.Append("AdministratorID", loginModel.Login_ID, new CookieOptions { Expires = DateTime.Now.AddSeconds(3600) });
-                //跳转到指定位置
-                return Redirect("/Home/Index");
+                HttpContext.Response.Cookies.Append("UID", loginModel.Login_ID, new CookieOptions { Expires = DateTime.Now.AddSeconds(3600) });
+
+                JsonData jsondata = new JsonData();
+                jsondata["STATUS"] = 1;
+                jsondata["REASON"] = "登录成功";
+                return Json(jsondata.ToJson());
             }
             else if (is_vaild == -1)//说明此时没有该用户名
             {

@@ -21,16 +21,42 @@ namespace TJ_Games.Controllers
             _context = context;
             cartService = new CartService(_context);
         }
-        public IActionResult Details()
+        public IActionResult Details(string? CommodityID)
         {
-            if (Request.Cookies["buyerNickName"] != null)
+            Commodities commodities = _context.Commodities.Where(x => x.CommodityID == CommodityID).FirstOrDefault();//查询给定ID的商品的有效信息
+
+            
+            if (commodities == null)//此时说明此时没有该ID对应的商品
             {
-                return View();
+                ViewData["CommodityID"] = -1;
             }
             else
             {
-                return Redirect("/Entry/BuyerLogIn");
+                //找到两个和这个商品有关的评价
+                List<Evaluation> evaluationList;
+                 evaluationList = _context.Evaluation.Where(x=>x.CommodityID==CommodityID).ToList();
+                
+                //根据商品的有效信息查询对应的PublisherName
+                string target_publisher = commodities.PublisherID;
+                Publishers publishers = _context.Publishers.Where(d => d.PublisherID == target_publisher).FirstOrDefault();
+
+                ViewData["CommodityID"] = commodities.CommodityID;
+                ViewData["CommodityName"] = commodities.CommodityName;
+                ViewData["PublisherName"] =publishers.PublisherName;
+                ViewData["Price"] = commodities.Price;
+                ViewData["LowestPrice"] = commodities.LowestPrice;
+                ViewData["PublishTime"] = commodities.PublishTime.ToString();
+                ViewData["Description"] = commodities.Description;
+                ViewData["PictureURL"] = commodities.PictureURL;
+                ViewData["DownLoadURL"] = commodities.DownLoadURL;
+                ViewData["SalesVolume"] = commodities.SalesVolume;
+                ViewData["Evaluation1_ID"] = evaluationList[0].BuyerID;
+                ViewData["Evaluation2_ID"] = evaluationList[1].BuyerID;
+                ViewData["Evaluation1_Description"] = evaluationList[0].Description;
+                ViewData["Evaluation2_Description"] = evaluationList[1].Description;
             }
+
+            return View();
         }
         public IActionResult Index()
         {
@@ -43,11 +69,13 @@ namespace TJ_Games.Controllers
             JsonData jsondata = new JsonData();
             if (cartService.addToCart(UserID,CommodityID))
             {
-                jsondata["AddToCart"] = "SUCCESS";
+                jsondata["STATUS"] = 1;
+                jsondata["REASON"] = "添加成功";
             }
             else
             {
-                jsondata["AddToCart"] = "FAILED";
+                jsondata["STATUS"] = 0;
+                jsondata["REASON"] = "添加失败";
             }
 
             return Json(jsondata.ToJson());
@@ -74,11 +102,13 @@ namespace TJ_Games.Controllers
             JsonData jsondata = new JsonData();
             if (cartService.addToWishList(UserID, CommodityID))
             {
-                jsondata["AddToWishList"] = "SUCCESS";
+                jsondata["STATUS"] = 1;
+                jsondata["REASON"] = "添加成功";
             }
             else
             {
-                jsondata["AddToWishList"] = "FAILED";
+                jsondata["STATUS"] = 0;
+                jsondata["REASON"] = "添加失败";
             }
 
             return Json(jsondata.ToJson());
@@ -89,14 +119,38 @@ namespace TJ_Games.Controllers
             JsonData jsondata = new JsonData();
             if (cartService.deleteWishList(UserID, CommodityID))
             {
-                jsondata["DeleteToWishList"] = "SUCCESS";
+                jsondata["STATUS"] = 1;
+                jsondata["REASON"] = "添加成功";
             }
             else
             {
-                jsondata["DeleteToWishList"] = "FAILED";
+                jsondata["STATUS"] = 0;
+                jsondata["REASON"] = "添加失败";
             }
 
             return Json(jsondata.ToJson());
         }
+
+        public IActionResult AddEvaluation([FromBody] object evaluation)
+        {
+            JsonData jsondata = new JsonData();
+
+            string content =evaluation.ToString();
+            Evaluation EValuation = JsonConvert.DeserializeObject<Evaluation>(content);
+
+            if (cartService.addevaluations(EValuation))
+            {
+                jsondata["STATUS"] = 1;
+                jsondata["REASON"] = "添加成功";
+            }
+            else
+            {
+                jsondata["STATUS"] = 0;
+                jsondata["REASON"] = "添加失败";
+            }
+
+            return Json(jsondata.ToJson());
+        }
+
     }
 }
