@@ -21,6 +21,5 @@ namespace TJ_Games.Services
         {
             _context = context;
         }
-
     }
 }

@@ -19,7 +19,7 @@ namespace TJ_Games.Services
         }
 
 
-        public bool DeleteBuyer(string buyerID)
+        /*public bool DeleteBuyer(string buyerID)
         {
             if (buyerID == "")
                 return false;
@@ -27,13 +27,12 @@ namespace TJ_Games.Services
             {
                 Buyers buyer = _context.Buyers.Where(x => x.BuyerID == buyerID).FirstOrDefault();
                 _context.Buyers.Update(buyer);
-
                 if (_context.SaveChanges() > 0)
                     return true;
                 else
                     return false;
             }
-        }
+        }*/
 
         /**************** 下架商品 ***************/
         public bool DeleteCommodity(string commodityId)
@@ -52,6 +51,22 @@ namespace TJ_Games.Services
                 else return false;
             }
         }
-
+        /**************** 封禁用户 ***************/
+        public bool DeleteBuyer(string buyerId)
+        {
+            if (buyerId == "")
+                return false;
+            else
+            {
+                if (_context.Buyers.Any(c => c.BuyerID == buyerId))
+                {
+                    Buyers newBuyer = _context.Buyers.FirstOrDefault(c => c.BuyerID == buyerId);
+                    _context.Buyers.Remove(newBuyer);
+                    _context.SaveChanges();
+                    return true;
+                }
+                else return false;
+            }
+        }
     }
 }
