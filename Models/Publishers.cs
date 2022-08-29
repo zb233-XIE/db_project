@@ -21,6 +21,7 @@ namespace TJ_Games.Models
         //属性列表
 
         public virtual ICollection<Commodities> Commodities { get; set; }
+        public virtual Users Users { get; set; }
         //与本模型类相关的一些模型类
 
     }

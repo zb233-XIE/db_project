@@ -5,15 +5,12 @@ using System.Threading.Tasks;
 
 namespace TJ_Games.Models
 {
-    public class ShoppingCart
+    public class Commodity_Genre
     {
-        public string ID { get; set; }
         public string CommodityID { get; set; }
-        public DateTime JoinTime { get; set; }
-        //属性列表
+        public string GenreID { get; set; }
 
-        public virtual Buyers Buyers { get; set; }
         public virtual Commodities Commodities { get; set; }
-        //与本模型类相关的一些模型类
+        public virtual Genre Genre { get; set; }
     }
 }

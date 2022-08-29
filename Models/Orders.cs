@@ -7,12 +7,6 @@ namespace TJ_Games.Models
 {
     public class Orders
     {
-        public Orders()
-        {
-            Commodities = new Commodities();
-            Users = new Users();
-        }//构造函数
-
         public string OrderID { get; set; }
         public string CommodityID { get; set; }
         public string BuyerID { get; set; }
@@ -23,8 +17,6 @@ namespace TJ_Games.Models
         //属性列表
 
         public virtual Commodities Commodities { get; set; }
-        public virtual Users Users { get; set; }
-
         public virtual Buyers Buyers { get; set; }
     }
 }
