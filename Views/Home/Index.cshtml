@@ -9,18 +9,65 @@
     <!--引入axios-->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="~/js/jquery.min.js"></script>
+    <!-- 引入样式 -->
+    <!--<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <!-- 引入组件库 -->
+    <!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <title>欢迎</title>
 </head>
 
 <body>
+    <!--导航栏，暂时放在index页面，后期整合可考虑放在shared里-->
+    <div class="header">
+        <ul>
+            <li class="entry">
+                <a href="#">
+                    <ion-icon name="home-outline"></ion-icon>
+                    <span class="entry-text">首页</span>
+                </a>
+            </li>
+            <li class="entry">
+                <a href="#">
+                    <ion-icon name="people-circle-outline"></ion-icon>
+                    <span class="entry-text">好友</span>
+                </a>
+            </li>
+            <li class="entry">
+                <a href="#">
+                    <ion-icon name="game-controller-outline"></ion-icon>
+                    <span class="entry-text">游戏库</span>
+                </a>
+            </li>
+            <li class="entry">
+                <a href="#">
+                    <ion-icon name="cart-outline"></ion-icon>
+                    <span class="entry-text">购物车</span>
+                </a>
+            </li>
+            <li class="entry">
+                <a href="#">
+                    <ion-icon name="person-outline"></ion-icon>
+                    <span class="entry-text">个人中心</span>
+                </a>
+            </li>
+        </ul>
+    </div>
     <!--搜索框-->
     <div class="search">
-        <select name="searchtype">
+        <select id="searchtype">
             <option value="1">按游戏名搜索</option>
-            <option value="2">按分类搜索</option>
+            <option value="2">按发行商搜索</option>
         </select>
-        <input id="Context" type="text" placeholder="关键词搜索" class="f1" />
-        <button class="f1" onclick="submitSearch()">搜索</button>
+        <form id="nav-searchform">
+            <div class="nav-search-content">
+                <input id="Context" type="text" placeholder="关键词搜索" class="f1" onclick="inputChange()" />
+            </div>
+            <div class="nav-search-btn" onclick="submitSearch()">
+                <ion-icon name="search-outline"></ion-icon>
+            </div>
+        </form>
     </div>
     <!--轮播图-->
     <div class="swiper">
@@ -40,38 +87,50 @@
             <div class="swiper-slide">
                 <img id="slide5" src="" />
             </div>
-            <div class="swiper-slide">
-                <img id="slide6" src="" />
-            </div>
-            <div class="swiper-slide">
-                <img id="slide7" src="" />
-            </div>
-            <div class="swiper-slide">
-                <img id="slide8" src="" />
-            </div>
         </div>
         <div class="swiper-pagination"></div>
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
     </div>
     <div class="shop">
-        <div class="classification">
-            <ul>
-                <li @@click="chooseClass(item,index)" v-for="(item,index) in classes" :key="index">{{item}}</li>
-            </ul>
-        </div>
+        
         <div class="show">
             <div class="hd show">
-                <span id="new" @@click="getNew">最新发布</span>
-                <span id="hot" @@click="getHot">热销商品</span>
+                <nav>
+                    <ul style="padding-left:0px;">
+                        <li class="nav-li"  @@click="getNew">
+                            <span id="new">最新发布</span>
+                        </li>
+                        <li class="nav-li"  @@click="getHot">
+                            <span id="hot">热销商品</span>
+                        </li>
+                        <li class="nav-li">
+                            <div class="classification">
+                                <span class="dropbtn">分类</span>
+                                <div class="classification-dropdown">
+                                    <ul>
+                                        <li @@click="chooseClass(item,index)" v-for="(item,index) in classes" :key="index" class="list">
+                                            <p class="classtitle">{{item}}</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
             </div>
             <div class="bd show">
                 <ul>
                     <li @@click="chooseAddress(item,index)" v-for="(item,index) in games" :key="index">
                         <div class="gameitem">
-                            <img :src="item.img" />
-                            <span id="gamename">{{item.name}}</span>
-                            <span id="gameclass">{{item.classification}}</span>
+                            <div class="imgbox">
+                                <img :src="item.PictureURL" />
+                            </div>
+                            <h3 id="gamename">{{item.Name}}</h3>
+                            <p id="gameclass">{{item.type}}</p>
+                        </div>
+                        <div class="gameitem-dropdown">
+                            <p class="description">游戏简介：{{item.Description}}</p>
                         </div>
                     </li>
                 </ul>
