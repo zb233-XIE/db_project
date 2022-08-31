@@ -10,34 +10,190 @@
 
 <link rel="stylesheet" href="https://www.jq22.com/jquery/font-awesome.4.7.0.css">
 <link href="~/css/Commodity.css" type="text/css" rel="stylesheet" />
-<script type="text/javascript" src="~/js/Commodity.js"></script>
-<script src="~/js/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 <html>
 <head>
     <title>商品详情页面</title>
 </head>
 <body>
-    <div>
+    <div id="Commodity">
+
         <div id="preview">
-            <img src="https://cdn.pixabay.com/photo/2016/01/29/01/04/billiards-1167221_1280.jpg" height="300" width="600" >
+            <div>
+                <img height="320" width="480" src="@ViewData["PictureURL"]">
+            </div>
         </div>
-        <div id="detailinfo">
-            <input id="ID" type="text" value="商品ID: @ViewData["id"]" title="@ViewData["name"]">
-            <input id="Price" type="text" value="商品价格：@ViewData["price"]">
-            <input id="Name" type="text" value="商品名：@ViewData["name"]">
-            <input id="Publisher" type="text" value="发行商：@ViewData["publisher"]">
+
+
+        <div id="detailInfo">
+            <div id="allin">
+                <input id="ID" type="text" value="商品ID:@ViewData["CommodityID"]">
+                <div id="Name">@ViewData["CommodityName"]</div>
+                <br />
+                <div id="Description">@ViewData["Description"]</div>
+                <br />
+                <div class="LowestPrice">
+                    <span>史低价格：</span>
+                    <i>@ViewData["LowestPrice"]</i>￥
+                </div>
+                <div class="Price">
+                    <span>游戏售价：</span>
+                    <i>@ViewData["Price"]</i>￥
+                </div>
+                <div id="PublishTime" style="color: #cbd7db">发行时间：@ViewData["PublishTime"]</div>
+                <div id="PublisherName" style="color: #cbd7db">发行商：@ViewData["PublisherName"]</div>
+                <div id="SalesVolume" style="color: #cbd7db">销量：@ViewData["SalesVolume"]</div>
+                <div id="DownLoadURL" style="color: #cbd7db">下载链接：@ViewData["DownLoadURL"]</div>
+                <div id="operation">
+                    <button style="float:left" class="btn" onclick="addToShoppingCart()">加入购物车</button>
+                    <button style="float:right" class="btn" onclick="addToWishList()">加入愿望单</button>
+                </div>
+            </div>
         </div>
-        <div id=" btn">
-            <button id="addCart"onclick="addToShoppingCart()">加入购物车 </button>
-            <button id="addCollection" onclick="addToWishList()">加入愿望单 </button>
+
+        <br />
+        <div id="comment">
+            <textarea name="content" id="content" rows="6" cols="61" onpropertychange="if(this.scrollHeight>80) this.style.posHeight=this.scrollHeight+5"
+                      onKeyDown="textdown(event)" onKeyUp="textup()" onfocus="if(value=='写下您的评论...'){value=''}" onblur="if (value ==''){value='写下您的评论...'}">写下您的评论...</textarea>
+            <div id="commentbtn"><button class="btn" onclick="addEvaluation()" width="20%">发表评论</button></div>
+            <div>
+                <ul>
+                    <li v-for="(item,index) in Description">
+                        <span>{{Description[index]}}</span>
+                        <span>{{EvaluationTime[index]}}</span>
+                    </li>
+                </ul>
+            </div>
+
         </div>
     </div>
+
 </body>
 </html>
 
 <script>
-    document.getElementById("ID").setAttribute('readonly', true);
-    document.getElementById("Price").setAttribute('readonly', true);
-    document.getElementById("Name").setAttribute('readonly', true);
-    document.getElementById("Publisher").setAttribute('readonly', true);
+    var app = new Vue({
+        el: "#comment",
+        data: {
+            EvaluationTime: [],
+            EvaluationID: [],
+            Description: []
+        },
+        mounted: function () {
+            this.initial();
+        },
+        methods: {
+            test: function () { alert("how"); },
+            initial: function () {
+                console.log("ok");
+                var arr;
+                var that = this;
+                axios.get("/Commodity/DisplayEvaluation").then(function (response) {
+                    arr = response.data;
+                    let len = arr.length;
+                    console.log("length:" + len);
+                    var arr1=new Array(len);
+                    var arr2=new Array(len);
+                    for (var i = 0; i < len; i++) {
+                        arr1[i] = response.data[i].EvaluationTime;
+                        arr2[i] = response.data[i].Description;
+                    }
+                    EvaluationTime = arr1;
+                    Description = arr2;
+                    /*
+                    console.log(response.data.Description);
+                    console.log(response.data[0]);
+                    console.log(response.data[3].Description);
+                    console.log(response.data[2].Description);
+                    console.log(response.data[1].Description);
+                    console.log(response.data[0].Description);
+                    console.log(response.data[3].EvaluationTime);
+                    console.log(response.data[2].EvaluationTime);*/
+                    console.log(EvaluationTime);
+                    console.log(Description);
+                }, function (err) { });
+            },
+        }
+    })
+
+
+
+    function GetCookie() {
+        var arrCookie = "UID=98765";
+        console.log("ok");
+        console.log("arrCookie:" + arrCookie);
+        arrCookie = arrCookie.replace("UID=", "");
+        console.log("ok");
+        console.log("arrCookie:" + arrCookie);
+        return arrCookie;
+    }
+
+    function addToShoppingCart(obj) {
+        var x = GetCookie();
+        console.log(x);
+        $.post({
+            url: "/Commodity/AddToCart",
+            async: false,
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({ ID: $("#ID").val(), Cookie: x }),
+            success: function (data) {
+                console.log("ID:" + data.ID);
+                console.log("Cookie:" + data.Cookie);
+                console.log("已将编号为" + data.ID + "的游戏加入Cookie为" + data.Cookie + "的用户的购物车");
+            }
+        });
+    }
+
+    function addToWishList(obj) {
+        var x = GetCookie();
+        console.log(x);
+        $.post({
+            url: "/Commodity/AddToWishList",
+            async: false,
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({ ID: $("#ID").val(), Cookie: x }),
+            success: function (data) {
+                console.log("ID:" + data.ID);
+                console.log("Cookie:" + data.Cookie);
+                console.log("已将编号为" + data.ID + "的游戏加入Cookie为" + data.Cookie + "的用户的愿望单");
+            }
+        });
+    }
+
+    function addEvaluation(obj) {
+        var x = GetCookie();
+        x = x.replace("UID=", "");
+        var y = $("#ID").val();
+        y = y.replace("商品ID:", "");
+        var z = document.getElementById("content").value;
+        console.log(x);
+        console.log(y);
+        console.log(z);
+        $.post({
+            url: "/Commodity/AddEvaluation",
+            async: false,
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({ CommodityID: y, BuyerID: x, Description: z }),
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+
+
+
+</script>
+
+<!-- lyz:JQueryzoom插件，图片放大显示，jqzoom -->
+<script type=text/javascript>
+
+</script>
+
+<script>
 </script>
