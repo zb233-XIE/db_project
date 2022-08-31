@@ -52,10 +52,13 @@
                 <li @@click="chooseAddress(item,index)" v-for="(item,index) in results" :key="index">
                     <div class="gameitem">
                         <div class="imgbox">
-                            <img :src="item.img" />
+                            <img :src="item.PictureURL" />
                         </div>
-                        <h3 id="gamename">{{item.name}}</h3>
-                        <p id="gameclass">{{item.classification}}</p>
+                        <h3 id="gamename">{{item.Name}}</h3>
+                        <p id="gameclass">{{item.type}}</p>
+                        <div class="gameitem-dropdown">
+                            <p class="description">游戏简介：{{item.Description}}</p>
+                        </div>
                     </div>
                 </li>
             </ul>
