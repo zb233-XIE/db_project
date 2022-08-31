@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<link rel="stylesheet" href="https://www.jq22.com/jquery/font-awesome.4.7.0.css">
+<meta name="viewport" content="width=device-width" />
+<link href="~/css/CreateOrder.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="~/js/ShoppingCart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> test </title>
+</head>
+<body>
+    <br />
+    <div id="app">
+        <ul id="allin">
+            <li v-for="(item,index) in pic" id="element">
+                <div>
+                    <div id="pic">
+                        <div id="preview">
+                            <img :src="pic[index]" height="120" width="200">
+                        </div>
+                    </div>
+                    <div id="CName">
+                        <div id="Name">{{name[index]}}</div>
+                    </div>
+                    <br />
+                    <div id="CPrice">
+
+                        <div id="Price">￥{{price[index]}}</div>
+                    </div>
+                </div>
+                <hr class="line" width="100%" color=#987cb9 SIZE=3>
+            </li>
+        </ul>
+        <div id="OrderInfo">
+            <span class="ordershow">订单编号：{{OrderID}}   </span>
+            <span class="ordershow">下单时间：{{OrderTime}}</span>
+            <span class="ordershow">订单金额：{{OrderPrice}}</span>
+        </div>
+        <div class="operation">
+            <button class="btn" @@click="pay(price,id)"><span>微信支付</span></button>
+            <button class="btn" @@click=""><span>支付宝支付</span></button>
+        </div>
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                id: [],
+                pic: [],
+                name: [],
+                price: [],
+                OrderID: [],
+                OrderTime: [],
+                OrderPrice:[]
+            },
+            mounted: function () {
+                this.initial();
+            },
+            methods: {
+                test: function () { alert("how"); },
+                initial: function () {
+                    console.log("ok");
+                    var that = this;
+                    axios.get("/Purchase/InitialOrderData").then(function (response) {
+                        that.name = response.data.name;
+                        that.id = response.data.id;
+                        that.pic = response.data.pic;
+                        that.price = response.data.price;
+                        that.OrderID = response.data.OrderID;
+                        that.OrderTime = response.data.OrderTime;
+                        that.OrderPrice = response.data.OrderPrice;
+                    }, function (err) { });
+                },
+                
+                pay: function (p1, p2) {
+                    var totalPrice = 0;
+                    var length = p1.length;
+                    for (var i = 0; i < length; i++) {
+                        totalPrice += parseInt(p1[i]);
+                    }
+                    if (totalPrice > 0) {
+                        alert("总金额" + totalPrice + "元");
+                        axios.post("/Purchase/CreateOrder").then(function (response) {
+                            console.log(response);
+                        });
+                    }
+                    else
+                        alert("请选购商品后再结算");
+                },
+                getDetail: function (p1) {
+                    axios.post("Purchase/GetCommodityDetail", { ID: p1 }).then(function (response) {
+                        alert(response.data);
+                    })
+                }//点击游戏名字将id传回后端
+            }
+        })
+    </script>
+</body>
+</html>
