@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ThirdParty.Json.LitJson;
-using TJ_Games.Service;
+using TJ_Games.Services;
 using TJ_Games.Models;
 #nullable disable
 
@@ -65,18 +65,26 @@ namespace TJ_Games.Controllers
             
             var commodity = publisherService.GetCommodityInfo(Publisher_id);
 
-            /* 注意！由于相关V模块的功能还没有实现，所以这里的ViewData采取了引用第一个值的模式，
-             * 但是这不符合逻辑，如果能修改尽量改掉*/
             ViewData["List"] = commodity;
             return View();
         }
 
        [HttpPost]
-        public IActionResult Updatepublish([FromBody] object commodities)//URL：Updatepublish：发布新游戏，传参，将数据以OBJECT的形式传送过来，然后在数据库中实现。
+        public IActionResult Updatepublish([FromQuery] string Publisher_id,[FromBody] object commodities)//URL：Updatepublish：发布新游戏，传参，将数据以OBJECT的形式传送过来，然后在数据库中实现。
         {
+            Random rand = new Random();
+            const int LENGTH = 12;
+            string CommodityID = "";
+            for(int i = 0; i < LENGTH; i++)
+            {
+                CommodityID+=rand.Next(1,9);
+            }
+
             JsonData jsondata = new JsonData();
             string content = commodities.ToString();
             Commodities commodity = JsonConvert.DeserializeObject<Commodities>(content);
+            commodity.PublisherID = Publisher_id;//同步个人信息
+            commodity.CommodityID = CommodityID;
             if (publisherService.PublishGame(commodity.CommodityID, commodity.CommodityName, commodity.PublisherID, commodity.Price, commodity.LowestPrice, commodity.PublishTime, commodity.Description, commodity.PictureURL, commodity.DownLoadURL))
             {
                 jsondata["PublishGame"] = "发布游戏成功！";//对应V模块应该注意打印相应的内容，做出判断
@@ -94,6 +102,7 @@ namespace TJ_Games.Controllers
             JsonData jsondata = new JsonData();
             string content = update.ToString();
             Updatelog updatelog = JsonConvert.DeserializeObject<Updatelog>(content);
+            
             if (publisherService.AddUpdate(updatelog.CommodityID, updatelog.VersionNumber, updatelog.UpdateTime, updatelog.Description))
             {
                 jsondata["UpdateDate"] = "发布更新成功！";
@@ -106,11 +115,12 @@ namespace TJ_Games.Controllers
             }
             return Json(jsondata.ToJson());
         }
-        public IActionResult Updatechange([FromBody] object _publisher)//URL：Updatechange：修改卖家信息，传参，将数据以OBJECT的形式传送过来，然后在数据库中实现。
+        public IActionResult Updatechange([FromQuery] string Publisher_id,[FromBody] object _publisher)//URL：Updatechange：修改卖家信息，传参，将数据以OBJECT的形式传送过来，然后在数据库中实现。
         {
             JsonData jsondata = new JsonData();
             string content = _publisher.ToString();
             Publishers publisher = JsonConvert.DeserializeObject<Publishers>(content);
+            publisher.PublisherID = Publisher_id;//同步个人信息
             if (publisherService.EditPublisher(publisher.PublisherID, publisher.PublisherName, publisher.StartTime, publisher.Description, publisher.HomepageURL))
             {
                 jsondata["UpdateChange"] = "更改个人信息成功！";

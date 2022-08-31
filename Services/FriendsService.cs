@@ -10,7 +10,7 @@ using TJ_Games.DBContext;
 using System.Text;
 using System.Security.Cryptography;
 
-namespace TJ_Games.Service
+namespace TJ_Games.Services
 {
     public class FriendsService
     {

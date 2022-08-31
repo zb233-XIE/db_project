@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ThirdParty.Json.LitJson;
-using TJ_Games.Service;
+using TJ_Games.Services;
 using TJ_Games.Models;
 #nullable disable
 
@@ -121,7 +121,7 @@ namespace WEBTEST.Controllers
             }
             else
             {
-                return Json("删除好友失败");
+                return Json("添加好友失败");
             }
             return Json(jsondata.ToJson());
         }

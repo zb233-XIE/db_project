@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TJ_Games.Models;
+using Newtonsoft.Json;
 using TJ_Games.DBContext;
+using TJ_Games.Models;
 using System.Text;
 using System.Security.Cryptography;
+using System.Collections.Generic;
+using System;
+using System.Linq;
 
-namespace TJ_Games.Service
+namespace TJ_Games.Services
 {
     public class PublishersService
     {
@@ -79,6 +78,8 @@ namespace TJ_Games.Service
 
                 _context.Commodities.Add(commodity);
                 _context.SaveChanges();//保存更新
+
+                AddGenre(c_id);
                 return true;
             }
             return false;//本项目中不考虑存在两份一样的游戏
@@ -130,6 +131,91 @@ namespace TJ_Games.Service
             }
             else
                 return false;//没找到就无法修改
+        }
+
+        /*------------------------------------------------------
+         * 函数名：AddGenre() 功能如其名
+         * ---------------------------------------------------*/
+        public bool AddGenre(string cID)
+        {
+            Commodity_Genre Cgenre = new Commodity_Genre();
+            Cgenre.CommodityID = cID;
+            Cgenre.GenreID = "10000";
+            _context.Commodity_Genre.Add(Cgenre);
+            _context.SaveChanges();//保存更新
+            return true;
+        }
+        public int PublisherLogin(string Publisher_ID, string Publisher_Password)
+        {
+            //如果前端传明文密码,则计算有关HASH256的值
+            SHA256 sha256 = SHA256.Create();
+
+
+            byte[] Check_Password = Encoding.UTF8.GetBytes(Publisher_Password);
+            byte[] Check_Hash = sha256.ComputeHash(Check_Password);
+
+            string check_Hash = BitConverter.ToString(Check_Hash);
+
+
+            //查询有关用户
+            Users users = _context.Users.Where(x => x.UserID == Publisher_ID).FirstOrDefault();
+
+            if (users == null)//说明此用户不存在
+            {
+                return -1;//代表用户不存在
+            }
+            else//说明此时用户存在
+            {
+
+                if (check_Hash == users.Password)//说明密码正确
+                {
+                    return 1;
+                }
+                else//说明密码错误
+                {
+                    return -2;
+                }
+            }
+        }
+
+        public int PublisherSignup(PublisherSignUpModel Publisher)
+        {
+            if (_context.Users.Where(x => x.UserID == Publisher.PublisherID).FirstOrDefault() != null)
+            {
+                return -1;//说明此时数据库当中已经有该用户
+            }
+            else
+            {
+                //如果前端传明文密码,则计算有关HASH256的值
+                SHA256 sha256 = SHA256.Create();
+
+
+                byte[] Check_Password = Encoding.UTF8.GetBytes(Publisher.Password);
+                byte[] Check_Hash = sha256.ComputeHash(Check_Password);
+
+                string Password_Hash = BitConverter.ToString(Check_Hash);
+
+
+
+                //往数据库当中进行添加操作
+                Users users = new Users { UserID = Publisher.PublisherID, UserType = Publisher.UserType, Password = Password_Hash };
+                _context.Entry(users).State = EntityState.Added;
+                _context.Users.Add(users);
+                if (_context.SaveChanges() < 0)//说明保存成功
+                {
+                    return -2;//说明数据库保存失败
+                }
+
+                Publishers new_Publishers = new Publishers { PublisherID = Publisher.PublisherID, PublisherName = Publisher.PublisherName, Description= Publisher.Description,HomepageURL=Publisher.HomepageURL,StartTime= Publisher.StartTime };
+                _context.Entry(new_Publishers).State = EntityState.Added;
+                _context.Publishers.Add(new_Publishers);
+                if (_context.SaveChanges() < 0)//说明保存成功
+                {
+                    return -2;//说明数据库保存失败
+                }
+
+                return 1;
+            }
         }
     }
 }
