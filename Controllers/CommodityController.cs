@@ -35,7 +35,20 @@ namespace TJ_Games.Controllers
                 //找到两个和这个商品有关的评价
                 List<Evaluation> evaluationList;
                  evaluationList = _context.Evaluation.Where(x=>x.CommodityID==CommodityID).ToList();
-                
+
+                List<EvaluationModel> evaluations=new List<EvaluationModel>();
+
+                int length=evaluationList.Count;
+                for(int i=0;i<length;i++)
+                {
+                    EvaluationModel model = new EvaluationModel();
+                    model.EvaluationID = evaluationList[i].BuyerID;
+                    model.Description= evaluationList[i].Description;
+                    evaluations.Add(model);
+                }
+
+
+                string EvaluationList = JsonConvert.SerializeObject(evaluations);
                 //根据商品的有效信息查询对应的PublisherName
                 string target_publisher = commodities.PublisherID;
                 Publishers publishers = _context.Publishers.Where(d => d.PublisherID == target_publisher).FirstOrDefault();
@@ -50,10 +63,13 @@ namespace TJ_Games.Controllers
                 ViewData["PictureURL"] = commodities.PictureURL;
                 ViewData["DownLoadURL"] = commodities.DownLoadURL;
                 ViewData["SalesVolume"] = commodities.SalesVolume;
+
+                /*
                 ViewData["Evaluation1_ID"] = evaluationList[0].BuyerID;
                 ViewData["Evaluation2_ID"] = evaluationList[1].BuyerID;
                 ViewData["Evaluation1_Description"] = evaluationList[0].Description;
                 ViewData["Evaluation2_Description"] = evaluationList[1].Description;
+                */
             }
 
             return View();
@@ -152,5 +168,36 @@ namespace TJ_Games.Controllers
             return Json(jsondata.ToJson());
         }
 
+        public IActionResult DisplayEvaluation([FromQuery] string? CommodityID)
+        {
+            Commodities commodities = _context.Commodities.Where(x => x.CommodityID == CommodityID).FirstOrDefault();//查询给定ID的商品的有效信息
+
+            if (commodities == null)//此时说明此时没有该ID对应的商品
+            {
+                return null;
+            }
+            else
+            {
+                //找到两个和这个商品有关的评价
+                List<Evaluation> evaluationList;
+                evaluationList = _context.Evaluation.Where(x => x.CommodityID == CommodityID).ToList();
+
+                List<EvaluationModel> evaluations = new List<EvaluationModel>();
+
+                int length = evaluationList.Count;
+                for (int i = 0; i < length; i++)
+                {
+                    EvaluationModel model = new EvaluationModel();
+                    model.EvaluationID = evaluationList[i].BuyerID;
+                    model.Description = evaluationList[i].Description;
+                    evaluations.Add(model);
+                }
+
+
+                string EvaluationList = JsonConvert.SerializeObject(evaluations);
+
+                return Content(EvaluationList);
+            }
+        }
     }
 }
