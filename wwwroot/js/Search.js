@@ -12,6 +12,22 @@
     }
 })
 
+function selectGames(id) {
+    console.log(id)
+    $.ajax({
+        url: "/Home/GetCommodityDetail",
+        type: "post",
+        contentType: "application/json",
+        async: false,
+        dataType: "json",
+        data: JSON.stringify({ "ID": id }),
+        success: function (data) { //请求成功完成后要执行的方法
+            console.log(data)
+            //window.location ="/shop/GetCommodityDetail"
+        }
+    })
+}
+
 function submitSearch() {
     if ($("#searchtype").val() == 1) {
         axios.post("/Search/SearchCommodity", { Commodity_Name: $("#Context").val() })
@@ -27,4 +43,9 @@ function submitSearch() {
                 searchshow.results = response.data
             })
     }
+}
+
+function inputChange() {
+    var searchnav = document.getElementById("Context");
+    searchnav.style.border = "none";
 }
