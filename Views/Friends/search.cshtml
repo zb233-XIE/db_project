@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Welcome";
+}
+<!DOCTYPE html>
+<html>
+<head>  
+    <link rel="stylesheet" href="~/css/a.css">
+    <script src="~/js/Friends.js" ></script>
+</head>
+<body>
+   <form>   
+        <h3 style="font-family:KaiTi;color:yellow;font-size:30px;">添加好友</h3>
+        <input type="text" id="ID" name="ID" required />
+        <input type="button" id="ceshi1" value="搜索" onclick="sousuo(this)" />
+   </form>
+   <div id="div1" style="visibility:hidden;">
+            <h2 style="font-family:KaiTi">搜索结果</h2>
+            <div class="test">
+                <div class="item">
+                    <img class="face" id="picture" src=ViewData["face2"]>
+                    <div class="des">
+                        <div class="nickName"><span id=nickname></span></div>
+                        <div class="signature"><span id=signature></span></div>
+                        <div class="delete"> <span><input type="button" onclick="tianjia(this)" value="添加"/></span> </div>
+                        <div class="liao"> <span><input type="button" onclick="liaotian(this)" value="聊天"/></span> </div>
+                    </div>
+                </div>
+            </div>
+   </div>
+    
+</body>
+</html>

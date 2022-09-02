@@ -1,0 +1,274 @@
+﻿<!DOCTYPE html>
+<link rel="stylesheet" href="https://www.jq22.com/jquery/font-awesome.4.7.0.css">
+<meta name="viewport" content="width=device-width" />
+<link href="~/css/CreateOrder.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="~/js/ShoppingCart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- 引入样式 -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> test </title>
+</head>
+<body>
+    <br />
+    <div id="app">
+        <ul id="allin">
+            <li v-for="(item,index) in pic" id="element">
+                <div>
+                    <div id="pic">
+                        <div id="preview">
+                            <img :src="pic[index]" height="120" width="200">
+                        </div>
+                    </div>
+                    <div id="CName">
+                        <div id="Name">{{name[index]}}</div>
+                    </div>
+                    <br />
+                    <div id="CPrice">
+                        <div id="Price">￥{{price[index]}}</div>
+                    </div>
+                </div>
+                <hr class="line" width="100%" color=#987cb9 SIZE=3>
+            </li>
+        </ul>
+        <div id="OrderInfo">
+            <span class="ordershow">订单金额：{{OrderPrice}}元 &emsp;</span>
+        </div>
+        <div class="operation">
+            <button class="btn" @@click="submitBuyerid()"><span>为自己购买</span></button>
+            <button class="btn" @@click="getfriends(); displayWindow()" ><span>为朋友购买</span></button>
+            <div id="friends">
+                <!--悬浮窗口-->
+                <div id="window" class="window_css">
+                    <a href="javascript:void(0)" class="el-icon-close"@@click="hideWindow()"></a>
+                    <div v-for="(item,index) in fid" class="allfriends">
+                        <input type="radio" v-model="first" :value="fid[index]" >
+                        <label :for="fid[index]">{{index+1}} &emsp; {{fid[index]}} &emsp; {{fname[index]}}</label>
+                        <hr style="width:80%;margin-top:1px;margin-bottom:7px;">
+                    </div>
+                    <button class="btn" @@click="submitRecipientid()"><span>提交</span></button>
+                </div>
+                <!--出现悬浮窗口后,背景变暗-->
+                <div id="shadow" class="shadow_css"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+<script>
+
+    function GetCookie() {
+        var getCookie = document.cookie.replace(/[ ]/g, "");  //获取cookie，并且将获得的cookie格式化，去掉空格字符
+        var arrCookie = getCookie.split(";")  //将获得的cookie以"分号"为标识 将cookie保存到arrCookie的数组中
+        var UID = arrCookie.toString();
+        UID = UID.replace("UID=", "");
+        console.log("ok");
+        console.log(UID);
+        return UID;
+    }
+
+    var app = new Vue({
+        el: "#app",
+        data: {
+            fid: [],
+            fname: [],
+            id: [],
+            pic: [],
+            name: [],
+            price: [],
+            OrderPrice: [],
+            first: ''
+        },
+        mounted: function () {
+            this.initial();
+        },
+        methods: {
+            showchosenfriend: function () {
+                console.log(this.first);
+            },
+            test: function () { alert("how"); },
+
+            /* initial: function () {
+                 console.log("ok");
+                 var that = this;
+                 axios.get("/Purchase/InitialOrderData").then(function (response) {
+                     that.name = response.data.name;
+                     that.id = response.data.id;
+                     that.pic = response.data.pic;
+                     that.price = response.data.price;
+                     that.OrderID = response.data.OrderID;
+                     that.OrderTime = response.data.OrderTime;
+                     that.OrderPrice = response.data.OrderPrice;
+                 }, function (err) { });
+             },*/
+
+
+            displayWindow: function () {
+                console.log("diaplay:ok");
+                document.getElementById("window").style.display = "block";
+                document.getElementById("shadow").style.display = "block";
+            },
+
+            hideWindow: function () {
+                document.getElementById("window").style.display = "none";
+                document.getElementById("shadow").style.display = "none";
+            },
+
+            getfriends: function () {
+                console.log("this is getfriends");
+                var that = this;
+                axios.get("/Friends/GetFriends").then(function (response) {
+                    console.log("this is Get:GetFriends ");
+                    arr = response.data;
+                    console.log(response.data);
+                    let len = arr.length;
+                    console.log("length:" + len);
+                    var arr1 = new Array(len);
+                    var arr2 = new Array(len);
+                    for (var i = 0; i < len; i++) {
+                        arr1[i] = response.data[i].ID;
+                        arr2[i] = response.data[i].Name;
+                    }
+                    that.fid = arr1;
+                    that.fname = arr2;
+                    console.log(that.fid);
+                    console.log(that.fname);
+                })
+            },
+
+        deletebought: function () {
+                console.log("删除购买了的商品");
+                let res = [];
+                var len = this.id.length;
+                for (var i = len - 1; i >= 0; i--) {
+                    let vote = {};
+                    console.log(this.name[i]);
+                    console.log(this.id[i]);
+                    console.log(this.price[i]);
+                    console.log(this.time[i]);
+                    console.log(this.pic[i]);
+                    vote.CommodityID = this.id[i];
+                    vote.CommodityName = this.name[i];
+                    vote.Price = this.price[i];
+                    vote.PictureURL = this.pic[i];
+                    vote.JoinTime = this.time[i];
+                    console.log(vote);
+                    res.push(vote);
+                }
+                axios.post("Purchase/TidyCart", { items: res }).then(function (response) {
+                    console.log(response.data);
+                })
+            },
+
+            submitBuyerid: function () {
+                //提交购买者id
+                var UID = GetCookie();
+                this.deletebought();
+                axios.post("/Purchase/SetReceiver", { ID: UID }).then(function (response) {
+                    console.log(response.data);
+                    $.ajax({
+        url: "/GameLibrary/ModifyGameLibrary", 
+        type: "post",
+        contentType: "application/json",
+        async: false,
+        dataType: "json",
+        success: function (data) { //请求成功完成后要执行的方法
+            console.log(data);
+        }
+                    })
+                    alert("购买成功");
+                })
+
+            },
+
+            submitRecipientid: function () {
+                //提交受赠者id
+                console.log(this.first);
+                this.deletebought();
+                axios.post("/Purchase/SetReceiver", { ID: this.first }).then(function (response) { 
+                    console.log(response.data); 
+                    $.ajax({
+        url: "/GameLibrary/ModifyGameLibrary", 
+        type: "post",
+        contentType: "application/json",
+        async: false,
+        dataType: "json",
+        success: function (data) { //请求成功完成后要执行的方法
+            console.log(data);
+               alert("购买成功");
+        }
+                    })
+                })
+            },
+            savea: function() {
+                 $.ajax({
+        url: "/GameLibrary/ModifyGameLibrary", 
+        type: "post",
+        contentType: "application/json",
+        async: false,
+        dataType: "json",
+        success: function (data) { //请求成功完成后要执行的方法
+            console.log(data);
+        }
+    })
+            },
+
+            initial: function () {
+                console.log("ok");
+                var arr;
+                var that = this;
+                axios.get("/Purchase/GetOrder").then(function (response) {
+                    arr = response.data.items;
+                    let len = arr.length;
+                    console.log("length:" + len);
+                    var arr1 = new Array(len);
+                    var arr2 = new Array(len);
+                    var arr3 = new Array(len);
+                    var arr4 = new Array(len);
+                    var arr5 = new Array(len);
+                    for (var i = 0; i < len; i++) {
+                        arr1[i] = response.data.items[i].CommodityID;
+                        arr2[i] = response.data.items[i].CommodityName;
+                        arr3[i] = response.data.items[i].Price;
+                        arr4[i] = response.data.items[i].PictureURL;
+                        arr5[i] = response.data.items[i].JoinTime;
+                    }
+                    that.id = arr1;
+                    that.name = arr2;
+                    that.price = arr3;
+                    that.pic = arr4;
+                    that.time = arr5;
+                    console.log(that.id);
+                    console.log(that.name);
+                    console.log(that.price);
+                    console.log(that.pic);
+                    console.log(that.time);
+                    console.log(response.data.tot_money);
+                    that.OrderPrice = response.data.tot_money;
+                }, function (err) { });
+            },
+        }
+    })
+/*
+        getDetail: function (p1) {
+            axios.post("Purchase/GetCommodityDetail", { ID: p1 }).then(function (response) {
+                alert(response.data);
+            })
+        },
+        
+        SubmitOrder: function (p1) {
+            axios.post("Purchase/SubmitOrder", { PaymentMethods: p1 }).then(function (response) {
+                alert(response.data);
+            })
+        }*/
+</script>

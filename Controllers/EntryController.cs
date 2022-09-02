@@ -51,7 +51,7 @@ namespace TJ_Games.Controllers
             {
                 //删除cookie
                 HttpContext.Response.Cookies.Delete("UID");
-                return Redirect("/Home/Index");
+                return Redirect("/Entry/Login");
             }
             else
             {

@@ -1,0 +1,105 @@
+﻿@{
+	ViewData["Title"] = "更改密码";
+}
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+		<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+		  <link rel="stylesheet" href="~/css/background.css">
+</head>
+
+<h3 class="page-header">更改密码</h3>
+
+<p></p>
+<h4>请输入新的个人信息</h4>
+<div class="col-sm-4 col-form-label">
+	<label for="email" class="form-label">手机号</label>
+	<input type="text" class="form-control" id="phone" placeholder="输入手机号">
+</div>
+
+<div class="col-sm-4 col-form-label">
+	<label for="pw3" class="form-label">旧密码</label>
+	<input type="password" class="form-control" id="pw3" placeholder="输入旧密码">
+</div>
+
+<div class="col-sm-4 col-form-label">
+	<label for="pw1" class="form-label">新密码</label>
+	<input type="password" class="form-control" id="pw1" onkeyup="check()" onchange="checkValid()" placeholder="输入新密码">
+	<div class="invalid-feedback">
+		密码无效！
+	</div>
+	<div class="form-text">
+		密码长度在6~20之间
+	</div>
+</div>
+
+
+<div class="col-sm-4 col-form-label">
+	<input type="password" class="form-control" id="pw2" onkeyup="check()" onchange="checkSame()" placeholder="确认密码">
+	<div class="invalid-feedback">
+		密码无效！
+	</div>
+</div>
+
+<div class="form-group">
+	<button type="submit" value="Create" id="reg" onclick="submit()" class="btn btn-outline-primary" disabled>提交</button>
+</div>
+
+<script type="text/javascript">
+function checkValid() {
+			passWordForm = $("#pw1").val();
+			if (passWordForm.length < 6 || passWordForm.length > 20) {
+					$("#pw1").removeClass("form-control is-valid");
+					$("#pw1").addClass("form-control is-invalid");
+					return false;
+			}
+			else {
+					$("#pw1").removeClass("form-control is-invalid");
+					$("#pw1").addClass("form-control is-valid");
+					return true;
+			}
+	}
+
+	function checkSame() {
+			if ($("#pw1").val() != $("#pw2").val()) {
+					$("#pw2").removeClass("form-control is-valid");
+					$("#pw2").addClass("form-control is-invalid");
+					return false;
+			}
+			else {
+					$("#pw2").removeClass("form-control is-invalid");
+					$("#pw2").addClass("form-control is-valid");
+					return true;
+			}
+	}
+
+	function check() {
+			if (checkValid() && checkSame()) {
+					$("#reg").attr("disabled", false);
+			}
+			else {
+					$("#reg").attr("disabled", true);
+			}
+	}
+
+	function submit() {
+		$.ajax({
+			type: "post",
+			url: "/Account/UpdatePasswdByID",
+			async: false,
+			contentType: "application/json",
+			dataType: "json",
+			data: JSON.stringify({ BuyerID: $("#phone").val(), OldPasswd: $("#pw3").val(), NewPasswd: $("#pw2").val() }),
+			success: function(data) {
+				var jsonData = eval("(" + data + ")");
+				alert(jsonData.reason)
+				if (jsonData.status) {
+					window.location.href = "/Entry/Login";
+				}
+			}
+		});
+	}
+
+</script>
+
+</html>

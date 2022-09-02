@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "Welcome";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>卖家后台</title>
+    <meta charset="UTF-8">
+    <style type="text/css">
+    </style>
+    <link rel="stylesheet" href="~/css/Sellerbackgroundindex.css">
+    <script src="~/js/Sellerbackground.js"></script>
+</head>
+<body>
+    <div id="menu">
+        <div class="logo">
+            <p style="font-size: 20px;">个人中心</p>
+        </div>
+        <ul>
+            <li><a href="/Home/Index">首页</a></li>
+            <li><a href="javascript:void(0)" onclick="Touser()">查看个人信息</a></li>
+            <li>
+                <a href="#">修改个人信息</a>
+                <ul>
+                    <li><a href="javascript:void(0)" onclick="Topassword()">修改密码</a></li>
+                    <li><a href="javascript:void(0)" onclick="Toemail()">修改邮箱</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:void(0)" onclick="Toshoppingcart()">查看购物车</a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" onclick="Togames()">查看我的游戏</a>
+            </li>
+            <li>
+                <a href="Home/Index">返回</a>
+                <ul>
+                </ul>
+            </li>
+        </ul>
+        <img alt="w3cschool logo" width=100% src="https://img0.baidu.com/it/u=3279145449,2558194183&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500" style="display: inline-block;" />
+    </div>
+</body>
+<script type="text/javascript">
+function GetCookie()
+    {
+    var key = "";
+    var getCookie = document.cookie.replace(/[ ]/g, "");  //获取cookie，并且将获得的cookie格式化，去掉空格字符
+    var arrCookie = getCookie.split(";")  //将获得的cookie以"分号"为标识 将cookie保存到arrCookie的数组中
+    var tips;  //声明变量tips
+    var UID=arrCookie.toString();
+    console.log("ok");
+    console.log(UID);
+    return UID;
+    }
+
+function Topassword()
+{
+    var x = GetCookie();
+    x=x.replace("UID=","");
+    window.location.href = "/Account/ModifyPSD" + "?Publisher_id=" + x;
+}
+function Toemail()
+{
+    var x = GetCookie();
+    x=x.replace("UID=","");
+    window.location.href = "/Account/ModifyEmail" + "?Publisher_id=" + x;
+}
+function Touser()
+{
+    var x = GetCookie();
+    x=x.replace("UID=","");
+    window.location.href = "/Account/UserProfile" + "?Buyer_id=" + x;
+}
+function Toshoppingcart()
+{
+    var x = GetCookie();
+    x=x.replace("UID=",""); //???
+    window.location.href = "/ShoppingCart/Index";
+}
+function Togames()
+{
+    var x = GetCookie();
+    x=x.replace("UID=",""); //???
+    window.location.href = "/GameLibrary/HaveGame" + "?Buyer_id=" + x;
+}
+function Toold()
+{
+    var x = GetCookie();
+    x=x.replace("UID=",""); //???
+    window.location.href = "/SellerBackground/old" + "?Publisher_id=" + x;
+}
+    </script>
+</html>
+

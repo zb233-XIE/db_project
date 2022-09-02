@@ -33,4 +33,16 @@ namespace TJ_Games.Models
         public string Login_ID { get; set; }
         public string Login_Password { get; set; }
     }
+
+    public  class EvaluationModel
+    {
+        public string EvaluationID { get; set; }
+        public  string Description { get; set; }
+    }
+    public  class FriendModel
+    {
+        public string ID { get; set; }   
+        public string Name { get; set; } 
+    }
 }
+

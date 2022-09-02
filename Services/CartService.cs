@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TJ_Games.DBContext;
 using TJ_Games.Models;
+using TJ_Games.Models.BusinessEntity;
 using ThirdParty.Json.LitJson;
 namespace TJ_Games.Services
 {
@@ -141,6 +142,54 @@ namespace TJ_Games.Services
                     return false;
                 }
             }
+        }
+        public List<CartView> GetCartProduct(string buyerid)
+        {
+            List<CartView> shopCarts = new List<CartView>();
+
+            List<ShoppingCart> carts = _context.ShoppingCart.Where(x => x.ID == buyerid).ToList();
+
+            foreach (var v in carts)
+            {
+                Commodities commodity = _context.Commodities.Where(x => x.CommodityID == v.CommodityID).FirstOrDefault();
+
+                CartView cartview = new CartView()
+                {
+                    CommodityID = commodity.CommodityID,
+                    CommodityName = commodity.CommodityName,
+                    Price = commodity.Price,
+                    PictureURL = commodity.PictureURL,
+                    JoinTime = v.JoinTime
+                };
+
+                shopCarts.Add(cartview);
+            }
+
+            return shopCarts;
+        }
+        public bool RemoveFromCart(string buyerid, string commodityid)
+        {
+            ShoppingCart cart = _context.ShoppingCart.Where(x => x.ID == buyerid && x.CommodityID == commodityid).FirstOrDefault();
+            if (cart != null)
+            {
+                _context.ShoppingCart.Remove(cart);
+                if (_context.SaveChanges() > 0)
+                    return true;
+                else
+                    return false;
+            }
+            return false;
+            //正常情况下应该在if中返回
+        }
+
+        public bool RemoveAll(string buyerid)
+        {
+            List<ShoppingCart> carts = _context.ShoppingCart.Where(x => x.ID == buyerid).ToList();
+            _context.ShoppingCart.RemoveRange(carts);
+            if (_context.SaveChanges() > 0)
+                return true;
+            else
+                return false;
         }
     }
 }

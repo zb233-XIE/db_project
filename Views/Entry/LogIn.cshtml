@@ -1,0 +1,117 @@
+﻿@{
+	ViewData["Title"] = "登录";
+}
+
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+	<script src="~/js/jquery-3.6.0.min.js"></script>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+	  
+</head>
+<body background="https://img1.imgtp.com/2022/09/02/ZCbCY1SP.jpg">
+<div class="abc">
+<div class="col-sm-4 col-form-label">
+	<label for="email" class="form-label">手机号</label>
+	<input type="text" class="form-control" id="phone" placeholder="输入手机号">
+</div>
+
+
+<div class="col-sm-4 col-form-label">
+	<label for="pw1" class="form-label">密码</label>
+	<input type="password" class="form-control" id="pw1" onkeyup="check()" onchange="checkValid()" placeholder="输入密码">
+	<div class="invalid-feedback">
+		密码无效！
+	</div>
+	<div class="form-text">
+		密码长度在6~20之间
+	</div>
+</div>
+
+<div class="col-sm-4 form-check">
+	<input class="form-check-input" type="radio" name="select" id="buyer" value="buyer" checked>
+	<label class="form-check-label" for="buyer">
+		我是买家
+	</label>
+</div>
+<div class="col-sm-4 form-check">
+	<input class="form-check-input" type="radio" name="select" id="seller" value="seller">
+	<label class="form-check-label" for="seller">
+		我是卖家
+	</label>
+</div>
+<div class="col-sm-4 form-check">
+	<input class="form-check-input" type="radio" name="select" id="admin" value="admin">
+	<label class="form-check-label" for="admin">
+		我是管理员
+	</label>
+</div>
+
+
+<div class="form-group">
+	<button type="submit" value="Create" id="login" onclick="login()" class="btn btn-outline-primary">提交</button>
+</div>
+
+<div class="form-group">
+	<a type="button" class="btn btn-info btn-sm" href="/Entry/Register"><span class="glyphicon glyphicon-pencil"></span> 注册新用户？</a>
+</div>
+</div>
+</body>
+<script type="text/javascript">
+	function login() {
+			if ($("input[name='select']:checked").val() == "buyer") {
+					$.ajax({
+							type: "post",
+							url: "/Entry/BuyerLogInForm",
+							async: false,
+							contentType: "application/json",
+							dataType: "json",
+							data: JSON.stringify({ Login_ID: $("#phone").val(), Login_Password: $("#pw1").val() }),
+							success: function(data) {
+									var jsonData = eval("(" + data + ")");
+									alert(jsonData.REASON);
+									if (jsonData.STATUS) {
+											window.location.href = "/Home/Index";
+									}
+							}
+					});
+			}
+			else if ($("input[name='select']:checked").val() == "seller") {
+					$.ajax({
+							type: "post",
+							url: "/Entry/PublisherLogInForm",
+							async: false,
+							contentType: "application/json",
+							dataType: "json",
+							data: JSON.stringify({ Login_ID: $("#phone").val(), Login_Password: $("#pw1").val() }),
+							success: function(data) {
+									var jsonData = eval("(" + data + ")");
+									alert(jsonData.REASON);
+									if (jsonData.STATUS) {
+											window.location.href = "/SellerBackground/Index";
+									}
+							}
+					});
+			}
+			else {
+					$.ajax({
+							type: "post",
+							url: "/Entry/AdministratorLogInForm",
+							async: false,
+							contentType: "application/json",
+							dataType: "json",
+							data: JSON.stringify({ Login_ID: $("#phone").val(), Login_Password: $("#pw1").val() }),
+							success: function(data) {
+									var jsonData = eval("(" + data + ")");
+									alert(jsonData.REASON);
+									if (jsonData.STATUS) {
+											window.location.href = "/Adminaction/Delete";
+									}
+							}
+					});
+			}
+	}
+
+
+</script>
+</html>

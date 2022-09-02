@@ -167,6 +167,14 @@ namespace TJ_Games.Services
                 return 1;
             }
         }
-      
+        public Buyers GetBuyerInfo(string u_id)
+        {
+            Buyers bbuyer;
+            bbuyer = _context.Buyers
+                    .Where(c => c.BuyerID == u_id).FirstOrDefault();
+            return bbuyer;
+        }
+
+
     }
 }

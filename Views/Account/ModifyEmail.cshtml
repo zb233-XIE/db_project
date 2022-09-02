@@ -1,0 +1,56 @@
+﻿@{
+	ViewData["Title"] = "更改邮箱";
+}
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+		<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+		  <link rel="stylesheet" href="~/css/background.css">
+</head>
+
+<h3 class="page-header">更改邮箱</h3>
+
+<p></p>
+<h4>请输入新的个人信息</h4>
+<div class="col-sm-4 col-form-label">
+	<label for="email" class="form-label">手机号</label>
+	<input type="text" class="form-control" id="phone" placeholder="输入手机号">
+</div>
+
+<div class="col-sm-4 col-form-label">
+	<label for="oldemail" class="form-label">旧邮箱</label>
+	<input type="text" class="form-control" id="oldemail" placeholder="输入旧邮箱">
+</div>
+
+<div class="col-sm-4 col-form-label">
+	<label for="newemail" class="form-label">新邮箱</label>
+	<input type="text" class="form-control" id="newemail" placeholder="输入新邮箱">
+</div>
+
+<div class="form-group">
+	<button type="submit" value="Create" id="reg" onclick="submit()" class="btn btn-outline-primary">提交</button>
+</div>
+
+<script type="text/javascript">
+
+	function submit() {
+		$.ajax({
+			type: "post",
+			url: "/Account/UpdateMailByID",
+			async: false,
+			contentType: "application/json",
+			dataType: "json",
+			data: JSON.stringify({ BuyerID: $("#phone").val(), OldMail: $("#oldemail").val(), NewMail: $("#newemail").val() }),
+			success: function(data) {
+				var jsonData = eval("(" + data + ")");
+				alert(jsonData.reason)
+				if (jsonData.status) {
+					window.location.href = "/Home/Index";
+				}
+			}
+		});
+	}
+
+</script>
+
+</html>

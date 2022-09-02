@@ -35,19 +35,7 @@ namespace TJ_Games.Services
                     .Where(c => c.PublisherID == u_id).FirstOrDefault();
             return publisher;
         }
-        /*------------------------------------------------------
-         * 函数名：EditPublisher()
-         * 根据输入的发行商信息，对在Publisher表做修改处理
-         * 并传回Publisher对象
-         * ---------------------------------------------------*/
-        public Publishers EditPublisher(Publishers before,Publishers now)
-        {
-            string ID = before.PublisherID;
 
-            var publisher = Edit(ID, now);
-
-            return publisher;
-        }
         /*------------------------------------------------------
          * 函数名：GetCommodityInfo()
          * 在Commodity表中查到某一位发行商旗下游戏商品的信息
@@ -62,57 +50,15 @@ namespace TJ_Games.Services
 
             return gameList;
         }
-        /*------------------------------------------------------
-         * 函数名：Edit()
-         * 工具函数，此处用两个重载函数实现
-         * 编辑Publish表内容
-         * ---------------------------------------------------*/
-        public Publishers Edit(string p_id)
-        {
-            if (p_id == null)
-            {
-                return null;
-            }
 
-            var publisher = _context.Publishers.Find(p_id);
-            if (publisher == null)
-            {
-                return null;
-            }
-            return publisher;
-        }
-        public Publishers Edit(string p_id, [Bind("PublisherID,PublisherName,StartTime,Description,HomepageURL")] Publishers publisher)
-        {
-            if (p_id != publisher.PublisherID)
-            {
-                return null;
-            }
-            //try_catch过程
-            try
-            {
-                _context.Update(publisher);
-                _context.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.Publishers.Any(e => e.PublisherID == publisher.PublisherID))
-                {
-                    return null;
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return publisher;
-        }
-        
+
+
         /*------------------------------------------------------
          * 函数名：PublishGame()
          * 发布游戏，在Commodities表中做添加处理
          * 返回值为true或者false，表示添加游戏成功或失败
          * ---------------------------------------------------*/
-        public bool PublishGame(string c_id,string c_name,string p_id,double price,double l_price,DateTime p_time,string classification,string description,string p_URL,string D_URL)
+        public bool PublishGame(string c_id, string c_name, string p_id, double price, double l_price, DateTime p_time, string description, string p_URL, string D_URL)
         {
             Commodities commodity = new Commodities();
             Commodities result = _context.Commodities
@@ -132,6 +78,8 @@ namespace TJ_Games.Services
 
                 _context.Commodities.Add(commodity);
                 _context.SaveChanges();//保存更新
+
+                AddGenre(c_id);
                 return true;
             }
             return false;//本项目中不考虑存在两份一样的游戏
@@ -141,7 +89,7 @@ namespace TJ_Games.Services
          * 添加游戏日志，在Updatelog表中做添加处理
          * 返回值为true或者false，表示添加更新日志成功或失败
          * ---------------------------------------------------*/
-        public bool AddUpdate(string c_id, string v_number,DateTime u_time, string u_content)
+        public bool AddUpdate(string c_id, string v_number, DateTime u_time, string u_content)
         {
             Updatelog updatelog = new Updatelog();
             Updatelog result = _context.Updatelog
@@ -159,8 +107,44 @@ namespace TJ_Games.Services
             }
             return false;//本项目中不考虑存在两份一样的游戏更新
         }
+        /*------------------------------------------------------
+        * 函数名：EditPublisher()
+        * 根据输入的发行商信息，对在Publisher表做修改处理
+        * 并传回Publisher对象
+        * ---------------------------------------------------*/
+        public bool EditPublisher(string p_id, string p_name, DateTime? s_time, string dsc, string hmpurl)
+        {
+            Publishers publishers = new Publishers();
+            Publishers result = _context.Publishers.Where(c => c.PublisherID == p_id).FirstOrDefault();
+            if (result != null)
+            {
+                _context.Publishers.Remove(result);//首先删除
 
+                publishers.PublisherID = p_id;//再重新添加
+                publishers.PublisherName = p_name;
+                publishers.StartTime = s_time;
+                publishers.Description = dsc;
+                publishers.HomepageURL = hmpurl;
+                _context.Publishers.Add(publishers);
+                _context.SaveChanges();//保存更新
+                return true;
+            }
+            else
+                return false;//没找到就无法修改
+        }
 
+        /*------------------------------------------------------
+         * 函数名：AddGenre() 功能如其名
+         * ---------------------------------------------------*/
+        public bool AddGenre(string cID)
+        {
+            Commodity_Genre Cgenre = new Commodity_Genre();
+            Cgenre.CommodityID = cID;
+            Cgenre.GenreID = "10000";
+            _context.Commodity_Genre.Add(Cgenre);
+            _context.SaveChanges();//保存更新
+            return true;
+        }
         public int PublisherLogin(string Publisher_ID, string Publisher_Password)
         {
             //如果前端传明文密码,则计算有关HASH256的值

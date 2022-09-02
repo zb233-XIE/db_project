@@ -1,0 +1,225 @@
+﻿@{
+    ViewData["Title"] = "talk";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="~/js/a.js" ></script>
+    <title>Document</title>
+    <style type="text/css">
+        body {
+    height: 100%;
+    width: 100%;
+    font-size: 14px;
+    background: rgb(78,135,255);
+    background: linear-gradient(0deg,rgba(78,135,255,1)0%,rgba(216,187,238,1)100%);
+     }
+        .talk_con{
+            width:1200px;
+            height:700px;
+            border:1px solid #666;
+             
+            background: rgb(78,135,255);
+            background: linear-gradient(0deg,rgba(78,135,255,1)0%,rgba(216,187,238,1)100%);
+        }
+        .talk_show{
+             width:96%;
+            height:91%;
+            border:1px solid #666;
+             background: rgb(78,135,255);
+           background: linear-gradient(0deg,rgba(78,135,255,1)0%,rgba(216,187,238,1)100%);
+            margin:10px auto 0;
+            overflow:auto;
+        }
+        .talk_input{
+            width:580px;
+        margin-left: 54%;
+        margin-top: 0.5%;
+         
+        }
+        .talk_word{
+            width:420px;
+            height:35px;
+            padding:0px;
+            float:left;
+            margin-left:10px;
+            outline:none;
+            text-indent:10px;
+        border-radius:100px;
+        }        
+        .talk_sub{
+            width:56px;
+            height:35px;
+            float:left;
+            margin-left:10px;
+        border-radius:100px;
+        }
+       .talk_sub:hover{
+        background-color: #6190E8;
+        color: white;
+        }
+        .atalk{
+           margin:10px; 
+        }
+        .atalk span{
+            display:inline-block;
+            background:#0181cc;
+            border-radius:100px;
+            color:#fff;
+            padding:20px 40px;
+        
+        }
+        .btalk{
+            margin:10px;
+            text-align:right;
+        }
+        .btalk span{
+            display:inline-block;
+            background:#ef8201;
+            border-radius:100px;
+            color:#fff;
+            padding:20px 40px;
+        }
+    </style>
+    <script type="text/javascript">      
+    // 
+         function GetCookie()
+    {
+    var key = "";
+    var getCookie = document.cookie.replace(/[ ]/g, "");  //获取cookie，并且将获得的cookie格式化，去掉空格字符
+    var arrCookie = getCookie.split(";")  //将获得的cookie以"分号"为标识 将cookie保存到arrCookie的数组中
+    var tips;  //声明变量tips
+    var UID=arrCookie.toString();
+    console.log("ok");
+    console.log(UID);
+    return UID;
+    }
+     
+        window.onload = function(){
+        setTimeout(function(){location.reload()},10000); //指定1秒刷新一次
+            
+           
+            var url = document.location.toString();//获取当前URL
+                var arrUrl = url.split("?");//分割？
+                var para = arrUrl[1];//获取参数部分
+                var arr = para.split("=");//分割=
+                var res = arr[1];//获取参数的值
+          
+            
+            var Words = document.getElementById("words");
+            var TalkWords = document.getElementById("talkwords");
+            var TalkSub = document.getElementById("talksub");
+            var a;
+            var x = GetCookie();
+            x=x.replace("UID=","");
+
+            /*$.ajax({
+                 url:    "/Dialog/GetChatHistory",
+                 type:    "Post",
+                 dataType:    "json",
+                 success:    function(data)
+                         {
+                              
+                             a=data.nickName;
+                              for(var i=0;data.nickName[i]!=null;i++)
+                              {
+                                  //  alert(data.nickName[i]);
+                                  str = '<div class="btalk"><span style="font-family:KaiTi;font-size:20px;">' + data.nickName[i] +'</span></div>' ;  
+                                  Words.innerHTML = Words.innerHTML + str;
+                                  
+                              }
+                         }
+                  });*/
+                  
+                  
+                  $.ajax({
+                 url:"/talk/GetChatHistory",
+                 type:"post",
+                 dataType:"json",
+                 contentType:"application/json",
+                 data: JSON.stringify({ FriendID:res,UserID:x }),
+                 success:function(data)
+                         {
+                          
+                             a=data.SenderID;
+                              for(var i=0;data.SenderID[i]!=null;i++)
+                              {
+                                
+                                if(data.SenderID[i]==x)
+                                  {str = '<div class="btalk"><span style="font-family:KaiTi;font-size:20px;">' + data.text[i] +'</span></div>' ;  
+                                  Words.innerHTML = Words.innerHTML + str;}
+                                if(data.SenderID[i]==res)
+                                  {
+                                     str = '<div class="atalk"><span style="font-family:KaiTi;font-size:20px;">' + data.text[i] +'</span></div>' ;  
+                                     Words.innerHTML = Words.innerHTML + str;
+                                  }
+                        
+                                  
+                              }
+                         }
+                  });
+                /*setTimeout(function(){  $.ajax({
+                 url:"/talk/GetChatHistory",
+                 type:"post",
+                 dataType:"json",
+                 contentType:"application/json",
+                 data: JSON.stringify({ FriendID:"0000002",UserID:"0000001" }),
+                 success:function(data)
+                         {
+                              
+                             alert(data);
+                              for(var i=0;data.SenderID[i]!=null;i++)
+                              {
+                                  if(a[i]!=data.SenderID[i])
+                                { 
+                                  str = '<div class="btalk"><span style="font-family:KaiTi;font-size:20px;">' +data.text[i] +'</span></div>' ;  
+                                  Words.innerHTML = Words.innerHTML + str;}
+                                  
+                             
+                              
+                             }
+                             a=data.SenderID;
+                         }
+                  });},5000); //指定5秒刷新一次*/
+            TalkSub.onclick = function(){
+            $.ajax({
+                  type: "post",
+                  url: "/talk/SaveChat",
+                  contentType: "application/json",
+                  dataType: "json",
+                  data: JSON.stringify({FriendID:res,UserID: x,Content: TalkWords.value }),
+                  success: function (data) {
+                        
+                         }
+                  });
+	            //定义空字符串
+                var str = "";
+                if(TalkWords.value == ""){
+	                 // 消息为空时弹窗
+                    alert("消息不能为空");
+                    return;
+                }
+                str = '<div class="btalk"><span style="font-family:KaiTi;font-size:20px;">' + TalkWords.value +'</span></div>' ;  
+                Words.innerHTML = Words.innerHTML + str;
+            }
+            
+        }
+    </script>
+</head>
+<body>
+    <div class="talk_con">
+        <div class="talk_show" id="words">
+            <div class="atalk"><span id="asay" style="font-family:KaiTi;font-size:20px;">吃饭了吗？</span></div>
+            <div class="btalk"><span id="bsay" style="font-family:KaiTi;font-size:20px;">还没呢，你呢？</span></div>
+        </div>
+        <div class="talk_input">
+            <input type="text" class="talk_word" id="talkwords">
+            <input type="button" value="发送" class="talk_sub" id="talksub">
+        </div>
+    </div>
+</body>
+</html>
+

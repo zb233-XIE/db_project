@@ -1,0 +1,313 @@
+﻿#Commodity {
+    /*color: #ad93fc;*/
+    /* background-image: linear-gradient(-90deg, #8660ba 0%, #628eae 100%);*/
+
+    background: rgb(78,135,255);
+    background: linear-gradient(0deg,rgba(90,140,255,1)0%,rgba(230,200,238,1)100%);
+    padding: 30px;
+    border-radius: 10px;
+    width: 1120px;
+    height: auto;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.btn {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    margin-top: 12px;
+}
+
+.allcomment {
+    margin-left:250px;
+    background: rgb(78,135,255);
+    background: linear-gradient(0deg,rgba(90,140,255,1)0%,rgba(230,200,238,1)100%);
+    border: 2px solid #cbd7db;
+    border-radius:4px;
+    width: 55%;
+}
+
+ul{list-style:none;
+   width:30%;
+}
+
+li{text-align:center;}
+
+.Des {
+    margin-right:60px;
+    background-color:transparent;
+}
+
+.ETime {
+    float: left;
+    margin-right: 30px;
+    margin-top: 20px;
+    text-align: left;
+}
+
+    .btn a {
+        border-radius:10px;
+        width:30%;
+        display: block;
+        padding-left: 40px;
+        padding-right: 40px;
+        line-height: 30px;
+        background: #6d30df;
+        font-size: 16px;
+        float: left;
+        color: #FFF;
+    }
+
+        .btn a:hover {
+            background: #c7292b;
+        }
+
+
+#ID{
+    display:none;
+}
+
+#preview {
+    float: left;
+    text-align: center;
+    width: 490px;
+    margin-top: 60px;
+    border: 5px solid #d2d2e6;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+#detailInfo {
+    width: 490px;
+    height: auto;
+    overflow: hidden;
+    float: right;
+}
+
+body {
+    background: rgb(78,135,255);
+    background: linear-gradient(0deg,rgba(78,135,255,1)0%,rgba(216,187,238,1)100%);
+}
+
+#Name {
+    text-align:center;
+    width: 100%;
+    height: auto;
+    font-size: 32px;
+    color: #aabfb9;
+    display: block;
+    line-height: 28px;
+}
+
+#allin{
+    width: 490px;
+    height: auto;
+    overflow: hidden;
+    float: left;
+}
+
+.Price {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    line-height: 40px;
+    font-size: 12px;
+    color: #F00;
+}
+
+    .Price span {
+        display: block;
+        padding-right: 10px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 20px;
+        color: #cbd7db;
+        float: left;
+    }
+
+    .Price i {
+        display: block;
+        float: left;
+        height: 30px;
+        line-height: 30px;
+        font-style: normal;
+        color: #F00;
+        font-size: 24px;
+    }
+
+.LowestPrice {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    line-height: 40px;
+    font-size: 12px;
+    color: #F00;
+}
+
+
+    .LowestPrice span {
+        display: block;
+        padding-right: 10px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 20px;
+        color: #cbd7db;
+        float: left;
+    }
+
+    .LowestPrice i {
+        display: block;
+        float: left;
+        height: 30px;
+        line-height: 30px;
+        font-style: normal;
+        color: #F00;
+        font-size: 24px;
+    }
+
+#add1{}
+
+#add2{}
+
+#gc{}
+
+#spec-n5 {
+    width: 350px;
+    height: 56px;
+    padding-top: 6px;
+    overflow: hidden;
+}
+
+#spec-left {
+    background: url(../images/left.gif) no-repeat;
+    width: 10px;
+    height: 45px;
+    float: left;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+#spec-right {
+    background: url(../images/right.gif) no-repeat;
+    width: 10px;
+    height: 45px;
+    float: left;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+#spec-list {
+    width: 325px;
+    float: left;
+    overflow: hidden;
+    margin-left: 2px;
+    display: inline;
+}
+
+    #spec-list ul li {
+        float: left;
+        margin-right: 0px;
+        display: inline;
+        width: 62px;
+    }
+
+        #spec-list ul li img {
+            padding: 2px;
+            border: 1px solid #ccc;
+            width: 50px;
+            height: 50px;
+        }
+
+#spec-list {
+    position: relative;
+    width: 322px;
+    margin-right: 6px;
+}
+
+    #spec-list div {
+        margin-top: 0;
+        margin-left: -30px;
+        *margin-left: 0;
+    }
+
+.jqzoom {
+    position: relative;
+    padding: 0;
+}
+
+.zoomdiv {
+    z-index: 100;
+    position: absolute;
+    top: 1px;
+    left: 0px;
+    width: 400px;
+    height: 400px;
+    background: url(i/loading.gif) #fff no-repeat center center;
+    border: 1px solid #e4e4e4;
+    display: none;
+    text-align: center;
+    overflow: hidden;
+}
+
+.bigimg {
+    width: 800px;
+    height: 800px;
+}
+
+.jqZoomPup {
+    z-index: 10;
+    visibility: hidden;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 50px;
+    height: 50px;
+    border: 1px solid #aaa;
+    background: #FEDE4F 50% top no-repeat;
+    opacity: 0.5;
+    cursor: move;
+}
+
+.btn {
+    background-color: #2d528d;
+    border: none;
+    color: white;
+    padding: 10px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 8px 1px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    -webkit-transition-duration: 0.4s;
+}
+
+    .btn:hover {
+        box-shadow: 0 12px 16px 0 rgba(0,0,0,.24), 0 17px 50px 0 rgba(0,0,0,.19);
+    }
+
+#operation {
+    margin-top: 10px;
+    margin-right: 20px;
+}
+
+#comment {
+    margin-top:450px;
+    margin-left: 25px;
+    float: none;
+}
+
+#content {
+    margin-left: 300px;
+    background: transparent;
+    border: 1px solid #d2d2e6;
+    border-radius:5px;
+}
+
+#commentbtn{
+    margin-left:425px;
+    text-align:center;
+    width:20%;
+}

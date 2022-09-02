@@ -1,8 +1,178 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <link href="~/css/index.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css">
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <script src="~/js/vue.js"></script>
+    <!--引入axios-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="~/js/jquery.min.js"></script>
+    <!-- 引入样式 -->
+    <!--<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <!-- 引入组件库 -->
+    <!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <title>欢迎</title>
+</head>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<body>
+    <!--导航栏，暂时放在index页面，后期整合可考虑放在shared里-->
+    <div class="header">
+        <div class="logo">
+            <img src="https://img1.imgtp.com/2022/09/02/PDA2NbcZ.png" />
+        </div>
+        <ul>
+            <li class="entry">
+                <a href="#">
+                    <ion-icon name="home-outline"></ion-icon>
+                    <span class="entry-text">首页</span>
+                </a>
+            </li>
+            <li class="entry">
+                <a href="javascript:void(0)" onclick="Tofriend()">
+                    <ion-icon name="people-circle-outline"></ion-icon>
+                    <span class="entry-text" >好友</span>
+                </a>
+            </li>
+            <li class="entry">
+                <a href="/GameLibrary/HaveGame">
+                    <ion-icon name="game-controller-outline"></ion-icon>
+                    <span class="entry-text" href="/GameLibrary/HaveGame" >游戏库</span>
+                </a>
+            </li>
+            <li class="entry">
+                <a href="/ShoppingCart/Index">
+                    <ion-icon name="cart-outline"></ion-icon>
+                    <span class="entry-text">购物车</span>
+                </a>
+            </li>
+            <li class="entry">
+                <a href="/Account/Index">
+                    <ion-icon name="person-outline"></ion-icon>
+                    <span class="entry-text" href="/Account/Index">个人中心</span>
+                </a>
+            </li>
+             <li class="entry">
+                <a href="/Search/Search">
+                    <ion-icon name="person-outline"></ion-icon>
+                    <span class="entry-text" >搜索游戏</span>
+                </a>
+            </li>
+            <li class="entry">
+                <a asp-controller="Entry" asp-action="Logout">
+                    <ion-icon name="person-outline"></ion-icon>
+                    
+                    <span class="entry-text" >退出登录</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!--搜索框
+    <div class="search">
+        <select id="searchtype">
+            <option value="1">按游戏名搜索</option>
+            <option value="2">按发行商搜索</option>
+        </select>
+        <form id="nav-searchform">
+            <div class="nav-search-content">
+                <input id="Context" type="text" placeholder="关键词搜索" class="f1" onclick="inputChange()" />
+            </div>
+            <a class="nav-search-btn" href="/Search/Search">
+                <ion-icon name="search-outline"></ion-icon>
+            </a>
+        </form>
+    </div>-->
+    <!--轮播图-->
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" >
+                <img id="slide1" class="slideimg" src="" />
+            </div>
+            <div class="swiper-slide">
+                <img id="slide2" class="slideimg" src=""/>
+            </div>
+            <div class="swiper-slide">
+                <img id="slide3" class="slideimg" src=""/>
+            </div>
+            <div class="swiper-slide">
+                <img id="slide4" class="slideimg" src="" />
+            </div>
+            <div class="swiper-slide">
+                <img id="slide5" class="slideimg" src=""/>
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+    <div class="shop">
+        
+        <div class="show">
+            <div class="hd show">
+                <nav>
+                    <ul style="padding-left:0px;">
+                        <li class="nav-li"  @@click="getNew">
+                            <span id="new">最新发布</span>
+                        </li>
+                        <li class="nav-li"  @@click="getHot">
+                            <span id="hot">热销商品</span>
+                        </li>
+                        <li class="nav-li">
+                            <div class="classification">
+                                <span class="dropbtn">分类</span>
+                                <div class="classification-dropdown">
+                                    <ul>
+                                        <li @@click="chooseClass(item,index)" v-for="(item,index) in classes" :key="index" class="list">
+                                            <p class="classtitle">{{item}}</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="bd show">
+                <ul>
+                    <li @@click="chooseAddress(item,index)" v-for="(item,index) in games" :key="index">
+                        <div class="gameitem">
+                            <div class="imgbox">
+                                <img :src="item.PictureURL" />
+                            </div>
+                            <h3 id="gamename">{{item.Name}}</h3>
+                            <p id="gameclass">{{item.type}}</p>
+                        </div>
+                        <div class="gameitem-dropdown">
+                            <p class="description">游戏简介：{{item.Description}}</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+        @*    <script src="~/js/mock-index.js"></script>*@
+        <script src="~/js/index.js"></script>
+        <script type="text/javascript">
+            function GetCookie()
+    {
+    var key = "";
+    var getCookie = document.cookie.replace(/[ ]/g, "");  //获取cookie，并且将获得的cookie格式化，去掉空格字符
+    var arrCookie = getCookie.split(";")  //将获得的cookie以"分号"为标识 将cookie保存到arrCookie的数组中
+    var tips;  //声明变量tips
+    var UID=arrCookie.toString();
+    console.log("ok");
+    console.log(UID);
+    return UID;
+    }
+            function Tofriend()
+{
+    var x = GetCookie();
+    x=x.replace("UID=","");
+    window.location.href = "/Friends/Welcome" + "?UserID=" + x;
+}
+            </script>
+</body>
+</html>

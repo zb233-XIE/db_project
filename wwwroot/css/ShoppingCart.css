@@ -1,0 +1,143 @@
+﻿.picture {
+    line-height: 350px;
+    float: left;
+}
+
+.Name {
+    float: left;
+}
+
+.price {
+    clear: both;
+}
+
+#unique {
+    background-color: red;
+}
+
+#preview {
+    float: left;
+    border-radius: 8px;
+    box-sizing: border-box;
+    border: 5px solid #d2d2e6;
+    padding: 5px;
+    background: #c1cbf6;
+    margin-right: 100px;
+    text-align: center;
+    width: 340px;
+}
+
+
+
+#pic {
+}
+
+#Name {
+    margin-top: 40px;
+    font-size: 20px;
+    font-family: 'Microsoft YaHei UI';
+}
+
+
+#Price {
+    margin-left: 5px;
+    font-size: 18px;
+}
+
+#detailInfo {
+    margin-top: 20px;
+    float: left;
+    margin-left: 40px;
+    width: 150px;
+}
+
+
+
+
+#element {
+    height: 220px;
+}
+
+
+.line {
+    border: 3px double #FFFFFF;
+    filter: opacity(70%);
+    float: right;
+}
+
+ul {
+    list-style: none;
+}
+
+#clear {
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    float: left;
+    margin-top: 30px;
+    margin-bottom: 100px;
+    margin-left: 300px;
+}
+
+#pay {
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    float: left;
+    margin-top: 30px;
+    margin-bottom: 100px;
+    margin-left: 100px;
+}
+
+#delete {
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    float: right;
+    margin-top: 30px;
+    margin-bottom: 100px;
+    margin-right: 100px;
+}
+
+
+.wl {
+    width: 30px;
+    height: 30px;
+}
+
+#choice {
+    float: right;
+    margin-top: 90px;
+    margin-right: 30px;
+}
+
+#operation {
+    margin-top: 22px;
+    margin-left: 100px;
+    float: left;
+}
+
+
+.btn {
+    background-color: #2d528d;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    -webkit-transition-duration: 0.4s;
+}
+
+    .btn:hover {
+        box-shadow: 0 12px 16px 0 rgba(0,0,0,.24), 0 17px 50px 0 rgba(0,0,0,.19);
+    }
+
+body {
+    background: rgb(78,135,255);
+    background: linear-gradient(0deg,rgba(78,135,255,1)0%,rgba(216,187,238,1)100%);
+}
