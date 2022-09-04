@@ -92,6 +92,13 @@ namespace TJ_Games.Controllers
                 jsondata["REASON"] = "用户名对应的密码错误";
                 return Json(jsondata.ToJson());
             }
+            else if(is_vaild==-3)//说明此时登录选项错误
+            {
+                JsonData jsondata = new JsonData();
+                jsondata["STATUS"] = 0;
+                jsondata["REASON"] ="您不是买家，请检查您的账号类型";
+                return Json(jsondata.ToJson());
+            }
             else//此种情况理论上不会出现，如果出现此种情况，考虑数据传输被恶意攻击了
             {
                 JsonData jsondata = new JsonData();
@@ -173,6 +180,13 @@ namespace TJ_Games.Controllers
                 JsonData jsondata = new JsonData();
                 jsondata["STATUS"] = 0;
                 jsondata["REASON"] = "用户名对应的密码错误";
+                return Json(jsondata.ToJson());
+            }
+            else if(is_vaild==-3)//说明此时登录选项错误
+            {
+                JsonData jsondata = new JsonData();
+                jsondata["STATUS"] = 0;
+                jsondata["REASON"] = "您不是卖家，请检查您的账号类型";
                 return Json(jsondata.ToJson());
             }
             else//此种情况理论上不会出现，如果出现此种情况，考虑数据传输被恶意攻击了
@@ -257,6 +271,13 @@ namespace TJ_Games.Controllers
                 JsonData jsondata = new JsonData();
                 jsondata["STATUS"] = 0;
                 jsondata["REASON"] = "用户名对应的密码错误";
+                return Json(jsondata.ToJson());
+            }
+            else if (is_vaild == -3)//说明此时登录选项错误
+            {
+                JsonData jsondata = new JsonData();
+                jsondata["STATUS"] = 0;
+                jsondata["REASON"] = "您不是管理员，请检查您的账号类型";
                 return Json(jsondata.ToJson());
             }
             else//此种情况理论上不会出现，如果出现此种情况，考虑数据传输被恶意攻击了

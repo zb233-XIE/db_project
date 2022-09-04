@@ -34,7 +34,7 @@ namespace TJ_Games.Controllers
          * 一些支付宝业务相关的函数（可删）
         */
         [HttpPost]
-        public void PayRequest(string tradeno, string subject, string totalAmout, string itemBody)
+        public void PayRequest([FromQuery]string tradeno, [FromQuery] string subject, [FromQuery] string totalAmout, [FromQuery] string itemBody)
         {
             DefaultAopClient client = new DefaultAopClient(AlipayConfig.Gatewayurl, AlipayConfig.AppId, AlipayConfig.PrivateKey, "json", "2.0",
                 AlipayConfig.SignType, AlipayConfig.AlipayPublicKey, AlipayConfig.CharSet, false);
@@ -49,7 +49,7 @@ namespace TJ_Games.Controllers
 
             AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
             // 设置同步回调地址
-            request.SetReturnUrl("https://localhost:44393/Purchase/SuccessPay");
+            request.SetReturnUrl("/GameLibrary/HaveGame");
             // 设置异步通知接收地址
             request.SetNotifyUrl("");
             // 将业务model载入到request

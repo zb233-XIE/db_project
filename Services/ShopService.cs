@@ -91,7 +91,7 @@ namespace TJ_Games.Service
         }
         public List<Good> ShowNewCommodity()
         {
-            const int LENGTH = 10;
+            const int LENGTH = 4;
 
 
             List<Commodities> tempList = new List<Commodities>();

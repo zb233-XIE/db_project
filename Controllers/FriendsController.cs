@@ -72,6 +72,24 @@ namespace WEBTEST.Controllers
             string to_search = JsonConvert.DeserializeObject<string>(content);
 
             Buyers buyer = friendservice.GetBuyerInfo(to_search);
+          
+            if(buyer == null)
+            {
+                var Data = new
+                {
+                    //nickname就是name
+                    nickName = -1,
+                    //face使用默认图片
+                    face = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F202005%2F30%2F20200530112650_4XXME.thumb.1000_0.jpeg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1628654333&t=ccef3bc418154fea7edd5c5a5902766f",
+                    //signature代指UID
+                    signature = to_search
+                };
+
+                var Jsonstr = JsonConvert.SerializeObject(Data);
+
+                return Content(Jsonstr);
+            }
+
             var data = new
             {
                 //nickname就是name
@@ -82,6 +100,7 @@ namespace WEBTEST.Controllers
                 signature = to_search
             };
 
+          
             var jsonstr = JsonConvert.SerializeObject(data);
 
             //不能添加自己为好友的功能还在完善中

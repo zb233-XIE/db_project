@@ -30,7 +30,7 @@ function selectGames(id) {
 }
 
 function submitSearch() {
-    alert($("#Context").val());
+    //alert($("#Context").val());
     if ($("#searchtype").val() == 1) {
         axios.post("/Search/SearchCommodity?"+"CommodityName=" + $("#Context").val(), $("#Context").val())
             .then(function (response) {

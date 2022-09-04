@@ -109,6 +109,11 @@ namespace TJ_Games.Services
 
             //查询有关用户
             Users users = _context.Users.Where(x=>x.UserID==Buyer_ID).FirstOrDefault();
+            if(users.UserType!=1)
+            {
+                return -3;
+            }
+
 
             if (users == null)//说明此用户不存在
             {

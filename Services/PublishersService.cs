@@ -160,6 +160,12 @@ namespace TJ_Games.Services
             //查询有关用户
             Users users = _context.Users.Where(x => x.UserID == Publisher_ID).FirstOrDefault();
 
+            if(users.UserType!=2)
+            {
+                return -3;
+            }
+
+
             if (users == null)//说明此用户不存在
             {
                 return -1;//代表用户不存在

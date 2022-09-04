@@ -49,9 +49,26 @@ namespace TJ_Games.Services
             int a = 1;
             return mygameList;
         }
-
-        public bool AddGame(string id,string GameID)
+        public bool InLibrary(string ID, List<string> GameID)
         {
+            List<GameLibrary> GL = _context.GameLibrary.Where(x => x.ID == ID).ToList();
+            List<string> GLST = new List<string>();
+            foreach (var v in GL)
+            {
+                GLST.Add(v.CommodityID);
+            }
+            bool flag = GLST.Intersect(GameID).Any();
+            if (flag) return true;
+            return false;
+        }
+        public int AddGame(string id,string GameID)
+        {
+            GameLibrary gameLibrary = _context.GameLibrary.Where(x => x.CommodityID == GameID && x.ID == id).FirstOrDefault();
+
+            if(gameLibrary != null)//说明此时该人已有该游戏
+            {
+                return -1;
+            }
             GameLibrary GL = new GameLibrary
             {
                 ID = id,
@@ -62,22 +79,11 @@ namespace TJ_Games.Services
             _context.GameLibrary.Add(GL);
 
             if (_context.SaveChanges() > 0)
-                return true;
+                return 1;
             else
-                return false;
+                return 0;
         }
 
-        public bool InLibrary(string ID,List<string> GameID)
-        {
-            List<GameLibrary> GL = _context.GameLibrary.Where(x => x.ID == ID).ToList();
-            List<string> GLST = new List<string>();
-            foreach(var v in GL)
-            {
-                GLST.Add(v.CommodityID);
-            }
-            bool flag = GLST.Intersect(GameID).Any();
-            if (flag) return true;
-            return false;
-        }
+
     }
 }

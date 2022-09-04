@@ -32,6 +32,8 @@
             <div id="allin">
                 <input id="ID" type="text" value="商品ID:@ViewData["CommodityID"]">
                 <div id="Name">@ViewData["CommodityName"]</div>
+                <br/>
+                <br/>
                 <div id="Description">@ViewData["Description"]</div>
                 <div class="LowestPrice">
                     <span>史低价格：</span>
@@ -49,7 +51,7 @@
 
             <div class=" btn">
                 <a id="add1" onclick="addToShoppingCart()">加入购物车</a>
-                <a id="add2" onclick="addToWishList()">加入愿望单</a>
+               <!-- <a id="add2" onclick="addToWishList()">加入愿望单</a>-->
             </div>
         </div>
 
@@ -62,7 +64,7 @@
             <div>
                 <ul class="allcomment">
                     <li v-for="(item,index) in Description">
-                        <span class="ETime">用户：{{EvaluationID[index]}}：</span>
+                        <span class="ETime">&emsp;&emsp;{{EvaluationID[index]}}：</span>
                         <textarea readonly style="border:0;border-radius:5px;width: 355px;height: 100px;
                         padding: 10px;resize: none;" rows="6" cols="61" type="text" class="Des" :value="Description[index]"></textarea>
                        

@@ -21,7 +21,7 @@ namespace TJ_Games.Controllers
             _context = context;
             cartService = new CartService(_context);
         }
-        public IActionResult Details(string? CommodityID)
+        public IActionResult Details(string? CommodityID,int Mode)
         {
             Commodities commodities = _context.Commodities.Where(x => x.CommodityID == CommodityID).FirstOrDefault();//查询给定ID的商品的有效信息
 
@@ -61,7 +61,11 @@ namespace TJ_Games.Controllers
                 ViewData["PublishTime"] = commodities.PublishTime.ToString();
                 ViewData["Description"] = commodities.Description;
                 ViewData["PictureURL"] = commodities.PictureURL;
-                ViewData["DownLoadURL"] = commodities.DownLoadURL;
+
+                if(Mode==1)
+                    ViewData["DownLoadURL"] = commodities.DownLoadURL;
+                else
+                    ViewData["DownLoadURL"] ="该下载链接对您不可见" ;
                 ViewData["SalesVolume"] = commodities.SalesVolume;
 
                 /*
@@ -188,7 +192,9 @@ namespace TJ_Games.Controllers
                 for (int i = 0; i < length; i++)
                 {
                     EvaluationModel model = new EvaluationModel();
-                    model.EvaluationID = evaluationList[i].BuyerID;
+                    Buyers buyers = _context.Buyers.Where(x => x.BuyerID == evaluationList[i].BuyerID).FirstOrDefault();
+                    // model.EvaluationID = evaluationList[i].BuyerID;
+                    model.EvaluationID = buyers.BuyerName;
                     model.Description = evaluationList[i].Description;
                     evaluations.Add(model);
                 }

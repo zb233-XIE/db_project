@@ -73,10 +73,10 @@ ul {
     text-align: center;
     display: block;
     margin: 0 auto;
-    float: left;
+    float: right;
     margin-top: 30px;
     margin-bottom: 100px;
-    margin-left: 300px;
+    margin-right: 300px;
 }
 
 #pay {
@@ -86,7 +86,7 @@ ul {
     float: left;
     margin-top: 30px;
     margin-bottom: 100px;
-    margin-left: 100px;
+    margin-left: 300px;
 }
 
 #delete {
@@ -122,7 +122,7 @@ ul {
     background-color: #2d528d;
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 15px 10px;
     text-align: center;
     text-decoration: none;
     display: inline-block;

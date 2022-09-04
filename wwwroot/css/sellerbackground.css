@@ -4,13 +4,13 @@ body {
 }
 
 /*header*/
-.header{
-    height:42px;
-    left:-10%;
-
-    margin-top:30px;
-    margin-left:-120px;
-    margin-bottom:00px;
+.header {
+    height: 42px;
+    left: -10%;
+    background-color: darkslateblue;
+    margin-top: 30px;
+    margin-left: -120px;
+    margin-bottom: 00px;
 }
 
 h1 {

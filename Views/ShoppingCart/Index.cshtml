@@ -142,9 +142,9 @@
                 },
             
                 getDetail: function (p1) {
-                    axios.post("Purchase/GetCommodityDetail", { ID: p1 }).then(function (response) {   //TBA!!!
-                        alert(response.data);
-                    })
+                    //axios.post("/Commodity/Details?CommodityID="+p1, { ID: p1 }).then(function (response) {   //TBA!!!
+                   // })
+                    window.location = "/Commodity/Details?CommodityID=" + p1;
                 },//点击游戏名字将id传回后端
 
                 clear: function () {

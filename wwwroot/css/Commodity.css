@@ -13,7 +13,7 @@
 }
 
 .btn {
-    width: 100%;
+    width: 80%;
     height: auto;
     overflow: hidden;
     margin-top: 12px;
@@ -166,7 +166,9 @@ body {
         font-size: 24px;
     }
 
-#add1{}
+#add1{
+    width:100%;
+}
 
 #add2{}
 

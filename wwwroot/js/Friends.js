@@ -67,15 +67,20 @@ function sousuo(obj)
             dataType: "json",
             data: JSON.stringify($("#ID").val()),
             success: function (data) {
-                alert(data.nickName);
-                var b = document.getElementById("nickname");
-                b.innerHTML = data.nickName;
-                b = document.getElementById("signature");
-                b.innerHTML = data.signature;
-                b = document.getElementById("picture")
-                b.src = data.face;
-                var a = document.getElementById("div1");
-                a.style.visibility = 'visible';
+                if (data.nickName == -1) {
+                    alert("无法找到该用户");
+                }
+                else {
+                    alert(data.nickName);
+                    var b = document.getElementById("nickname");
+                    b.innerHTML = data.nickName;
+                    b = document.getElementById("signature");
+                    b.innerHTML = data.signature;
+                    b = document.getElementById("picture")
+                    b.src = data.face;
+                    var a = document.getElementById("div1");
+                    a.style.visibility = 'visible';
+                }
             }
         });
 

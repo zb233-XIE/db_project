@@ -40,7 +40,7 @@ let searchshow = new Vue({
 
 function selectGames(id) {
     console.log(id)
-    window.location = "/Commodity/Details" + "?CommodityID=" + id;
+    window.location = "/Commodity/Details" + "?CommodityID=" + id+"&Mode=1";
 }
 
 /*function submitSearch() {

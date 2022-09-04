@@ -54,9 +54,10 @@ namespace TJ_Games.Services
                 return null;
             else
             {
+                Publishers publishers = _context.Publishers.Where(x => x.PublisherID == commodities.PublisherID).FirstOrDefault();
                 jsondata["CommodityID"] = commodities.CommodityID;
                 jsondata["CommodityName"] = commodities.CommodityName;
-                jsondata[" PublisherID"] = commodities.PublisherID;
+                jsondata["PublisherID"] = publishers.PublisherName;
                 jsondata["Price"] = commodities.Price;
                 jsondata["LowestPrice"] = commodities.LowestPrice;
                 jsondata["PublishTime"] = commodities.PublishTime.ToString();

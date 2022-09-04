@@ -71,15 +71,19 @@ namespace TJ_Games.Controllers
         {
             JsonData jsondata = new JsonData();
             bool flag = true;
+
             foreach (var v in Global.GCart.items)
             {
-                if(!gamelibraryService.AddGame(Global.GToWhom, v.CommodityID))
+                if(gamelibraryService.AddGame(Global.GToWhom, v.CommodityID)==-1)//说明此时该人已有该游戏
                 {
-                    flag = false;
+                    jsondata["status"] = -1;
+                    jsondata["reason"] = "您游戏库当中已经拥有您购物车当中游戏";
+                    return Json(jsondata.ToJson());
                 }
             }
 
             jsondata["status"] = flag;
+            jsondata["reason"] = "购买成功";
             return Json(jsondata.ToJson());
         }
         //在gamelibrary控制器下
