@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Welcome";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>管理员后台</title>
+    <meta charset="UTF-8">
+    <style type="text/css">
+    </style>
+    <link rel="stylesheet" href="~/css/AdminActionindex.css">
+    <script src="~/js/adminAction.js"></script>
+</head>
+<body>
+    <div id="menu">
+        <div class="logo">
+            <p style="font-size: 20px;">管理员</p>
+        </div>
+        <ul>
+            <li><a href="/adminaction">首页</a></li>
+            <li>
+                <a href="/adminaction/Delete">删除商品信息</a>
+            </li>
+            <li>
+                <a href="/adminaction/DeleteBuyer">删除买家信息</a>
+            </li>
+        </ul>
+    </div>
+    <form>
+        <h3>请输入你要删除信息的买家id</h3>
+        <input type="text" id="ID" name="ID" required />
+        <input type="button" id="ceshi1" value="搜索" onclick="searchbuyer(this)" />
+        <table class="table table-bordered" style="margin-top:10px;">
+            <tr>
+                <th style="text-aligin:left;">BuyerID ：</th>
+                <td>
+                    <input type="text" id="uid" name="uid" class="form-control" placeholder="查找到的BuyerID" />
+                </td>
+            </tr>
+            <tr>
+                <th style="text-aligin:left;">BuyerName ：</th>
+                <td>
+                    <input type="text" id="Name" name="Name" class="form-control" placeholder="查找到的BuyerName" />
+                </td>
+            </tr>
+            <tr>
+                <th style="text-aligin:left;">Mail ：</th>
+                <td>
+                    <input type="text" id="Mail" name="Mail" class="form-control" placeholder="查找到的Mail" />
+                </td>
+            </tr>
+            <tr>
+                <th colspan="4" style="text-align:center;">
+                    <input type="button" class="btn btn-default" onclick="tempdeletebuyer()" value="删除" /><!-- 删除信息并返回-->
+                    <input type="button" class="btn btn-default" onclick="    javascript: window.history.back();" value="返回" />
+                </th>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

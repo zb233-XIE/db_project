@@ -1,0 +1,113 @@
+﻿
+body {
+    background: rgb(78,135,255);
+    background: linear-gradient(0deg,rgba(78,135,255,1)0%,rgba(216,187,238,1)100%);
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#menu {
+    position: relative;
+    /*background-color: #dcc9c1;*/
+    background-color: darkslateblue;
+    width: 100%;
+    height: 60px;
+}
+
+.logo {
+    color: #0c0c01;
+    display: inline-block;
+    line-height: 58px;
+    position: absolute;
+    padding: 20 40px;
+    font-family: "仿宋";
+    font-weight: bold;
+}
+
+ul {
+    list-style: none;
+    display: inline-block;
+    padding-left: 140px;
+}
+
+    ul li {
+        line-height: 60px;
+        text-align: center;
+        position: relative;
+        float: left;
+    }
+
+a {
+    text-decoration: none;
+    color: #FFF;
+    display: block;
+    padding: 0 20px;
+    white-space: nowrap;
+    font-family: "仿宋";
+    font-weight: bold;
+}
+
+    a:hover {
+        color: #FFF;
+        background-color: #ccc;
+    }
+
+ul li ul li {
+    float: none;
+    margin-top: 2px;
+    background-color: #dcc9c1;
+}
+
+    ul li ul li a:hover {
+        color: #FFF;
+        background-color: #ccc;
+    }
+
+ul li ul {
+    position: absolute;
+    left: 0;
+    top: 60px;
+    display: none;
+    padding-left: 0;
+}
+
+ul li:hover ul {
+    display: block;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    table caption {
+        font-size: 2em;
+        font-weight: bold;
+        margin: 1em 0;
+    }
+
+th {
+    border: 1px solid #999;
+    text-align: center;
+    padding: 20px 0;
+}
+
+tr {
+    background-color: #008c8c;
+    color: #fff;
+}
+
+    tr:hover {
+        background-color: #ccc;
+    }
+
+    tr td:first-child {
+        color: #f40;
+    }
+
+    tr td {
+        text-align: right;
+        padding-right: 20px;
+    }

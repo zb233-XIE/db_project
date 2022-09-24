@@ -7,11 +7,6 @@ namespace TJ_Games.Models
 {
     public class Updatelog
     {
-        public Updatelog()
-        {
-            Commodities = new Commodities();
-        }//构造函数
-
         public string CommodityID { get; set; }
         public string VersionNumber { get; set; }
         public DateTime UpdateTime { get; set; }

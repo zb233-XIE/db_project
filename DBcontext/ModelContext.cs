@@ -18,32 +18,35 @@ namespace TJ_Games.DBContext
         {
         }
 
-        public virtual DbSet<Administrators> Administrator { get; set; }
-        public virtual DbSet<Buyers> Buyer { get; set; }
-        public virtual DbSet<Commodities> Commodity { get; set; }
-        public virtual DbSet<Evaluation> Evaluations { get; set; }
-        public virtual DbSet<Friends> Friend { get; set; }
-        public virtual DbSet<GameLibrary> GameLibraries { get; set; }
-        public virtual DbSet<Giftcode> Giftcodes { get; set; }
-        public virtual DbSet<Message> Messages { get; set; }
-        public virtual DbSet<Orders> Order { get; set; }
-        public virtual DbSet<Publishers> Publisher { get; set; }
-        public virtual DbSet<ShoppingCart> ShoppingCarts { get; set; }
-        public virtual DbSet<Updatelog> Updatelogs { get; set; }
-        public virtual DbSet<Users> User { get; set; }
-        public virtual DbSet<Wishlist> Wishlists { get; set; }
-
-
+        public virtual DbSet<Administrators> Administrators { get; set; }
+        public virtual DbSet<Buyers> Buyers { get; set; }
+        public virtual DbSet<Commodities> Commodities { get; set; }
+        public virtual DbSet<Evaluation> Evaluation { get; set; }
+        public virtual DbSet<Friends> Friends { get; set; }
+        public virtual DbSet<GameLibrary> GameLibrary { get; set; }
+        public virtual DbSet<Giftcode> Giftcode { get; set; }
+        public virtual DbSet<Message> Message { get; set; }
+        public virtual DbSet<Orders> Orders { get; set; }
+        public virtual DbSet<Publishers> Publishers { get; set; }
+        public virtual DbSet<ShoppingCart> ShoppingCart { get; set; }
+        public virtual DbSet<Updatelog> Updatelog { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Wishlist> Wishlist { get; set; }
+        public virtual DbSet<Genre> Genre { get; set; }
+        public virtual DbSet<Commodity_Genre> Commodity_Genre { get; set; }
+        public virtual DbSet<Dialog> Dialog { get; set; }
+        public virtual DbSet<Order_Commodity> Order_Commmodity { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("orcl");
+            modelBuilder.HasDefaultSchema("C##SZY");
 
             modelBuilder.Entity<Administrators>(entity =>
             {
                 entity.ToTable("ADMINISTRATORS");
 
-                entity.HasKey(e => e.AdminID);
+                entity.HasKey(e => e.AdminID)
+                    .HasName("ADMINISTRATORS_PK");
 
                 entity.Property(e => e.AdminID)
                     .IsRequired()
@@ -63,13 +66,20 @@ namespace TJ_Games.DBContext
                     .HasColumnType("varchar(100)")
                     .IsUnicode(true)
                     .HasColumnName("DEPARTMENT");
+
+                entity.HasOne(d => d.Users)
+                    .WithOne(p => p.Administrators)
+                    .HasForeignKey<Administrators>(d => d.AdminID)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("ADMINISTRATORS_FK1");
             });
 
             modelBuilder.Entity<Buyers>(entity =>
             {
                 entity.ToTable("BUYERS");
 
-                entity.HasKey(e => e.BuyerID);
+                entity.HasKey(e => e.BuyerID)
+                    .HasName("BUYERS_PK");
 
                 entity.Property(e => e.BuyerID)
                     .IsRequired()
@@ -86,7 +96,7 @@ namespace TJ_Games.DBContext
 
                 entity.Property(e => e.Birthday)
                     .HasColumnType("DATA")
-                    .HasColumnName("BIRTHDAT");
+                    .HasColumnName("BIRTHDAY");
 
                 entity.Property(e => e.Mail)
                     .HasMaxLength(20)
@@ -96,13 +106,8 @@ namespace TJ_Games.DBContext
                 entity.HasOne(d => d.Users)
                         .WithOne(p => p.Buyers)
                         .HasForeignKey<Buyers>(d => d.BuyerID)
-                        .HasConstraintName("FK_USER_ID");
-
-                entity.HasOne(d => d.Users)
-                         .WithOne(p => p.Buyers)
-                         .HasForeignKey<Buyers>(d => d.BuyerName)
-                         .HasConstraintName("FK_BUYER_NAME");
-
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("BUYERS_FK1");
             });
 
             modelBuilder.Entity<Commodities>(entity =>
@@ -110,7 +115,7 @@ namespace TJ_Games.DBContext
                 entity.ToTable("COMMODITIES");
 
                 entity.HasKey(e => e.CommodityID)
-                        .HasName("PK_COMMODITIES");
+                        .HasName("COMMODITIES_PK");
 
                 entity.Property(e => e.CommodityID)
                         .IsRequired()
@@ -125,21 +130,21 @@ namespace TJ_Games.DBContext
                         .HasColumnName("COMMODITY_NAME")
                         .IsUnicode(true);
 
-                entity.Property(e => e.Publisher)
+                entity.Property(e => e.PublisherID)
                          .IsRequired()
                          .HasMaxLength(20)
                          .HasColumnType("varchar(20)")
-                         .HasColumnName("PUBLISHER")
+                         .HasColumnName("PUBLISHER_ID")
                          .IsUnicode(true);
 
                 entity.Property(e => e.Price)
                          .IsRequired()
-                         .HasColumnType("number(8,2)")
+                         .HasColumnType("double")
                          .HasColumnName("PRICE");
 
                 entity.Property(e => e.LowestPrice)
                       .IsRequired()
-                      .HasColumnType("number(8,2)")
+                      .HasColumnType("double")
                       .HasColumnName("LOWEST_PRICE");
 
 
@@ -147,12 +152,6 @@ namespace TJ_Games.DBContext
                          .IsRequired()
                          .HasColumnType("DATE")
                          .HasColumnName("PUBLISH_TIME");
-
-                entity.Property(e => e.Classification)
-                         .IsRequired()
-                         .HasColumnType("varchar(20)")
-                         .HasMaxLength(20)
-                         .HasColumnName("CLASSFICATION");
 
                 entity.Property(e => e.Description)
                          .IsRequired()
@@ -164,29 +163,36 @@ namespace TJ_Games.DBContext
                 entity.Property(e => e.PictureURL)
                         .IsRequired()
                         .IsUnicode(true)
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("varchar(200)")
                         .HasColumnName("PICTURE_URL")
-                        .HasMaxLength(100);
+                        .HasMaxLength(200);
 
                 entity.Property(e => e.DownLoadURL)
                         .IsRequired()
                         .IsUnicode(true)
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("varchar(200)")
                         .HasColumnName("DOWNLOAD_URL")
-                        .HasMaxLength(100);
+                        .HasMaxLength(200);
 
                 entity.Property(e => e.SalesVolume)
                         .IsRequired()
                         .HasMaxLength(10)
-                        .HasColumnType("number")
+                        .HasColumnType("int")
                         .HasColumnName("SALES_VOLUME");
+
+                entity.HasOne(d => d.Publishers)
+                        .WithMany(p => p.Commodities)
+                        .HasForeignKey(d => d.PublisherID)
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .HasConstraintName("COMMODITIES_FK1");
             });
 
             modelBuilder.Entity<Updatelog>(entity =>
             {
                 entity.ToTable("UPDATE_LOG");
-
-                entity.HasKey(e => new { e.CommodityID, e.VersionNumber });
+;
+                entity.HasKey(e => new { e.CommodityID, e.VersionNumber })
+                      .HasName("UPDATE_LOG_PK");
 
                 entity.Property(e => e.CommodityID)
                     .IsRequired()
@@ -215,36 +221,32 @@ namespace TJ_Games.DBContext
                 entity.HasOne(d => d.Commodities)
                       .WithMany(p => p.Updatelog)
                       .HasForeignKey(d => d.CommodityID)
-                      .OnDelete(DeleteBehavior.ClientSetNull)
-                      .HasConstraintName("FK_COMMODITY_ID");
+                      .OnDelete(DeleteBehavior.Cascade)
+                      .HasConstraintName("UPDATE_LOG_FK1");
             });
 
             modelBuilder.Entity<Users>(entity =>
             {
                 entity.ToTable("USERS");
 
-                entity.HasKey(e => e.UserID);
+                entity.HasKey(e => e.UserID)
+                    .HasName("USERS_PK");
 
                 entity.Property(e => e.UserID)
                     .IsRequired()
                     .HasMaxLength(20)
                     .HasColumnType("varchar(20)")
-                    .HasColumnName("User_ID");
-
+                    .HasColumnName("USER_ID");
 
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasMaxLength(20)
                     .IsUnicode(true)
-                    .HasColumnType("varchar(20)")
+                    .HasColumnType("varchar(300)")
                     .HasColumnName("PASSWORD");
 
                 entity.Property(e => e.UserType)
                     .IsRequired()
-                    .HasMaxLength(20)
-                    .HasColumnType("varchar(20)")
-                    .HasColumnName("User_TYPE");
-
+                    .HasColumnName("USERTYPE");
 
             });
 
@@ -252,7 +254,8 @@ namespace TJ_Games.DBContext
             {
                 entity.ToTable("WISHLIST");
 
-                entity.HasKey(e => new { e.ID, e.CommodityID });
+                entity.HasKey(e => new { e.ID, e.CommodityID })
+                    .HasName("WISHLIST_PK");
 
                 entity.Property(e => e.ID)
                     .IsRequired()
@@ -271,19 +274,19 @@ namespace TJ_Games.DBContext
                     .HasMaxLength(20)
                     .IsUnicode(true)
                     .HasColumnType("varchar(100)")
-                    .HasColumnName("VERSION_NUMBER");
+                    .HasColumnName("PROMOTE_MESSAGE");
 
                 entity.HasOne(d => d.Commodities)
                       .WithMany(p => p.Wishlist)
                       .HasForeignKey(d => d.CommodityID)
-                      .OnDelete(DeleteBehavior.ClientSetNull)
-                      .HasConstraintName("FK_COMMODITY_ID");
+                      .OnDelete(DeleteBehavior.Cascade)
+                      .HasConstraintName("WISHLIST_FK2");
 
-                entity.HasOne(d => d.Users)
+                entity.HasOne(d => d.Buyers)
                       .WithMany(p => p.Wishlist)
                       .HasForeignKey(d => d.ID)
-                      .OnDelete(DeleteBehavior.ClientSetNull)
-                      .HasConstraintName("FK_USER_ID");
+                      .OnDelete(DeleteBehavior.Cascade)
+                      .HasConstraintName("WISHLIST_FK1");
 
             });
 
@@ -291,8 +294,8 @@ namespace TJ_Games.DBContext
             {
                 entity.ToTable("EVALUATION");
 
-                entity.HasKey(e => new { e.CommodityID, e.UserID })//对应表的主码
-                    .HasName("PK_EVALUATION");
+                entity.HasKey(e => new { e.CommodityID, e.BuyerID })//对应表的主码
+                    .HasName("EVALUATION_PK");
 
                 entity.Property(e => e.CommodityID)
                     .IsRequired()
@@ -300,11 +303,11 @@ namespace TJ_Games.DBContext
                     .HasColumnType("varchar(20)")
                     .HasColumnName("COMMODITY_ID");
 
-                entity.Property(e => e.UserID)
+                entity.Property(e => e.BuyerID)
                     .IsRequired()
                     .HasMaxLength(20)
                     .HasColumnType("varchar(20)")
-                    .HasColumnName("USER_ID");
+                    .HasColumnName("BUYER_ID");
 
                 entity.Property(e => e.Description)
                     .IsRequired()
@@ -326,20 +329,20 @@ namespace TJ_Games.DBContext
                 entity.HasOne(d => d.Commodities)
                        .WithMany(p => p.Evaluation)
                        .HasForeignKey(d => d.CommodityID)
-                       .OnDelete(DeleteBehavior.ClientSetNull)
-                       .HasConstraintName("FK_COMMODITY_ID");
+                       .OnDelete(DeleteBehavior.Cascade)
+                       .HasConstraintName("EVALUATION_FK1");
 
-                entity.HasOne(d => d.Users)
+                entity.HasOne(d => d.Buyers)
                         .WithMany(p => p.Evaluation)
-                        .HasForeignKey(d => d.UserID)
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_USER_ID");
+                        .HasForeignKey(d => d.BuyerID)
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("EVALUATION_FK2");
 
                 entity.HasOne(d => d.Administrators)
                        .WithMany(p => p.Evaluation)
                        .HasForeignKey(d => d.AdministratorID)
-                       .OnDelete(DeleteBehavior.ClientSetNull)
-                       .HasConstraintName("FK_ADMINISTRATOR_ID");
+                       .OnDelete(DeleteBehavior.Cascade)
+                       .HasConstraintName("EVALUATION_FK3");
             });
 
             modelBuilder.Entity<Friends>(entity =>
@@ -347,7 +350,7 @@ namespace TJ_Games.DBContext
                 entity.ToTable("FRIENDS");
 
                 entity.HasKey(e => new { e.UserID, e.FriendID })//对应表的主码
-                    .HasName("PK_FRIENDS");
+                    .HasName("FRIENDS_PK");
 
                 entity.Property(e => e.UserID)
                     .IsRequired()
@@ -360,12 +363,14 @@ namespace TJ_Games.DBContext
                     .HasMaxLength(20)
                     .HasColumnType("varchar(20)")
                     .HasColumnName("FRIEND_ID");
+
+                //这个自引用关系我没配出来，待曹晓慈完善
             });
 
             modelBuilder.Entity<Orders>(entity =>
             {
                 entity.HasKey(e => e.OrderID)
-                    .HasName("PK_ORDER");
+                    .HasName("ORDERS_PK");
 
                 entity.ToTable("ORDERS");
 
@@ -374,26 +379,18 @@ namespace TJ_Games.DBContext
                     .HasMaxLength(20)
                     .IsUnicode(true)
                     .HasColumnName("ORDER_ID");
-                /*[?]这里到底应该用number还是string呢？文档用的number但是Model中用的是string
-                     如果确定为number类型，那么这里和下面的内容都应改为以下内容：
-                    .IsRequired()
-                    .HasColumnType("number")
-                    .HasMaxLength(20)
-                    .HasColumnName("ID");
-                */
-
-                entity.Property(e => e.CommodityID)
-                   .IsRequired()
-                   .HasMaxLength(20)
-                   .IsUnicode(true)
-                   .HasColumnName("PRODUCT_ID");
 
                 entity.Property(e => e.BuyerID)
                     .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(true)
-                    .HasColumnName("USER_ID");//[?]这里存在Buyer和User不统一的问题，7.14晚上下载的时候还是
-                                              //7.12Committed的版本，不知道最新版的情况如何
+                    .HasColumnName("BUYER_ID");
+
+                entity.Property(e => e.ReceiverID)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(true)
+                    .HasColumnName("RECEIVER_ID");
 
                 entity.Property(e => e.OrderTime)
                     .HasColumnType("DATE")
@@ -403,28 +400,23 @@ namespace TJ_Games.DBContext
                     .HasColumnName("ORDERCOST");
                 //.HasColumnType("INT64")
 
-                entity.Property(e => e.Type)
-                    .HasColumnName("TYPE")
-                    .HasColumnType("int");
-                //[?]Oracle数据库中貌似没有boolean类型，取1或取0可以用INT或者1=1或者1=0这样的形式来代替？
-
-                entity.HasOne(d => d.Buyers)//[?]还是Buyer和User的问题这里就先取Buyer了
+                entity.HasOne(d => d.Buyers)
                     .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.OrderID)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK1_ORDERS");
+                    .HasForeignKey(d => d.BuyerID)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("ORDERS_FK1");
 
-                entity.HasOne(d => d.Commodities)
+                entity.HasOne(d => d.Buyers)
                     .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.CommodityID)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK2_ORDERS");
+                    .HasForeignKey(d => d.ReceiverID)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("ORDERS_FK2");
             });
 
             modelBuilder.Entity<Publishers>(entity =>
             {
                 entity.HasKey(e => e.PublisherID)
-                    .HasName("PK_PUBLISHERS");
+                    .HasName("PUBLISHERS_PK");
 
                 entity.ToTable("PUBLISHERS");
 
@@ -453,14 +445,20 @@ namespace TJ_Games.DBContext
                     .IsUnicode(true)
                     .HasColumnName("DESCRIPTION");
 
-                entity.Property(e => e.Description)
+                entity.Property(e => e.HomepageURL)
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(true)
                     .HasColumnName("HOMEPAGEURL");
+
+                entity.HasOne(d => d.Users)
+                    .WithOne(p => p.Publishers)
+                    .HasForeignKey<Publishers>(d => d.PublisherID)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("PUBLISHERS_FK1");
+
             });
 
-            //----这里偷懒先用一下致远哥的内容-----
             modelBuilder.Entity<ShoppingCart>(entity =>
             {
                 entity.ToTable("SHOPPINGCART");
@@ -478,31 +476,32 @@ namespace TJ_Games.DBContext
                     .IsRequired()
                     .HasColumnType("varchar(20)")
                     .HasMaxLength(20)
-                    .HasColumnName("Commodity_ID");
+                    .HasColumnName("COMMODITY_ID");
 
                 entity.Property(e => e.JoinTime)
                    .IsRequired()
                    .HasColumnType("DATE")
-                   .HasColumnName("Join_Time");
+                   .HasColumnName("JOIN_TIME");
 
-                entity.HasOne(d => d.Users)
+                entity.HasOne(d => d.Buyers)
                    .WithMany(p => p.ShoppingCart)
                    .HasForeignKey(d => d.ID)
-                   .OnDelete(DeleteBehavior.ClientSetNull)
-                   .HasConstraintName("FK1_SHOPPING_CART");
+                   .OnDelete(DeleteBehavior.Cascade)
+                   .HasConstraintName("SHOPPINGCART_FK1");
 
                 entity.HasOne(d => d.Commodities)
                    .WithMany(p => p.ShoppingCart)
                    .HasForeignKey(d => d.CommodityID)
-                   .OnDelete(DeleteBehavior.ClientSetNull)
-                   .HasConstraintName("FK2_SHOPPING_CART");
+                   .OnDelete(DeleteBehavior.Cascade)
+                   .HasConstraintName("SHOPPINGCART_FK2");
             });
 
             modelBuilder.Entity<GameLibrary>(entity =>
             {
                 entity.ToTable("GAMELIBRARY");
 
-                entity.HasKey(e => e.ID);
+                entity.HasKey(e => new { e.ID, e.CommodityID })
+                    .HasName("GAMELIBRARY_PK");
 
                 entity.Property(e => e.ID)
                     .IsRequired()
@@ -528,25 +527,25 @@ namespace TJ_Games.DBContext
                     .HasColumnType("varchar(20)")
                     .HasColumnName("GAME_TIME");
 
-                entity.HasOne(d => d.Users)
+                entity.HasOne(d => d.Buyers)
                     .WithMany(p => p.GameLibrary)
                     .HasForeignKey(d => d.ID)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_USER_ID");
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("GAMELIBRARY_FK1");
 
                 entity.HasOne(d => d.Commodities)
                     .WithMany(p => p.GameLibrary)
                     .HasForeignKey(d => d.CommodityID)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK1_GAME_LIBRARY_COMMODITIES");
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("GAMELIBRARY_FK2");
             });
 
             modelBuilder.Entity<Giftcode>(entity =>
             {
                 entity.ToTable("GIFTCODE");
 
-                entity.HasKey(e => new { e.ActivateCode, e.CommoditiyID })//对应表的主码
-                .HasName("PK_GIFT_CODE");
+                entity.HasKey(e => e.ActivateCode)//对应表的主码
+                .HasName("GIFTCODE_PK");
 
                 entity.Property(e => e.ActivateCode)
                     .IsRequired()
@@ -576,8 +575,8 @@ namespace TJ_Games.DBContext
                 entity.HasOne(d => d.Commodities)
                     .WithMany(p => p.Giftcode)
                     .HasForeignKey(d => d.CommoditiyID)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK1_GIFT_CODE_COMMODITIES");
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("GIFTCODE_FK1");
 
             });
 
@@ -586,7 +585,7 @@ namespace TJ_Games.DBContext
                 entity.ToTable("MESSAGE");
 
                 entity.HasKey(e => e.MessageID)
-                        .HasName("PK_MESSAGE");
+                        .HasName("MESSAGE_PK");
 
                 entity.Property(e => e.MessageID)
                     .IsRequired()
@@ -630,8 +629,140 @@ namespace TJ_Games.DBContext
                 entity.HasOne(d => d.Users)
                     .WithMany(p => p.Message)
                     .HasForeignKey(d => d.ReceiverID)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK1_MESSAGE_USERS");
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("MESSAGE_FK1");
+            });
+
+            modelBuilder.Entity<Genre>(entity =>
+            {
+                entity.ToTable("GENRE");
+
+                entity.HasKey(e => e.ID)
+                        .HasName("GENRE_PK");
+
+                entity.Property(e => e.ID)
+                    .IsRequired()
+                    .IsUnicode(true)
+                    .HasMaxLength(20)
+                    .HasColumnType("varchar(20)")
+                    .HasColumnName("ID");
+
+                entity.Property(e => e.Type)
+                    .IsRequired()
+                    .IsUnicode(true)
+                    .HasMaxLength(20)
+                    .HasColumnType("varchar(20)")
+                    .HasColumnName("TYPE");
+            });
+
+            modelBuilder.Entity<Commodity_Genre>(entity =>
+            {
+                entity.ToTable("COMMODITY_GENRE");
+
+                entity.HasKey(e => new { e.CommodityID,e.GenreID})
+                        .HasName("COMMODITY_GENRE_PK");
+
+                entity.Property(e => e.CommodityID)
+                    .IsRequired()
+                    .IsUnicode(true)
+                    .HasMaxLength(20)
+                    .HasColumnType("varchar(20)")
+                    .HasColumnName("COMMODITY_ID");
+
+                entity.Property(e => e.GenreID)
+                    .IsRequired()
+                    .IsUnicode(true)
+                    .HasMaxLength(20)
+                    .HasColumnType("varchar(20)")
+                    .HasColumnName("GENRE_ID");
+
+                entity.HasOne(d => d.Commodities)
+                    .WithMany(p => p.Commodity_Genre)
+                    .HasForeignKey(d => d.CommodityID)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("COMMODITY_GENRE_FK1");
+
+                entity.HasOne(d => d.Genre)
+                    .WithMany(p => p.Commodity_Genre)
+                    .HasForeignKey(d => d.GenreID)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("COMMODITY_GENRE_FK2");
+            });
+
+            modelBuilder.Entity<Dialog>(entity =>
+            {
+                entity.ToTable("DIALOG");
+
+                entity.HasKey(e => new { e.SenderID, e.ReceiverID, e.Time })
+                        .HasName("DIALOG_PK");
+
+                entity.Property(e => e.SenderID)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .HasColumnType("varchar(20)")
+                    .HasColumnName("SENDER_ID");
+
+                entity.Property(e => e.ReceiverID)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .HasColumnType("varchar(20)")
+                    .HasColumnName("RECEIVER_ID");
+
+                entity.Property(e => e.Time)
+                    .HasColumnType("DATE")
+                    .HasColumnName("TIME");
+
+                entity.Property(e => e.content)
+                    .IsRequired()
+                    .HasColumnType("varchar(300)")
+                    .HasMaxLength(300)
+                    .IsUnicode(true)
+                    .HasColumnName("CONTENT");
+
+                entity.HasOne(d => d.Users)
+                    .WithOne(p => p.Dialog)
+                    .HasForeignKey<Dialog>(d => d.SenderID)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("DIALOG_FK1");
+
+                entity.HasOne(d => d.Users)
+                    .WithOne(p => p.Dialog)
+                    .HasForeignKey<Dialog>(d => d.ReceiverID)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("DIALOG_FK2");
+            });
+            modelBuilder.Entity<Order_Commodity>(entity =>
+            {
+                entity.ToTable("ORDER_COMMODITY");
+
+                entity.HasKey(e => new { e.CommodityID, e.OrderID })
+                        .HasName("ORDER_COMMODITY_PK");
+
+                entity.Property(e => e.CommodityID)
+                    .IsRequired()
+                    .IsUnicode(true)
+                    .HasMaxLength(20)
+                    .HasColumnType("varchar(20)")
+                    .HasColumnName("PRODUCT_ID");
+
+                entity.Property(e => e.OrderID)
+                    .IsRequired()
+                    .IsUnicode(true)
+                    .HasMaxLength(20)
+                    .HasColumnType("varchar(20)")
+                    .HasColumnName("ORDER_ID");
+
+                entity.HasOne(d => d.Orders)
+                    .WithMany(p => p.Order_Commodity)
+                    .HasForeignKey(d => d.OrderID)
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .HasConstraintName("ORDER_COMMODITY_FK1");
+
+                entity.HasOne(d => d.Commodities)
+                    .WithMany(p => p.Order_Commodity)
+                    .HasForeignKey(d => d.CommodityID)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("ORDER_COMMODITY_FK2");
             });
 
             base.OnModelCreating(modelBuilder);

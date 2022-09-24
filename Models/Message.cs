@@ -7,12 +7,6 @@ namespace TJ_Games.Models
 {
   public class Message
   {
-        public Message()
-        {
-            Users = new Users();
-
-        }//构造函数
-
         public string MessageID { get; set; }
         public string MessagTitle { get; set; }
         public string MessageContent { get; set; }

@@ -1,0 +1,83 @@
+﻿@{
+    ViewData["Title"] = "Welcome";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>  
+    <title>发布新游戏</title>
+    <link rel="stylesheet" href="~/css/index.css">
+    <script src="~/js/adminAction.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row cm-fix-height">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form action="" method="post">
+                        <h1>发布新游戏</h1>
+                        <table class="table table-bordered" style="margin-top:10px;">
+                            <tr>
+                                <th style="text-aligin:left;">Commodity_ID ：</th>
+                                <td>
+                                    <input type="text" name="Commodity_ID" value="@ViewData["id"]" class="form-control"  id="ID" placeholder="请输入Commodity_ID" />
+                                </td>
+                                <th style="text-aligin:left;">Commodity_Name：</th>
+                                <td>
+                                    <input type="text" name="Commodity_Name" value="@ViewData["name"]" class="form-control" placeholder="请输入Commodity_Name" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="text-aligin:left;">Publisher：</th>
+                                <td>
+                                    <input type="text" name="Publisher" value="@ViewData["publish"]" class="form-control" placeholder="请输入Publisher" />
+                                </td>
+                                <th style="text-aligin:left;">Price：</th>
+                                <td>
+                                    <input type="text" name="Price" value="@ViewData["price"]" class="form-control" placeholder="请输入Price" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="text-aligin:left;">Publish_Time：</th>
+                                <td>
+                                    <input type="text" name="Publish_Time" value="@ViewData["time"]" class="form-control" placeholder="请输入Publish_Time" />
+                                </td>
+                                <th style="text-aligin:left;">Classification：</th>
+                                <td>
+                                    <input type="text" name="Classification" value="@ViewData["classification"]" class="form-control" placeholder="请输入Classification" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="text-aligin:left;">DownloadURL：</th>
+                                <td>
+                                    <input type="text" name="DownloadURL" value="@ViewData["downloadURL"]" class="form-control" placeholder="请输入DownloadURL" />
+                                </td>
+                                <th style="text-aligin:left;">SalesVolume：</th>
+                                <td>
+                                    <input type="text" name="SalesVolume" value="@ViewData["volume"]" class="form-control" placeholder="请输入SalesVolume" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="text-aligin:left;">Description：</th>
+                                    <td colspan="2">
+                                        <input type="text" name="Description" value="@ViewData["description"]" class="form-control" placeholder="请输入Description" />
+                                        </td>
+                            </tr>
+                            <tr>
+                                <th colspan="4" style="text-align:center;">
+                                    <input type="button" class="btn btn-default" onclick="create()"value="确认发布新游戏" />
+                                    <input type="button" class="btn btn-default" onclick="    javascript: window.history.back();" value="返回" />
+                                </th>
+                            </tr>
+                        </table>
+                        </form>
+                        <img src="../imp/20.jpg" />
+                    </div>
+                </div>
+            </div>
+       
+     </div>
+   </div>
+  
+</body>
+</html>

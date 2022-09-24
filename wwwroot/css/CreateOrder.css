@@ -1,0 +1,162 @@
+﻿.picture {
+    line-height: 1200px;
+    float: left;
+}
+
+.Name {
+    float: left;
+}
+
+.price {
+    clear: both;
+}
+
+#unique {
+    background-color: red;
+}
+
+#allin {
+}
+
+
+.shadow_css {
+    display: none;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 10;
+    /* 设置透明度 */
+    opacity: .60;
+}
+
+.allfriends {
+    font-size: 16px
+}
+
+.window_css {
+    background: rgb(78,135,255);
+    background: linear-gradient(0deg,rgba(40,115,205,1)0%,rgba(166,157,208,1)100%);
+    display: none;
+    position: absolute;
+    top: 20%;
+    left: 33%;
+    width: 34%;
+    height: auto;
+    border: 3px solid honeydew;
+    z-index: 11;
+    border-radius: 5px;
+}
+
+
+.ordershow {
+    white-space: pre;
+}
+
+#preview {
+    margin-bottom: 15px;
+    margin-left: 100px;
+    float: left;
+    border-radius: 8px;
+    box-sizing: border-box;
+    border: 5px solid #d2d2e6;
+    padding: 5px;
+    background: #c1cbf6;
+    margin-right: 100px;
+    text-align: center;
+    width: 230px;
+}
+
+#pic {
+}
+
+
+#Name {
+    margin-top: 40px;
+    margin-left: 60px;
+    font-size: 36px;
+    font-family: 'Microsoft YaHei UI';
+}
+
+#Price {
+    margin-left: 60px;
+    font-size: 28px;
+}
+
+#CName {
+    float: left;
+}
+
+#CPrice {
+    margin-top: 20px;
+    margin-right: 100px;
+    float: right;
+}
+
+
+#element {
+    height: 220px;
+}
+
+
+#OrderInfo {
+    text-align: center;
+    height: 50px;
+}
+
+.line {
+    border: 3px double #FFFFFF;
+    filter: opacity(70%);
+    float: right;
+}
+
+ul {
+    list-style: none;
+}
+
+
+
+#pay {
+    display: block;
+    margin: 0 auto;
+    float: none;
+}
+
+
+body {
+    background: rgb(78,135,255);
+    background: linear-gradient(0deg,rgba(78,135,255,1)0%,rgba(216,187,238,1)100%);
+}
+
+.operation {
+}
+
+    .operation button {
+        margin-left: 170px;
+        width: 28%;
+        text-align: center;
+    }
+
+
+
+.btn {
+    margin-left: 300px;
+    background-color: #2d528d;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    -webkit-transition-duration: 0.4s;
+}
+
+    .btn:hover {
+        box-shadow: 0 12px 16px 0 rgba(0,0,0,.24), 0 17px 50px 0 rgba(0,0,0,.19);
+    }

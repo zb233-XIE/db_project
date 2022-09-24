@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 
 namespace TJ_Games.Models
 {
-    public partial class Buyers
+    public class Buyers
     {
         public Buyers()
         {
-            Users = new Users();
-        }//构造函数
+            Orders = new HashSet<Orders>();
+            Wishlist = new HashSet<Wishlist>();
+            Evaluation = new HashSet<Evaluation>();
+            ShoppingCart = new HashSet<ShoppingCart>();
+            GameLibrary = new HashSet<GameLibrary>();
+        }
 
         public string BuyerID { get; set; }
         public string BuyerName { get; set; }
@@ -19,8 +23,11 @@ namespace TJ_Games.Models
         public string? Mail { get; set; }
 
         public virtual Users Users { get; set; }
-
         public virtual ICollection<Orders> Orders { get; set; }
+        public virtual ICollection<Wishlist> Wishlist { get; set; }
+        public virtual ICollection<Evaluation> Evaluation { get; set; }
+        public virtual ICollection<ShoppingCart> ShoppingCart { get; set; }
+        public virtual ICollection<GameLibrary> GameLibrary { get; set; }
         //与本模型类相关的一些模型类
 
     }

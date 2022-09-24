@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Welcome";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>maijiahoutai</title>
+    <link rel="stylesheet" href="~/css/sellerbackgroundindex.css">
+    <script src="~/js/Sellerbackground.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row cm-fix-height">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form action="" method="post">
+                        <h1>发布游戏补丁</h1>
+                        <table class="table table-bordered" style="margin-top:10px;">
+                            <tr>
+                                <th style="text-aligin:left;">商品ID ：</th>
+                                <td>
+                                    <input type="text" name="Commodity_ID" value="@ViewData["id"]" class="form-control" id="ID" placeholder="请输入商品ID" />
+                                </td>
+                                <th style="text-aligin:left;">版本号：</th>
+                                <td>
+                                    <input type="text" name="Version_number" value="@ViewData["number"]" class="form-control" id="Version_number" placeholder="请输入版本号" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="text-aligin:left;">更新内容：</th>
+                                <td>
+                                    <input type="text" name="Update_content" value="@ViewData["content"]" class="form-control" id="Update_content" placeholder="请输入更新内容" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th colspan="4" style="text-align:center;">
+                                    <input type="button" class="btn btn-default"  onclick="date()"value="发布更新公告" /><!--发布更新公告-->
+                                    <input type="button" class="btn btn-default"  onclick="    javascript: window.history.back();" value="返回" />
+                                </th>
+                            </tr>
+                        </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

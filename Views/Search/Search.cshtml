@@ -1,0 +1,69 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <link href="~/css/index.css" rel="stylesheet" />
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+    <script src="~/js/vue.js"></script>
+    <!--引入axios-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="~/js/jquery.min.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <title>欢迎</title>
+</head>
+
+<body>
+    <!--搜索框-->
+    <div class="search">
+        <select id="searchtype">
+            <option value="1">按游戏名搜索</option>
+            <option value="2">按发行商搜索</option>
+        </select>
+        @*<input id="Context" type="text" placeholder="关键词搜索" class="f1" />
+        <button class="f1" onclick="submitSearch()">搜索</button>*@
+        <form id="nav-searchform">
+            <div class="nav-search-content">
+                <input id="Context" type="text" placeholder="关键词搜索" class="f1" onclick="inputChange()" />
+            </div>
+            <div class="nav-search-btn" onclick="submitSearch()">
+                <ion-icon name="search-outline"></ion-icon>
+            </div>
+        </form>
+    </div>
+    <!--展示部分-->
+    <div class="searchshow">
+        <p id="result">搜索结果如下：</p>
+        @*<ul>
+            <li @@click="chooseAddress(item,index)" v-for="(item,index) in results" :key="index">
+                <div class="gameitem">
+                    <img :src="item.img" />
+                    <span id="gamename">{{item.name}}</span>
+                    <span id="gameclass">{{item.classification}}</span>
+                </div>
+            </li>
+        </ul>*@
+        <div class="bd show">
+            <ul>
+                <li @@click="chooseAddress(item,index)" v-for="(item,index) in results" :key="index">
+                    <div class="gameitem">
+                        <div class="imgbox">
+                            <img :src="item.PictureURL" />
+                        </div>
+                        <h3 id="gamename">{{item.CommodityName}}</h3>
+                        <p id="gameclass">{{item.type}}</p>
+                        <div class="gameitem-dropdown">
+                            <p class="description">游戏简介：{{item.description}}</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="~/js/Search.js"></script>
+</body>
+</html>

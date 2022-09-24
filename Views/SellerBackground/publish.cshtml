@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Welcome";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>  
+    <title>maijiahoutai</title>
+    <link rel="stylesheet" href="~/css/sellerbackgroundindex.css">
+    <script src="~/js/Sellerbackground.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row cm-fix-height">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form action="" method="post">
+                        <h1>发布新游戏</h1>
+                        <table class="table table-bordered" style="margin-top:10px;">
+                            <tr>
+                                <th style="text-aligin:left;">商品名称：</th>
+                                <td>
+                                    <input type="text" name="Commodity_Name" value="@ViewData["name"]" class="form-control" id="Name" placeholder="请输入商品名称" />
+                                </td>
+                                <th style="text-aligin:left;">商品价格：</th>
+                                <td>
+                                    <input type="text" name="Price" value="@ViewData["price"]" class="form-control" id="Price" placeholder="请输入商品价格" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="text-aligin:left;">下载地址：</th>
+                                <td>
+                                    <input type="text" name="DownloadURL" value="@ViewData["downloadURL"]" class="form-control" id="DownURL" placeholder="请输入下载地址" />
+                                </td>
+                                <th style="text-aligin:left;">图片地址：</th>
+                                <td>
+                                    <input type="text" name="DownloadURL" value="@ViewData["downloadURL"]" class="form-control" id="PicURL" placeholder="请输入要上传的图片的地址" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="text-aligin:left;">商品描述：</th>
+                                    <td>
+                                        <input type="text" name="Description" value="@ViewData["description"]" class="form-control" id="Description" placeholder="请输入商品描述" />
+                                        </td>
+                            </tr>
+                            <tr>
+                                <th colspan="4" style="text-align:center;">
+                                    <input type="button" class="btn btn-default" onclick="publish()"value="确认发布新游戏" />
+                                    <input type="button" class="btn btn-default" onclick="    javascript: window.history.back();" value="返回" />
+                                </th>
+                            </tr>
+                        </table>
+                        </form>
+                        
+                </div>
+            </div>
+       
+     </div>
+   </div>
+  
+</body>
+</html>
