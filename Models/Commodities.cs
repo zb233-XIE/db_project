@@ -17,6 +17,7 @@ namespace TJ_Games.Models
             Evaluation = new HashSet<Evaluation>();
             Giftcode = new HashSet<Giftcode>();
             Commodity_Genre = new HashSet<Commodity_Genre>();
+            Order_Commodity = new HashSet<Order_Commodity>();
         }//构造函数
 
         public string CommodityID { get; set; }
@@ -40,6 +41,7 @@ namespace TJ_Games.Models
         public virtual ICollection<Evaluation> Evaluation { get; set; }
         public virtual ICollection<Giftcode> Giftcode { get; set; }
         public virtual ICollection<Commodity_Genre> Commodity_Genre { get; set; }
+        public virtual ICollection<Order_Commodity> Order_Commodity { get; set; }
         //与本模型类相关的一些模型类
     }
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TJ_Games.Models
 {
-    public partial class Evaluation
+    public class Evaluation
     {
         public string CommodityID { get; set; }
         public string BuyerID { get; set; }

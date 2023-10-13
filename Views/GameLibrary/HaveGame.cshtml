@@ -1,0 +1,46 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <link href="~/css/index.css" rel="stylesheet" />
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+    <script src="~/js/vue.js"></script>
+    <!--引入axios-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="~/js/jquery.min.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <title>欢迎</title>
+</head>
+
+<body>
+    <!--顶部-->
+    <div class="top">
+        <h3 class="title">我的游戏库</h3>
+    </div>
+    <!--展示部分-->
+    <div class="show">
+        <div class="bd show">
+            <ul>
+                <li @@click="chooseAddress(item,index)" v-for="(item,index) in games" :key="index">
+                    <div class="gameitem">
+                        <div class="imgbox">
+                            <img :src="item.PictureURL" />
+                        </div>
+                        <h3 id="gamename">{{item.CommodityName}}</h3>
+                        <p id="gameclass">{{item.Commodity_Genre}}</p>
+                        <div class="gameitem-dropdown">
+                            <p class="description">游戏简介：{{item.Description}}</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="~/js/Library.js"></script>
+</body>
+</html>

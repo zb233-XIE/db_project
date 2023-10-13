@@ -34,10 +34,12 @@ namespace TJ_Games.DBContext
         public virtual DbSet<Wishlist> Wishlist { get; set; }
         public virtual DbSet<Genre> Genre { get; set; }
         public virtual DbSet<Commodity_Genre> Commodity_Genre { get; set; }
+        public virtual DbSet<Dialog> Dialog { get; set; }
+        public virtual DbSet<Order_Commodity> Order_Commmodity { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("C##XZB");
+            modelBuilder.HasDefaultSchema("C##SZY");
 
             modelBuilder.Entity<Administrators>(entity =>
             {
@@ -137,12 +139,12 @@ namespace TJ_Games.DBContext
 
                 entity.Property(e => e.Price)
                          .IsRequired()
-                         .HasColumnType("number(8,2)")
+                         .HasColumnType("double")
                          .HasColumnName("PRICE");
 
                 entity.Property(e => e.LowestPrice)
                       .IsRequired()
-                      .HasColumnType("number(8,2)")
+                      .HasColumnType("double")
                       .HasColumnName("LOWEST_PRICE");
 
 
@@ -161,21 +163,21 @@ namespace TJ_Games.DBContext
                 entity.Property(e => e.PictureURL)
                         .IsRequired()
                         .IsUnicode(true)
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("varchar(200)")
                         .HasColumnName("PICTURE_URL")
-                        .HasMaxLength(100);
+                        .HasMaxLength(200);
 
                 entity.Property(e => e.DownLoadURL)
                         .IsRequired()
                         .IsUnicode(true)
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("varchar(200)")
                         .HasColumnName("DOWNLOAD_URL")
-                        .HasMaxLength(100);
+                        .HasMaxLength(200);
 
                 entity.Property(e => e.SalesVolume)
                         .IsRequired()
                         .HasMaxLength(10)
-                        .HasColumnType("number")
+                        .HasColumnType("int")
                         .HasColumnName("SALES_VOLUME");
 
                 entity.HasOne(d => d.Publishers)
@@ -305,7 +307,7 @@ namespace TJ_Games.DBContext
                     .IsRequired()
                     .HasMaxLength(20)
                     .HasColumnType("varchar(20)")
-                    .HasColumnName("USER_ID");
+                    .HasColumnName("BUYER_ID");
 
                 entity.Property(e => e.Description)
                     .IsRequired()
@@ -378,17 +380,17 @@ namespace TJ_Games.DBContext
                     .IsUnicode(true)
                     .HasColumnName("ORDER_ID");
 
-                entity.Property(e => e.CommodityID)
-                   .IsRequired()
-                   .HasMaxLength(20)
-                   .IsUnicode(true)
-                   .HasColumnName("PRODUCT_ID");
-
                 entity.Property(e => e.BuyerID)
                     .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(true)
                     .HasColumnName("BUYER_ID");
+
+                entity.Property(e => e.ReceiverID)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(true)
+                    .HasColumnName("RECEIVER_ID");
 
                 entity.Property(e => e.OrderTime)
                     .HasColumnType("DATE")
@@ -398,20 +400,16 @@ namespace TJ_Games.DBContext
                     .HasColumnName("ORDERCOST");
                 //.HasColumnType("INT64")
 
-                entity.Property(e => e.Type)
-                    .HasColumnName("TYPE")
-                    .HasColumnType("int");
-
                 entity.HasOne(d => d.Buyers)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.BuyerID)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("ORDERS_FK1");
 
-                entity.HasOne(d => d.Commodities)
+                entity.HasOne(d => d.Buyers)
                     .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.CommodityID)
-                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasForeignKey(d => d.ReceiverID)
+                    .OnDelete(DeleteBehavior.SetNull)
                     .HasConstraintName("ORDERS_FK2");
             });
 
@@ -502,7 +500,7 @@ namespace TJ_Games.DBContext
             {
                 entity.ToTable("GAMELIBRARY");
 
-                entity.HasKey(e => e.ID)
+                entity.HasKey(e => new { e.ID, e.CommodityID })
                     .HasName("GAMELIBRARY_PK");
 
                 entity.Property(e => e.ID)
@@ -689,6 +687,82 @@ namespace TJ_Games.DBContext
                     .HasForeignKey(d => d.GenreID)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("COMMODITY_GENRE_FK2");
+            });
+
+            modelBuilder.Entity<Dialog>(entity =>
+            {
+                entity.ToTable("DIALOG");
+
+                entity.HasKey(e => new { e.SenderID, e.ReceiverID, e.Time })
+                        .HasName("DIALOG_PK");
+
+                entity.Property(e => e.SenderID)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .HasColumnType("varchar(20)")
+                    .HasColumnName("SENDER_ID");
+
+                entity.Property(e => e.ReceiverID)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .HasColumnType("varchar(20)")
+                    .HasColumnName("RECEIVER_ID");
+
+                entity.Property(e => e.Time)
+                    .HasColumnType("DATE")
+                    .HasColumnName("TIME");
+
+                entity.Property(e => e.content)
+                    .IsRequired()
+                    .HasColumnType("varchar(300)")
+                    .HasMaxLength(300)
+                    .IsUnicode(true)
+                    .HasColumnName("CONTENT");
+
+                entity.HasOne(d => d.Users)
+                    .WithOne(p => p.Dialog)
+                    .HasForeignKey<Dialog>(d => d.SenderID)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("DIALOG_FK1");
+
+                entity.HasOne(d => d.Users)
+                    .WithOne(p => p.Dialog)
+                    .HasForeignKey<Dialog>(d => d.ReceiverID)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("DIALOG_FK2");
+            });
+            modelBuilder.Entity<Order_Commodity>(entity =>
+            {
+                entity.ToTable("ORDER_COMMODITY");
+
+                entity.HasKey(e => new { e.CommodityID, e.OrderID })
+                        .HasName("ORDER_COMMODITY_PK");
+
+                entity.Property(e => e.CommodityID)
+                    .IsRequired()
+                    .IsUnicode(true)
+                    .HasMaxLength(20)
+                    .HasColumnType("varchar(20)")
+                    .HasColumnName("PRODUCT_ID");
+
+                entity.Property(e => e.OrderID)
+                    .IsRequired()
+                    .IsUnicode(true)
+                    .HasMaxLength(20)
+                    .HasColumnType("varchar(20)")
+                    .HasColumnName("ORDER_ID");
+
+                entity.HasOne(d => d.Orders)
+                    .WithMany(p => p.Order_Commodity)
+                    .HasForeignKey(d => d.OrderID)
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .HasConstraintName("ORDER_COMMODITY_FK1");
+
+                entity.HasOne(d => d.Commodities)
+                    .WithMany(p => p.Order_Commodity)
+                    .HasForeignKey(d => d.CommodityID)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("ORDER_COMMODITY_FK2");
             });
 
             base.OnModelCreating(modelBuilder);

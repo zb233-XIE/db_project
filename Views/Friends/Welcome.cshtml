@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Welcome";
+}
+<!DOCTYPE html>
+<html>
+<head>  
+    <link rel="stylesheet" href="~/css/a.css">
+    <script src="~/js/Friends.js" ></script>
+</head>
+<body>
+    <div>
+        <span style="font-family:KaiTi;color:yellow;font-size:30px;">我的好友</span>
+        <span style="margin-left: 73%;font-family:KaiTi;color:yellow;font-size:30px;" onclick=window.location.href="/Friends/search">添加好友</span>
+    </div>
+  @for (int i = 0; i < (int)ViewData["NumTimes"]; i++)
+    {   
+        List<string> nickname = ViewData["list"] as List<string>;
+        List<string> liuyan = ViewData["list1"] as List<string>;
+        <div class="test">
+            <div class="item">
+                <img class="face" src=@ViewData["face"]> 
+                <div class="des">
+                    <div class="nickName"><span id="friendname">@nickname[i]</span></div>
+                    <div class="signature"><span id="friendsignature">UID:@liuyan[i]</span></div>
+                    <div class="delete"> <span><input type="button"  id=@liuyan[i] onclick="shanchu(this)" value="删除" /></span> </div>
+                    <div class="liao"> <span><input type="button" id=@liuyan[i] onclick="liaotian(this)" value="聊天"/></span> </div>
+                </div>
+            </div>
+        </div>           
+    }
+    </body>
+</html>

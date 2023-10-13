@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TJ_Games.Models
 {
-    public partial class Publishers
+    public  class Publishers
     {
         public Publishers()
         {

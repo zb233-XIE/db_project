@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TJ_Games.Models
 {
-    public partial class Buyers
+    public class Buyers
     {
         public Buyers()
         {

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TJ_Games.Models
 {
-    public partial class Users
+    public  class Users
     {
         public Users()
         {
@@ -24,6 +24,11 @@ namespace TJ_Games.Models
         public virtual Administrators Administrators { get; set; }
         public virtual Publishers Publishers { get; set; }
         public virtual ICollection<Message> Message { get; set; }
+        public  virtual ICollection<Friends> Friends { get; set; }
+
+        public virtual Dialog Dialog { get; set; }
+
+      //  public virtual ICollection<Evaluation> Evaluations { get; set; }
         //与本模型类相关的一些模型类
     }
 }

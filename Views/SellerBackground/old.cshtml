@@ -1,0 +1,89 @@
+﻿@{
+    ViewData["Title"] = "Welcome";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>  
+    <title>maijiahoutai</title>
+    <link rel="stylesheet" href="~/css/sellerbackgroundindex.css">
+    <script src="~/js/sellerbackground.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row cm-fix-height">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h1>查看已发布游戏</h1>
+    @for (int i = 0; i < (ViewData["List"] as List<Commodities>).Count(); i++)
+    {
+
+        List<Commodities> List = ViewData["List"] as List<Commodities>;
+
+        <table class="table table-bordered" >
+            <tr>
+                <th>商品ID：</th>
+                <td width="850px">
+                    @List[i].CommodityID
+                </td>
+                </tr>
+                <tr>
+                 <th style="left: 500px;">商品名：</th>
+                <td width="850px">
+                    @List[i].CommodityName
+                </td>
+            </tr>
+
+            <tr>
+                 <th style="left: 500px;">发行商ID：</th>
+                <td width="850px">
+                    @List[i].PublisherID
+                </td>
+                
+                </tr>
+                <tr>
+                  <th style="left: 500px;">价格：</th>
+                <td width="850px">
+                    @List[i].Price
+                </td>
+            </tr>
+
+            <tr>
+                  <th style="left: 500px;">发行时间：</th>
+                <td width="850px">
+                    @List[i].PublishTime
+                </td>
+                
+                </tr>
+                <tr>
+                 <th style="left: 500px;">描述：</th>
+                <td width="850px">
+                    @List[i].Description
+                </td>
+            </tr>
+            <tr>
+                  <th style="left: 500px;">下载地址：</th>
+                <td width="850px">
+                    @List[i].DownLoadURL
+                </td>
+                
+                </tr>
+                <tr>
+                  <th style="left: 500px;">销量：</th>
+                <td width="850px">
+                    @List[i].SalesVolume
+                </td>
+            </tr>
+            
+        </table>
+    }
+    <table class="table table-bordered" style="margin-top:10px;">
+    <tr>
+                <th colspan="4" style="text-align:center;">
+                    <input type="button" class="btn btn-default" onclick="    javascript: window.history.back();" value="确认" />
+                    <input type="button" class="btn btn-default" onclick="    javascript: window.history.back();" value="返回" />
+                </th>
+   </tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Welcome";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>  
+    <title>查看卖家信息</title>
+    <link rel="stylesheet" href="~/css/sellerbackgroundindex.css">
+    <script src="~/js/sellerbackground.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row cm-fix-height">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h1>卖家信息查询</h1>
+                        <table class="table table-bordered" style="margin-top:10px;">
+                            <tr>
+                                <th style="text-aligin:left;">发行商ID：</th>
+                                <td>
+                                    @ViewData["id"]
+                                </td>
+                                <th style="text-aligin:left;">发行商姓名：</th>
+                                <td>
+                                    @ViewData["name"]
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="text-aligin:left;">信息更新时间：</th>
+                                <td>
+                                    @ViewData["time"]
+                                </td>
+                                <th style="text-aligin:left;">个人主页地址：</th>
+                                <td>
+                                    @ViewData["mail"]
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="text-aligin:left;">卖家描述：</th>
+                                    <td>@ViewData["description"]</td>
+                            </tr>
+                            <tr>
+                                <th colspan="4" style="text-align:center;">
+                                    <input type="button" class="btn btn-default" onclick="    javascript: window.history.back();"value="确认" />
+                                    <input type="button" class="btn btn-default" onclick="    javascript: window.history.back();" value="返回" />
+                                </th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+       
+     </div>
+   </div>
+  
+</body>
+</html>
